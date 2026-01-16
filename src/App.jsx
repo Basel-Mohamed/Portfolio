@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, Code, Brain, Database, Zap, Award, Briefcase, GraduationCap, ChevronDown, Sparkles } from 'lucide-react';
-
+import profilePic from './assets/profile_pic.png';
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
@@ -266,7 +266,7 @@ export default function Portfolio() {
             {/* Profile Image */}
             <div className="w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden border-4 border-white/20 animate-scaleIn animate-pulse-glow">
               <img 
-                src="src\assets\profile_pic.png" 
+                src={profilePic}
                 alt="Basel Mohamed Ahmed" 
                 className="w-full h-full object-cover"
               />
