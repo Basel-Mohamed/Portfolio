@@ -11,6 +11,7 @@ import Contact from './Components/Contact.jsx';
 import Education from './Components/Education.jsx';
 import Certifications from './Components/Certifications.jsx';
 import CertificateModal from "./Components/CertificateModal.jsx";
+import Chatbot from './Components/Chatbot.jsx';
 import { certifications, experiences, projects, skills } from "./data/portfolioData.js";
 import theme from './Components/styles/theme.js';
 
@@ -76,6 +77,7 @@ export default function Portfolio() {
       <Contact /> 
       <Footer />
       <CertificateModal cert={selectedCert} onClose={closeCertModal} />
+      <Chatbot/>
     </div>
   );
 }
