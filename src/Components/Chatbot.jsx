@@ -20,7 +20,7 @@ const MarkdownMessage = ({ content, style }) => {
       parts.push({ type: 'code', language: match[1] || 'text', content: match[2].trim() });
       lastIndex = match.index + match[0].length;
     }
-    
+
     // Add remaining text
     if (lastIndex < text.length) {
       parts.push({ type: 'text', content: text.slice(lastIndex) });
@@ -33,31 +33,31 @@ const MarkdownMessage = ({ content, style }) => {
     // Bold: **text** or __text__
     text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     text = text.replace(/__(.+?)__/g, '<strong>$1</strong>');
-    
+
     // Italic: *text* or _text_
     text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
     text = text.replace(/_(.+?)_/g, '<em>$1</em>');
-    
+
     // Inline code: `code`
     text = text.replace(/`(.+?)`/g, '<code style="background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>');
-    
+
     // Links: [text](url)
     text = text.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; text-decoration: underline;">$1</a>');
-    
+
     // Line breaks
     text = text.replace(/\n/g, '<br/>');
-    
+
     // Bullet points: - item or * item
     text = text.replace(/^[\-\*] (.+)$/gm, '<li style="margin-left: 20px;">$1</li>');
-    
+
     // Numbered lists: 1. item
     text = text.replace(/^\d+\. (.+)$/gm, '<li style="margin-left: 20px; list-style-type: decimal;">$1</li>');
-    
+
     // Headers: ## Header
     text = text.replace(/^### (.+)$/gm, '<h3 style="font-weight: bold; margin-top: 8px; margin-bottom: 4px; font-size: 1em;">$1</h3>');
     text = text.replace(/^## (.+)$/gm, '<h2 style="font-weight: bold; margin-top: 8px; margin-bottom: 4px; font-size: 1.1em;">$1</h2>');
     text = text.replace(/^# (.+)$/gm, '<h1 style="font-weight: bold; margin-top: 8px; margin-bottom: 4px; font-size: 1.2em;">$1</h1>');
-    
+
     return text;
   };
 
@@ -144,7 +144,7 @@ export default function Chatbot() {
     try {
       // Check if API key exists
       const apiKey = import.meta.env.VITE_COHERE_API_KEY;
-      
+
       if (!apiKey) {
         throw new Error('API key not found. Please check your .env file.');
       }
@@ -201,18 +201,18 @@ Be concise, friendly, and informative.`,
 
       const data = await response.json();
       console.log('API Response:', data); // Debug log
-      
+
       // Add assistant response to chat
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
+      setMessages(prev => [...prev, {
+        role: 'assistant',
         content: data.text || 'I received your message but couldn\'t generate a response. Please try again.'
       }]);
-      
+
     } catch (error) {
       console.error('Detailed chat error:', error);
-      
+
       let errorMessage = 'Sorry, I encountered an error. ';
-      
+
       // More specific error messages
       if (error.message.includes('API key')) {
         errorMessage += 'API key configuration issue. Please check the setup.';
@@ -225,9 +225,9 @@ Be concise, friendly, and informative.`,
       } else {
         errorMessage += `${error.message} Please try again or contact Basel directly at baselmohamed937@gmail.com`;
       }
-      
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
+
+      setMessages(prev => [...prev, {
+        role: 'assistant',
         content: errorMessage
       }]);
     } finally {
@@ -247,8 +247,11 @@ Be concise, friendly, and informative.`,
       {/* Chat Window */}
       {isOpen && (
         <div
-          className="fixed bottom-24 right-6 w-96 h-[500px] shadow-2xl flex flex-col z-50"
-          style={{
+          className="
+  fixed z-50 shadow-2xl flex flex-col
+  bottom-24 right-6 w-96 h-[500px]
+  max-sm:bottom-20 max-sm:right-3 max-sm:left-3 max-sm:w-auto max-sm:h-[70vh]
+"          style={{
             backgroundColor: colors.background.card,
             borderWidth: '1px',
             borderStyle: 'solid',
@@ -276,8 +279,8 @@ Be concise, friendly, and informative.`,
                   borderRadius: radius.full
                 }}
               >
-                <MessageCircle 
-                  className="w-5 h-5" 
+                <MessageCircle
+                  className="w-5 h-5"
                   style={{ color: colors.accent.secondary }}
                 />
               </div>
@@ -325,7 +328,7 @@ Be concise, friendly, and informative.`,
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((message, index) => {
               const messageIsRTL = isRTL(message.content);
-              
+
               return (
                 <div
                   key={index}
@@ -334,11 +337,11 @@ Be concise, friendly, and informative.`,
                   <div
                     className="max-w-[80%] p-3"
                     style={{
-                      backgroundColor: message.role === 'user' 
-                        ? colors.accent.primary 
+                      backgroundColor: message.role === 'user'
+                        ? colors.accent.primary
                         : colors.background.cardHover,
-                      color: message.role === 'user' 
-                        ? colors.accent.secondary 
+                      color: message.role === 'user'
+                        ? colors.accent.secondary
                         : colors.text.primary,
                       borderRadius: radius.lg,
                       fontSize: fonts.size.sm,
@@ -347,11 +350,11 @@ Be concise, friendly, and informative.`,
                       textAlign: messageIsRTL ? 'right' : 'left'
                     }}
                   >
-                    <MarkdownMessage 
+                    <MarkdownMessage
                       content={message.content}
                       style={{
-                        color: message.role === 'user' 
-                          ? colors.accent.secondary 
+                        color: message.role === 'user'
+                          ? colors.accent.secondary
                           : colors.text.primary,
                       }}
                     />
@@ -368,8 +371,8 @@ Be concise, friendly, and informative.`,
                     borderRadius: radius.lg
                   }}
                 >
-                  <Loader2 
-                    className="w-4 h-4 animate-spin" 
+                  <Loader2
+                    className="w-4 h-4 animate-spin"
                     style={{ color: colors.text.tertiary }}
                   />
                   <span
@@ -426,11 +429,11 @@ Be concise, friendly, and informative.`,
                 disabled={!inputValue.trim() || isLoading}
                 className="p-2 transition-all"
                 style={{
-                  backgroundColor: inputValue.trim() && !isLoading 
-                    ? colors.accent.primary 
+                  backgroundColor: inputValue.trim() && !isLoading
+                    ? colors.accent.primary
                     : colors.background.card,
-                  color: inputValue.trim() && !isLoading 
-                    ? colors.accent.secondary 
+                  color: inputValue.trim() && !isLoading
+                    ? colors.accent.secondary
                     : colors.text.muted,
                   borderRadius: radius.lg,
                   cursor: inputValue.trim() && !isLoading ? 'pointer' : 'not-allowed'
