@@ -3,6 +3,8 @@ import { Mail, ChevronDown, Sparkles } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import Particles from './Particles.jsx';
 import theme from './styles/theme.js';
+import { heroData } from "../data/portfolioData";
+
 
 export default function Hero({ scrollToSection, profilePic }) {
   const { colors, fonts, radius } = theme;
@@ -52,7 +54,7 @@ export default function Hero({ scrollToSection, profilePic }) {
               color: 'transparent'
             }}
           >
-            Basel Mohamed Ahmed
+            {heroData.name}
           </h1>
 
           <div className="flex items-center justify-center gap-2 mb-6 animate-fadeInUp stagger-1">
@@ -61,7 +63,7 @@ export default function Hero({ scrollToSection, profilePic }) {
               className="text-2xl md:text-3xl"
               style={{ color: colors.text.secondary }}
             >
-              Associate AI Engineer
+              {heroData.title}
             </p>
             <Sparkles className="w-6 h-6" style={{ color: colors.text.tertiary }} />
           </div>
@@ -70,12 +72,12 @@ export default function Hero({ scrollToSection, profilePic }) {
             className="text-lg mb-8 max-w-2xl mx-auto animate-fadeInUp stagger-2"
             style={{ color: colors.text.tertiary }}
           >
-            Specializing in NLP, Generative AI, and Machine Learning. Building intelligent solutions that transform data into actionable insights.
+            {heroData.subtitle}
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 mb-8 animate-fadeInUp stagger-3">
             <a 
-              href="mailto:baselmohamed937@gmail.com" 
+              href={`mailto:${heroData.email}`} 
               className="flex items-center gap-2 px-6 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg"
               style={{
                 backgroundColor: colors.interactive.buttonBg,
@@ -91,7 +93,7 @@ export default function Hero({ scrollToSection, profilePic }) {
             </a>
             
             <a 
-              href="https://github.com/Basel-Mohamed" 
+              href={heroData.github} 
               target="_blank" 
               rel="noopener noreferrer" 
               className="flex items-center gap-2 px-6 py-3 transition-all duration-300 hover:scale-105"
