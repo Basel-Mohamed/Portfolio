@@ -8,6 +8,7 @@ import frontendDiploma from "../assets/certificates/frontend-diploma-route.jpg";
 
 import { Code, Brain, Database, Zap } from "lucide-react";
 
+// -------------- certifications --------------------
 export const certifications = [
   { title: "Artificial Intelligence Diploma – Intermediate Level", date: "Jan 2025", image: aiDiploma },
   { title: "Oracle Cloud Infrastructure 2025 AI Foundations Associate", date: "Oct 2025", image: ociAI },
@@ -18,6 +19,7 @@ export const certifications = [
   { title: "Frontend Development Diploma – Route", date: "Mar 2025", image: frontendDiploma },
 ];
 
+// -------------- experiences --------------------
 export const experiences = [
     {
       title: "Associate AI Engineer",
@@ -55,6 +57,7 @@ export const experiences = [
     }
   ];
 
+  // -------------- Projects --------------------
 export const projects = [
   {
     title: "Document Understanding System",
@@ -87,6 +90,7 @@ export const projects = [
   },
 ];
 
+// -------------- Skills --------------------
 export const skills = [
   { category: "AI/ML", items: ["Machine Learning", "Deep Learning", "NLP", "Generative AI", "Computer Vision", "Model Training & Evaluation"] },
   { category: "AI Techniques", items: ["RLHF", "RAG", "OCR", "Prompt Engineering", "Data Preprocessing & Annotation"] },

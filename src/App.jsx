@@ -12,18 +12,16 @@ import Education from './Components/Education.jsx';
 import Certifications from './Components/Certifications.jsx';
 import CertificateModal from "./Components/CertificateModal.jsx";
 import { certifications, experiences, projects, skills } from "./data/portfolioData.js";
-
-
+import theme from './Components/styles/theme.js';
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
   const [selectedCert, setSelectedCert] = useState(null);
+  
   const openCertModal = (cert) => setSelectedCert(cert);
   const closeCertModal = () => setSelectedCert(null);
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,27 +56,26 @@ export default function Portfolio() {
     element?.scrollIntoView({ behavior: 'smooth' });
   };
 
-
-return (
-  <div className="bg-black min-h-screen text-white overflow-hidden">
-    {/* <GlobalStyles /> */}
-
-    <Navbar activeSection={activeSection} isScrolled={isScrolled} scrollToSection={scrollToSection} />
-
-    <Hero scrollToSection={scrollToSection} profilePic={profilePic}/>
-    <About/>
-    <Experience experiences={experiences} />
-    <Projects projects={projects} />
-    <Skills skills={skills} />
-
-    <Education />
-    <Certifications certifications={certifications} onCertClick={openCertModal} />
-
-    <Contact /> 
-    <Footer />
-    <CertificateModal cert={selectedCert} onClose={closeCertModal} />
-
-  </div>
-);
-
+  return (
+    <div 
+      className="min-h-screen overflow-hidden"
+      style={{ 
+        backgroundColor: theme.colors.background.primary,
+        color: theme.colors.text.primary,
+        fontFamily: theme.fonts.family.primary
+      }}
+    >
+      <Navbar activeSection={activeSection} isScrolled={isScrolled} scrollToSection={scrollToSection} />
+      <Hero scrollToSection={scrollToSection} profilePic={profilePic}/>
+      <About/>
+      <Experience experiences={experiences} />
+      <Projects projects={projects} />
+      <Skills skills={skills} />
+      <Education />
+      <Certifications certifications={certifications} onCertClick={openCertModal} />
+      <Contact /> 
+      <Footer />
+      <CertificateModal cert={selectedCert} onClose={closeCertModal} />
+    </div>
+  );
 }

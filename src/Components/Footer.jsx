@@ -1,10 +1,24 @@
 import React from 'react';
+import theme from './styles/theme';
+
 export default function Footer() {
-    return (
-      <footer className="py-8 px-4 border-t border-gray-800">
-        <div className="max-w-6xl mx-auto text-center text-gray-400">
-          <p>© 2025 Basel Mohamed Ahmed. All rights reserved.</p>
-        </div>
-      </footer>
-    );
-  }
+  const { colors } = theme;
+  
+  return (
+    <footer 
+      className="py-8 px-4"
+      style={{
+        borderTopWidth: '1px',
+        borderTopStyle: 'solid',
+        borderTopColor: colors.border.default
+      }}
+    >
+      <div 
+        className="max-w-6xl mx-auto text-center"
+        style={{ color: colors.text.tertiary }}
+      >
+        <p>© 2025 Basel Mohamed Ahmed. All rights reserved.</p>
+      </div>
+    </footer>
+  );
+}
