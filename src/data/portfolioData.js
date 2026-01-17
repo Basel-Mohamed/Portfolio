@@ -25,37 +25,96 @@ export const experiences = [
     title: "Associate AI Engineer",
     company: "IT-RANKS Technology",
     period: "May 2025 - Present",
-    location: "Cairo, Egypt",
+    location: "New Cairo, Cairo, Egypt",
     achievements: [
-      "Developed and fine-tuned range of NLP and Generative AI models to support diverse business applications, including information extraction, natural language querying, and automated content generation",
-      "Built end-to-end AI pipelines covering data preprocessing, model training, evaluation, and inference to ensure high model performance and reliability",
-      "Conducted dataset creation and annotation activities, improving model accuracy through targeted preprocessing, cleaning, and structured labelling",
-      "Applied prompt engineering, continuous model refinement, and performance analysis to enhance model understanding, response quality, and real-world effectiveness"
+      "Developed and fine-tuned NLP and Generative AI models for real-world business applications including information extraction, natural language querying, and automated content generation",
+      "Built end-to-end AI pipelines covering data preprocessing, dataset creation, model training, evaluation, and inference to ensure production-ready performance",
+      "Created and annotated datasets with structured labeling, cleaning, and preprocessing techniques to improve model accuracy and robustness",
+      "Applied prompt engineering, continuous model refinement, and performance analysis to enhance response quality and real-world effectiveness"
     ]
   },
   {
     title: "Frontend Developer",
     company: "IT-RANKS Technology",
-    period: "April 2025 - May 2025",
-    location: "Cairo, Egypt",
+    period: "Apr 2025 - May 2025",
+    location: "Cairo, Egypt · Hybrid",
     achievements: [
-      "Developed responsive, high-performance web interfaces using React.js and Next.js, leveraging Tailwind CSS, MUI, and Bootstrap for modern, scalable UI design",
-      "Implemented contemporary UI/UX principles to deliver polished and user-friendly applications",
-      "Collaborated with backend teams to integrate APIs and optimize application performance and reliability"
+      "Developed responsive, high-performance web interfaces using React.js and Next.js",
+      "Built scalable UI components using Tailwind CSS, MUI, and Bootstrap",
+      "Collaborated with backend teams to integrate APIs and optimize application performance"
+    ]
+  },
+  {
+    title: "Machine Learning Engineer Trainee",
+    company: "Digital Egypt Pioneers Initiative (DEPI)",
+    period: "Nov 2025 - Present",
+    location: "Cairo, Egypt · Hybrid",
+    achievements: [
+      "Hands-on training in Machine Learning, Deep Learning, and NLP using supervised and unsupervised learning techniques",
+      "Worked with CNNs, RNNs, Transformers, GANs, and time-series models through practical projects",
+      "Applied Python, NumPy, Pandas, and Scikit-Learn for real-world ML problem solving",
+      "Developed strong foundations in model evaluation, data analysis, teamwork, and communication"
+    ]
+  },
+  {
+    title: "AI Developer Trainee",
+    company: "NeuroTech",
+    period: "Jun 2025 - Jan 2026",
+    location: "Dokki, Giza, Egypt · On-site",
+    achievements: [
+      "Trained and evaluated NLP, Computer Vision, and Generative AI models including LLM-based systems",
+      "Worked with Transformers, CNNs, and RNN architectures for applied AI tasks",
+      "Built data preprocessing and experimentation pipelines using Python and ML libraries",
+      "Gained practical experience with Oracle Cloud Infrastructure (OCI) and AI deployment workflows"
+    ]
+  },
+  {
+    title: "UI/UX Developer Trainee",
+    company: "Information Technology Institute (ITI)",
+    period: "Feb 2025 - Apr 2025",
+    location: "Cairo University · Hybrid",
+    achievements: [
+      "Designed and developed responsive UI/UX solutions using React, Next.js, HTML, CSS, and JavaScript",
+      "Translated UI/UX designs into functional front-end components with a focus on usability and performance",
+      "Worked with SQL and databases to support data-driven web applications"
+    ]
+  },
+  {
+    title: "AI Trainer (Coding Expertise)",
+    company: "Outlier",
+    period: "Jul 2024 - Mar 2025",
+    location: "Remote",
+    achievements: [
+      "Trained and evaluated Large Language Models including GPT-3.5, Gemini, Claude, LLaMA, and Tara using RLHF",
+      "Performed multi-dimensional evaluation of model outputs focusing on correctness, instruction adherence, writing quality, and safety",
+      "Applied prompt engineering techniques to optimize model responses and behavior",
+      "Reviewed and improved code generation and text outputs to meet project and safety requirements"
+    ]
+  },
+  {
+    title: "Frontend Web Developer Trainee",
+    company: "Route",
+    period: "Sep 2024 - Feb 2025",
+    location: "Maadi, Cairo, Egypt · On-site",
+    achievements: [
+      "Built responsive websites using HTML, CSS, JavaScript, Bootstrap, Tailwind, and React.js",
+      "Used Git and GitHub for version control and collaborative development",
+      "Worked with Figma to convert UI/UX designs into functional front-end components"
     ]
   },
   {
     title: "AI Trainer",
-    company: "Outlier",
-    period: "July 2024 - March 2025",
+    company: "Remotasks",
+    period: "Jan 2021 - Mar 2023",
     location: "Remote",
     achievements: [
-      "Trained and evaluated multiple large language models, including Gemini, GPT-3.5, LLaMA, Claude, and Tara, leveraging RLHF to enhance response accuracy, domain comprehension, and adherence to safety guidelines",
-      "Conducted multi-dimensional assessment and preference ranking of model outputs, evaluating correctness, instruction adherence, writing quality, and safety while applying prompt engineering techniques to optimize responses",
-      "Reviewed and enhanced practical code generation and text outputs, ensuring responses were concise, instruction-compliant, and aligned with project requirements"
+      "Reviewed, annotated, and refined chatbot data to improve AI model training quality",
+      "Enhanced chatbot responses to increase user engagement and interaction quality",
+      "Evaluated and improved model outputs through structured data analysis and annotation"
     ]
   }
 ];
+
 
 // -------------- Projects --------------------
 export const projects = [
