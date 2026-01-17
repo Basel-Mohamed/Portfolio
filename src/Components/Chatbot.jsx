@@ -400,7 +400,7 @@ Tone & Style:
                       fontSize: fonts.size.sm
                     }}
                   >
-                    Typing...
+                    Thinking...
                   </span>
                 </div>
               </div>
