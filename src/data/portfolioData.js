@@ -189,3 +189,82 @@ export const educationData = {
   period: "2019 – 2024",
   grade: "Good",
 };
+
+// ---------- Services ----------
+export const servicesData = {
+  subtitle: "Comprehensive AI and development solutions tailored to transform your business with cutting-edge technology",
+  services: [
+    {
+      title: "Machine Learning Models",
+      description: "Custom ML solutions designed to solve complex business problems with data-driven insights and predictions.",
+      icon: "brain",
+      features: [
+        "Supervised & unsupervised learning models",
+        "Time series forecasting and analysis",
+        "Classification and regression systems",
+        "Model optimization and hyperparameter tuning",
+        "End-to-end MLOps pipeline setup"
+      ]
+    },
+    {
+      title: "RAG Systems",
+      description: "Advanced Retrieval-Augmented Generation systems that combine the power of LLMs with your custom knowledge base.",
+      icon: "fileSearch",
+      features: [
+        "Custom knowledge base integration",
+        "Real-time information retrieval",
+        "Context-aware response generation",
+        "Multi-document question answering",
+        "Scalable vector database implementation"
+      ]
+    },
+    {
+      title: "NLP Solutions",
+      description: "Natural Language Processing systems that understand, interpret, and generate human language with precision.",
+      icon: "sparkles",
+      features: [
+        "Text classification and sentiment analysis",
+        "Named Entity Recognition (NER)",
+        "Document summarization and extraction",
+        "Chatbots and conversational AI",
+        "Multilingual text processing"
+      ]
+    },
+    {
+      title: "Computer Vision",
+      description: "Intelligent image and video analysis systems that automate visual recognition and processing tasks.",
+      icon: "zap",
+      features: [
+        "Object detection and tracking",
+        "Image classification and segmentation",
+        "OCR and document understanding",
+        "Facial recognition and analysis",
+        "Custom vision model training"
+      ]
+    },
+    {
+      title: "Generative AI",
+      description: "Cutting-edge generative models for content creation, automation, and creative AI applications.",
+      icon: "bot",
+      features: [
+        "LLM fine-tuning and customization",
+        "Prompt engineering and optimization",
+        "Content generation systems",
+        "AI-powered automation workflows",
+        "Custom GPT and chatbot development"
+      ]
+    },
+    {
+      title: "Web Development",
+      description: "Modern, responsive web applications built with the latest frontend technologies and best practices.",
+      icon: "code",
+      features: [
+        "React.js and Next.js development",
+        "Responsive UI/UX implementation",
+        "API integration and optimization",
+        "Performance optimization",
+        "Progressive Web Apps (PWA)"
+      ]
+    }
+  ]
+};

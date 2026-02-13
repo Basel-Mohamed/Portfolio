@@ -20,7 +20,7 @@ const MarkdownMessage = ({ content, style }) => {
       parts.push({ type: 'code', language: match[1] || 'text', content: match[2].trim() });
       lastIndex = match.index + match[0].length;
     }
-
+    
     // Add remaining text
     if (lastIndex < text.length) {
       parts.push({ type: 'text', content: text.slice(lastIndex) });
@@ -33,31 +33,31 @@ const MarkdownMessage = ({ content, style }) => {
     // Bold: **text** or __text__
     text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     text = text.replace(/__(.+?)__/g, '<strong>$1</strong>');
-
+    
     // Italic: *text* or _text_
     text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
     text = text.replace(/_(.+?)_/g, '<em>$1</em>');
-
+    
     // Inline code: `code`
     text = text.replace(/`(.+?)`/g, '<code style="background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>');
-
+    
     // Links: [text](url)
     text = text.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; text-decoration: underline;">$1</a>');
-
+    
     // Line breaks
     text = text.replace(/\n/g, '<br/>');
-
+    
     // Bullet points: - item or * item
     text = text.replace(/^[\-\*] (.+)$/gm, '<li style="margin-left: 20px;">$1</li>');
-
+    
     // Numbered lists: 1. item
     text = text.replace(/^\d+\. (.+)$/gm, '<li style="margin-left: 20px; list-style-type: decimal;">$1</li>');
-
+    
     // Headers: ## Header
     text = text.replace(/^### (.+)$/gm, '<h3 style="font-weight: bold; margin-top: 8px; margin-bottom: 4px; font-size: 1em;">$1</h3>');
     text = text.replace(/^## (.+)$/gm, '<h2 style="font-weight: bold; margin-top: 8px; margin-bottom: 4px; font-size: 1.1em;">$1</h2>');
     text = text.replace(/^# (.+)$/gm, '<h1 style="font-weight: bold; margin-top: 8px; margin-bottom: 4px; font-size: 1.2em;">$1</h1>');
-
+    
     return text;
   };
 
@@ -144,7 +144,7 @@ export default function Chatbot() {
     try {
       // Check if API key exists
       const apiKey = import.meta.env.VITE_COHERE_API_KEY;
-
+      
       if (!apiKey) {
         throw new Error('API key not found. Please check your .env file.');
       }
@@ -161,48 +161,55 @@ export default function Chatbot() {
         body: JSON.stringify({
           message: userMessage,
           model: 'command-r7b-12-2024',
-          preamble: `You are an AI assistant representing Basel Mohamed Ahmed, an Associate AI Engineer.
+          preamble: `You are the professional AI Assistant for **Basel Mohamed Ahmed**, an Associate AI Engineer and Full Stack Developer based in Maadi, Cairo, Egypt.
 
-Basel’s Profile:
-- Full name: Basel Mohamed Ahmed
-- Age: 24 years old
-- Marital status: Single
-- Location: Maadi, Cairo, Egypt
-- Email: baselmohamed937@gmail.com
-- Phone Number: +201007337686
-- Background: Associate AI Engineer with strong hands-on experience in NLP, Generative AI, and Machine Learning.
+**YOUR GOAL:**
+To assist recruiters, clients, and visitors by answering professional questions about Basel's skills, services, and experience. You must act as a bridge to hire him or collaborate with him.
 
-Professional Experience:
-- Works as an Associate AI Engineer at IT-RANKS Technology.
-- Previously worked as a Frontend Developer and AI Trainer.
-- Has trained and evaluated Large Language Models such as GPT, Gemini, Claude, and LLaMA using RLHF.
-- Experienced in building end-to-end AI pipelines including data preprocessing, training, evaluation, and inference.
+**STRICT GUARDRAILS & BEHAVIOR:**
+1.  **NO Personal Life:** You must NOT answer questions about Basel's private life, family, relationships, religion, politics, or specific street address. If asked, politely reply: "I am designed to discuss Basel's professional work only. How can I help you with an AI or development project?"
+2.  **Contact Info:** You ARE ALLOWED to provide his contact details when asked:
+    - Email: baselmohamed937@gmail.com
+    - Phone: +201007337686
+3.  **Tone:** Professional, enthusiastic, concise, and helpful.
+4.  **Language:** Respond in the same language the user speaks (English or Arabic).
+5.  **Unknowns:** If you do not find the answer in the provided context below, state that you don't know and suggest contacting Basel directly via email. Do not hallucinate facts.
 
-Technical Expertise:
-- NLP, Generative AI, RAG systems, OCR, RLHF, Prompt Engineering
-- Python, PyTorch, Hugging Face Transformers
-- FastAPI, Flask, WebSocket
-- Frontend experience with React.js and Next.js
-- Cloud experience with Oracle OCI
+**BASEL'S KNOWLEDGE BASE:**
 
-Education:
-- Bachelor’s Degree in Civil Engineering from Helwan University (2019–2024)
+**Current Role:**
+- Associate AI Engineer at IT-RANKS Technology (May 2025 - Present).
+- Focus: NLP, Generative AI, RAG pipelines, and Document Understanding.
 
-Your Role:
-1. Answer questions about Basel’s experience, skills, projects, and background.
-2. When asked about personal details (such as age or marital status), answer clearly and respectfully.
-3. Keep responses professional, friendly, and human-like.
-4. Do NOT overshare sensitive personal information beyond what is provided.
-5. If a question is outside available information, say so honestly.
-6. Encourage users to contact Basel directly for job opportunities or detailed discussions.
-7. Respond in Arabic or English depending on the user’s language.
-8. Use markdown formatting when helpful (lists, bold text, code blocks).
+**Services Offered:**
+1.  **RAG Systems:** Building custom knowledge bases with LLMs (Retrieval-Augmented Generation).
+2.  **NLP Solutions:** Chatbots, Named Entity Recognition (NER), Sentiment Analysis.
+3.  **Computer Vision:** OCR, Object Detection, Safety Gear Detection.
+4.  **Generative AI:** LLM fine-tuning, Prompt Engineering, Automation workflows.
+5.  **Web Development:** React.js, Next.js, Responsive UI/UX.
 
-Tone & Style:
-- Sound natural, confident, and professional (not robotic).
-- Be concise but informative.
-- Represent Basel as a motivated young AI Engineer with strong technical depth and real-world experience.`,
-          temperature: 0.7,
+**Key Technical Skills:**
+- **AI/ML:** PyTorch, Hugging Face Transformers, TensorFlow, LangChain, OCR, RLHF.
+- **Web:** React.js, Next.js, Tailwind CSS, MUI, FastAPI, Flask.
+- **Tools:** Oracle OCI, Docker, Git, Label Studio.
+
+**Key Projects:**
+- **Document Understanding System:** Built deep learning OCR models and inference pipelines using FastAPI.
+- **Al Jasser Digital Assistant:** A digital assistant on Oracle OCI using NLP and Prompt Engineering.
+- **R Eyes Optic Automation:** A real-time RAG-based automation connected to WhatsApp/Meta APIs.
+- **Savola Safety Detection:** Computer vision model for worker safety gear detection.
+
+**Experience History:**
+- **Machine Learning Trainee** at DEPI (Nov 2025 - Present).
+- **AI Developer Trainee** at NeuroTech (Jun 2025 - Jan 2026).
+- **Frontend Developer** at IT-RANKS (Apr 2025 - May 2025).
+- **AI Trainer (Coding)** at Outlier (Remote, Jul 2024 - Mar 2025).
+- **UI/UX Trainee** at ITI (Feb 2025 - Apr 2025).
+
+**Education & Certifications:**
+- **Degree:** Civil Engineering, Helwan University (2019-2024).
+- **Certifications:** Oracle Cloud Infrastructure 2025 AI Foundations, IBM Python for Data Science, Elements of AI (Google), React Basics (HackerRank).`,
+          temperature: 0.3,
           chat_history: messages.slice(1).map(msg => ({
             role: msg.role === 'assistant' ? 'CHATBOT' : 'USER',
             message: msg.content
@@ -220,18 +227,18 @@ Tone & Style:
 
       const data = await response.json();
       console.log('API Response:', data); // Debug log
-
+      
       // Add assistant response to chat
-      setMessages(prev => [...prev, {
-        role: 'assistant',
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
         content: data.text || 'I received your message but couldn\'t generate a response. Please try again.'
       }]);
-
+      
     } catch (error) {
       console.error('Detailed chat error:', error);
-
+      
       let errorMessage = 'Sorry, I encountered an error. ';
-
+      
       // More specific error messages
       if (error.message.includes('API key')) {
         errorMessage += 'API key configuration issue. Please check the setup.';
@@ -244,9 +251,9 @@ Tone & Style:
       } else {
         errorMessage += `${error.message} Please try again or contact Basel directly at baselmohamed937@gmail.com`;
       }
-
-      setMessages(prev => [...prev, {
-        role: 'assistant',
+      
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
         content: errorMessage
       }]);
     } finally {
@@ -266,11 +273,8 @@ Tone & Style:
       {/* Chat Window */}
       {isOpen && (
         <div
-          className="
-  fixed z-50 shadow-2xl flex flex-col
-  bottom-24 right-6 w-96 h-[500px]
-  max-sm:bottom-20 max-sm:right-3 max-sm:left-3 max-sm:w-auto max-sm:h-[70vh]
-"          style={{
+          className="fixed bottom-24 right-6 w-96 h-[500px] shadow-2xl flex flex-col z-50"
+          style={{
             backgroundColor: colors.background.card,
             borderWidth: '1px',
             borderStyle: 'solid',
@@ -298,8 +302,8 @@ Tone & Style:
                   borderRadius: radius.full
                 }}
               >
-                <MessageCircle
-                  className="w-5 h-5"
+                <MessageCircle 
+                  className="w-5 h-5" 
                   style={{ color: colors.accent.secondary }}
                 />
               </div>
@@ -347,7 +351,7 @@ Tone & Style:
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((message, index) => {
               const messageIsRTL = isRTL(message.content);
-
+              
               return (
                 <div
                   key={index}
@@ -356,11 +360,11 @@ Tone & Style:
                   <div
                     className="max-w-[80%] p-3"
                     style={{
-                      backgroundColor: message.role === 'user'
-                        ? colors.accent.primary
+                      backgroundColor: message.role === 'user' 
+                        ? colors.accent.primary 
                         : colors.background.cardHover,
-                      color: message.role === 'user'
-                        ? colors.accent.secondary
+                      color: message.role === 'user' 
+                        ? colors.accent.secondary 
                         : colors.text.primary,
                       borderRadius: radius.lg,
                       fontSize: fonts.size.sm,
@@ -369,11 +373,11 @@ Tone & Style:
                       textAlign: messageIsRTL ? 'right' : 'left'
                     }}
                   >
-                    <MarkdownMessage
+                    <MarkdownMessage 
                       content={message.content}
                       style={{
-                        color: message.role === 'user'
-                          ? colors.accent.secondary
+                        color: message.role === 'user' 
+                          ? colors.accent.secondary 
                           : colors.text.primary,
                       }}
                     />
@@ -390,8 +394,8 @@ Tone & Style:
                     borderRadius: radius.lg
                   }}
                 >
-                  <Loader2
-                    className="w-4 h-4 animate-spin"
+                  <Loader2 
+                    className="w-4 h-4 animate-spin" 
                     style={{ color: colors.text.tertiary }}
                   />
                   <span
@@ -400,7 +404,7 @@ Tone & Style:
                       fontSize: fonts.size.sm
                     }}
                   >
-                    Thinking...
+                    Typing...
                   </span>
                 </div>
               </div>
@@ -448,11 +452,11 @@ Tone & Style:
                 disabled={!inputValue.trim() || isLoading}
                 className="p-2 transition-all"
                 style={{
-                  backgroundColor: inputValue.trim() && !isLoading
-                    ? colors.accent.primary
+                  backgroundColor: inputValue.trim() && !isLoading 
+                    ? colors.accent.primary 
                     : colors.background.card,
-                  color: inputValue.trim() && !isLoading
-                    ? colors.accent.secondary
+                  color: inputValue.trim() && !isLoading 
+                    ? colors.accent.secondary 
                     : colors.text.muted,
                   borderRadius: radius.lg,
                   cursor: inputValue.trim() && !isLoading ? 'pointer' : 'not-allowed'

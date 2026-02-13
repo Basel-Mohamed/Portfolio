@@ -1,19 +1,19 @@
 import React from "react";
-import { Award } from "lucide-react";
+import { Award, Eye, ExternalLink } from "lucide-react";
 import theme from './styles/theme';
 
 export default function Certifications({ certifications, onCertClick }) {
-  const { colors, fonts, radius } = theme;
+  const { colors, fonts, radius, shadows } = theme;
   
   return (
     <section 
       id="certifications" 
-      className="py-20 px-4"
+      className="py-24 px-6"
       style={{ backgroundColor: colors.background.secondary }}
     >
       <div className="max-w-6xl mx-auto">
         <h2 
-          className="text-4xl mb-12 text-center"
+          className="text-4xl mb-12 text-center animate-fadeInUp"
           style={{
             fontWeight: fonts.weight.bold,
             background: `linear-gradient(to right, ${colors.gradient.from}, ${colors.gradient.to})`,
@@ -25,70 +25,84 @@ export default function Certifications({ certifications, onCertClick }) {
           Certifications
         </h2>
 
-        <div
-          className="p-8 shadow-2xl opacity-0 animate-slideInLeft transition-all duration-300"
-          style={{ 
-            backgroundColor: colors.background.card,
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderColor: colors.border.default,
-            borderRadius: radius['2xl'],
-            animationFillMode: "forwards"
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.borderColor = colors.border.hover}
-          onMouseLeave={(e) => e.currentTarget.style.borderColor = colors.border.default}
-        >
-          <div className="flex items-start gap-4 mb-4">
-            <div 
-              className="p-3"
-              style={{
-                backgroundColor: colors.background.cardHover,
-                borderRadius: radius.lg
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {certifications.map((cert, i) => (
+            <div
+              key={i}
+              className="group relative flex flex-col p-6 transition-all duration-300 cursor-pointer animate-fadeInUp"
+              style={{ 
+                backgroundColor: colors.background.card,
+                border: `1px solid ${colors.border.default}`,
+                borderRadius: radius.xl,
+                animationDelay: `${i * 100}ms`
+              }}
+              onClick={() => onCertClick?.(cert)}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = colors.accent.primary;
+                e.currentTarget.style.transform = 'translateY(-5px)';
+                e.currentTarget.style.boxShadow = shadows.lg;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = colors.border.default;
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
               }}
             >
-              <Award className="w-6 h-6" style={{ color: colors.text.primary }} />
-            </div>
+              {/* Header: Icon + Date */}
+              <div className="flex items-start justify-between mb-4">
+                <div 
+                  className="p-3 rounded-lg transition-colors duration-300"
+                  style={{ backgroundColor: colors.background.cardHover }}
+                >
+                  <Award 
+                    className="w-6 h-6" 
+                    style={{ color: colors.accent.primary }} 
+                  />
+                </div>
+                {cert.date && (
+                   <span 
+                     className="text-xs px-2 py-1 rounded-full border"
+                     style={{ 
+                       borderColor: colors.border.default,
+                       color: colors.text.tertiary 
+                     }}
+                   >
+                     {cert.date}
+                   </span>
+                )}
+              </div>
 
-            <div className="w-full">
+              {/* Title */}
               <h3 
-                className="text-2xl mb-4"
+                className="text-lg mb-4 flex-grow"
                 style={{
-                  fontWeight: fonts.weight.bold,
+                  fontWeight: fonts.weight.semibold,
                   color: colors.text.primary
                 }}
               >
-                Certificates
+                {cert.title}
               </h3>
 
-              <ul className="space-y-3">
-                {certifications.map((cert, i) => (
-                  <li key={i}>
-                    <button
-                      type="button"
-                      onClick={() => onCertClick?.(cert)}
-                      className="w-full text-left text-sm flex items-start gap-2 transition"
-                      style={{ color: colors.text.secondary }}
-                      onMouseEnter={(e) => e.currentTarget.style.color = colors.text.primary}
-                      onMouseLeave={(e) => e.currentTarget.style.color = colors.text.secondary}
-                    >
-                      <span className="mt-1" style={{ color: colors.text.muted }}>✓</span>
-
-                      <span className="flex-1">
-                        <span style={{ fontWeight: fonts.weight.medium }}>
-                          {cert.title}
-                        </span>
-                        {cert.date && (
-                          <span style={{ color: colors.text.muted }}>
-                            {' • '}{cert.date}
-                          </span>
-                        )}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              {/* Footer: Visual Call to Action */}
+              <div 
+                className="mt-auto pt-4 border-t flex items-center justify-between group-hover:opacity-100 transition-opacity"
+                style={{ 
+                  borderColor: colors.border.default,
+                }}
+              >
+                <span 
+                  className="text-sm font-medium flex items-center gap-2"
+                  style={{ color: colors.text.muted }}
+                >
+                  View Credential
+                </span>
+                <ExternalLink 
+                  className="w-4 h-4 transition-transform group-hover:translate-x-1" 
+                  style={{ color: colors.accent.primary }} 
+                />
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

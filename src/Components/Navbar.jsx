@@ -8,7 +8,6 @@ export default function Navbar({ isScrolled, activeSection, scrollToSection }) {
     <nav 
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'glass-effect shadow-lg' : ''}`}
       style={{
-        borderBottomWidth: isScrolled ? '1px' : '0',
         borderBottomStyle: 'solid',
         borderBottomColor: colors.border.default,
         backgroundColor: isScrolled ? colors.overlay.glass : 'transparent'
@@ -30,7 +29,7 @@ export default function Navbar({ isScrolled, activeSection, scrollToSection }) {
           </div>
           
           <div className="hidden md:flex space-x-8">
-            {['Home', 'About', 'Experience', 'Projects', 'Skills', 'Education', 'Certifications', 'Contact'].map((item) => (
+            {['Home', 'About', 'Experience', 'Projects', 'Skills', 'Education', 'Certifications','Services', 'Contact'].map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}

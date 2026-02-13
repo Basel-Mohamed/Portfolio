@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import profilePic from './assets/profile_pic.png';
 import Navbar from './Components/Navbar.jsx';
 import Footer from './Components/Footer.jsx';
@@ -12,21 +12,49 @@ import Education from './Components/Education.jsx';
 import Certifications from './Components/Certifications.jsx';
 import CertificateModal from "./Components/CertificateModal.jsx";
 import Chatbot from './Components/Chatbot.jsx';
+import Services from './Components/Services.jsx';
 import { certifications, experiences, projects, skills } from "./data/portfolioData.js";
 import theme from './Components/styles/theme.js';
+import FloatingLines from './Components/FloatingLines.jsx';
+import Technologies from './Components/Technologies.jsx';
 
+const BackgroundAnimation = React.memo(() => {
+  return (
+    <div 
+      style={{ 
+        position: 'fixed',
+        top: 0, 
+        left: 0, 
+        width: '100%', 
+        height: '100%', 
+        zIndex: 0,
+        pointerEvents: 'none'
+      }}
+    >
+      <FloatingLines 
+          enabledWaves={["top","middle","bottom"]}
+          lineCount={5}
+          lineDistance={5}
+          bendRadius={5}
+          bendStrength={-0.5}
+          interactive={true}
+          parallax={true}
+      />
+    </div>
+  );
+});
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [selectedCert, setSelectedCert] = useState(null);
-  
+
   const openCertModal = (cert) => setSelectedCert(cert);
   const closeCertModal = () => setSelectedCert(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const scrolled = window.scrollY > 50;
+      if (isScrolled !== scrolled) setIsScrolled(scrolled);
 
       const sections = ['home', 'about', 'experience', 'projects', 'skills', 'education', 'certifications', 'contact'];
       const current = sections.find(section => {
@@ -37,20 +65,12 @@ export default function Portfolio() {
         }
         return false;
       });
-      if (current) setActiveSection(current);
-    };
-
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      if (current && current !== activeSection) setActiveSection(current);
     };
 
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isScrolled, activeSection]);
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -58,26 +78,33 @@ export default function Portfolio() {
   };
 
   return (
-    <div 
-      className="min-h-screen overflow-hidden"
-      style={{ 
+    <div
+      className="min-h-screen overflow-hidden relative"
+      style={{
         backgroundColor: theme.colors.background.primary,
         color: theme.colors.text.primary,
         fontFamily: theme.fonts.family.primary
       }}
     >
-      <Navbar activeSection={activeSection} isScrolled={isScrolled} scrollToSection={scrollToSection} />
-      <Hero scrollToSection={scrollToSection} profilePic={profilePic}/>
-      <About/>
-      <Experience experiences={experiences} />
-      <Projects projects={projects} />
-      <Skills skills={skills} />
-      <Education />
-      <Certifications certifications={certifications} onCertClick={openCertModal} />
-      <Contact /> 
-      <Footer />
-      <CertificateModal cert={selectedCert} onClose={closeCertModal} />
-      <Chatbot/>
+      
+      <BackgroundAnimation />
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Navbar activeSection={activeSection} isScrolled={isScrolled} scrollToSection={scrollToSection} />
+        <Hero scrollToSection={scrollToSection} profilePic={profilePic} />
+        <About />
+        <Technologies/>
+        <Experience experiences={experiences} />
+        <Projects projects={projects} />
+        <Skills skills={skills} />
+        <Education />
+        <Certifications certifications={certifications} onCertClick={openCertModal} />
+        <Services/>
+        <Contact />
+        <Footer />
+        <CertificateModal cert={selectedCert} onClose={closeCertModal} />
+        <Chatbot />
+      </div>
+
     </div>
   );
 }

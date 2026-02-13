@@ -6,7 +6,7 @@ const theme = {
     // Primary backgrounds
     background: {
       primary: '#000000',      // Main background (black)
-      secondary: '#030712',    // Section backgrounds (gray-950)
+      // secondary: '#030712',    // Section backgrounds (gray-950)
       card: '#111827',         // Card backgrounds (gray-900)
       cardHover: '#1F2937',    // Card hover state (gray-800)
     },

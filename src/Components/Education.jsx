@@ -1,7 +1,6 @@
 import React from "react";
 import { GraduationCap } from "lucide-react";
 import theme from './styles/theme';
-import { educationData } from "../data/portfolioData";
 
 export default function Education() {
   const { colors, fonts, radius } = theme;
@@ -58,11 +57,11 @@ export default function Education() {
                   color: colors.text.primary
                 }}
               >
-                {educationData.degree}
+                Bachelor's Degree
               </h3>
-              <p style={{ color: colors.text.tertiary }}>{educationData.field}</p>
-              <p style={{ color: colors.text.muted }}>{educationData.university} • {educationData.period}</p>
-              <p style={{ color: colors.text.muted }}>Grade: {educationData.grade}</p>
+              <p style={{ color: colors.text.tertiary }}>Civil Engineering</p>
+              <p style={{ color: colors.text.muted }}>Helwan University • 2019-2024</p>
+              <p style={{ color: colors.text.muted }}>Grade: Good</p>
             </div>
           </div>
         </div>

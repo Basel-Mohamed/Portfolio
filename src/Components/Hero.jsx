@@ -1,7 +1,6 @@
 import React from 'react';
 import { Mail, ChevronDown, Sparkles } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
-import Particles from './Particles.jsx';
 import theme from './styles/theme.js';
 import { heroData } from "../data/portfolioData";
 
@@ -20,11 +19,8 @@ export default function Hero({ scrollToSection, profilePic }) {
               <line x1="25" y1="25" x2="25" y2="75" stroke={colors.effects.particle} strokeWidth="0.5" opacity="0.2" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
         </svg>
       </div>
-
-      <Particles />
 
       <div className="text-center max-w-4xl mx-auto relative z-10">
         <div className="mb-8">
