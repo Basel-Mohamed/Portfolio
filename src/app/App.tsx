@@ -1,0 +1,19 @@
+import React from 'react';
+import { RouterProvider } from 'react-router';
+import { router } from './routes';
+import { ThemeProvider } from '../context/ThemeContext';
+import { LanguageProvider } from '../context/LanguageContext';
+import '../styles/fonts.css';
+import '../styles/globals.css';
+
+function App() {
+  return (
+    <ThemeProvider>
+      <LanguageProvider>
+        <RouterProvider router={router} />
+      </LanguageProvider>
+    </ThemeProvider>
+  );
+}
+
+export default App;
