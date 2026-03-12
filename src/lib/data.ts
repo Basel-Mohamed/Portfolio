@@ -15,15 +15,39 @@ import {
   GraduationCap
 } from 'lucide-react';
 
-import project1 from '../../public/assets/projects/project-1.png';
-import project2 from '../../public/assets/projects/project-2.png';
-import project3 from '../../public/assets/projects/project-3.png';
-import project4 from '../../public/assets/projects/project-4.png';
-import project7 from '../../public/assets/projects/project-7.png';
-import oilSalesImage from '../../public/assets/projects/oil-sales.jpg';
-import churnImage from '../../public/assets/projects/churn-prediction.jpg';
-import roomImage from '../../public/assets/projects/Room.png';
+// Project Images
+import ocrProject from '../assets/projects/ocr.jpg';
+import ragProject from '../assets/projects/rag.jpg';
+import odaProject from '../assets/projects/oda.jpg';
+import safetyProject from '../assets/projects/safety.jpg';
+import project1 from '../assets/projects/project-1.png';
+import project2 from '../assets/projects/project-2.png';
+import project3 from '../assets/projects/project-3.png';
+import project4 from '../assets/projects/project-4.png';
+import project7 from '../assets/projects/project-7.png';
+import oilSalesImage from '../assets/projects/oil-sales.jpg';
+import churnImage from '../assets/projects/churn-prediction.jpg';
+import roomImage from '../assets/projects/Room.png';
 
+// Certificate Images
+import certAppliedDeepLearning from '../assets/certificates/applied-deep-learning.jpg';
+import certPythonBasics from '../assets/certificates/python-basics.jpg';
+import certAiDiplomaNeurotech from '../assets/certificates/ai-diploma-neurotech.jpg';
+import certOracleAiFoundations from '../assets/certificates/oracle-ai-foundations.jpg';
+import certElementsOfAi from '../assets/certificates/elements-of-ai.jpg';
+import certPythonDataScienceCoursera from '../assets/certificates/python-data-science-coursera.jpg';
+import certPromptEngineering from '../assets/certificates/prompt-engineering.jpg';
+import certGenAiEssentials from '../assets/certificates/gen-ai-essentials.jpg';
+import certSprintsAiMl from '../assets/certificates/sprints-ai-ml.png';
+import certAiEssentialsV2 from '../assets/certificates/ai-essentials-v2.jpg';
+import certReactNativeUdemy from '../assets/certificates/react-native-udemy.jpg';
+import certCleanCode from '../assets/certificates/clean-code.jpg';
+import certReactBasicsHackerrank from '../assets/certificates/react-basics-hackerrank.jpg';
+import certReactJsMaharatech from '../assets/certificates/react-js-maharatech.jpg';
+import certFrontendDiplomaRoute from '../assets/certificates/frontend-diploma-route.jpg';
+import certDatabaseFundamentals from '../assets/certificates/database-fundamentals.jpg';
+import certHtmlCss from '../assets/certificates/html-css.jpg';
+import certUxDesign from '../assets/certificates/ux-design.jpg';
 
 export const DATA = {
   en: {
@@ -59,93 +83,92 @@ export const DATA = {
         {
           title: "Applied Deep Learning - MaharaTech (ITIMooca)",
           date: "Jan 2026",
-          image: "/assets/certificates/applied-deep-learning.jpg"
+          image: certAppliedDeepLearning
         },
         {
           title: "Python Programming Basics - MaharaTech (ITIMooca)",
           date: "Jan 2026",
-          image: "/assets/certificates/python-basics.jpg"
+          image: certPythonBasics
         },
         {
           title: "AI Diploma Intermediate Level - NeuroTech",
           date: "Jan 2026",
-          image: "/assets/certificates/ai-diploma-neurotech.jpg"
+          image: certAiDiplomaNeurotech
         },
         {
           title: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
           date: "Oct 2025",
-          image: "/assets/certificates/oracle-ai-foundations.jpg"
+          image: certOracleAiFoundations
         },
         {
           title: "Elements of AI Course - University of Helsinki",
           date: "Sep 2025",
-          image: "/assets/certificates/elements-of-ai.jpg"
+          image: certElementsOfAi
         },
-
         {
           title: "Python for Data Science and AI - Coursera",
           date: "Jul 2025",
-          image: "/assets/certificates/python-data-science-coursera.jpg"
+          image: certPythonDataScienceCoursera
         },
         {
           title: "Generative AI: Prompt Engineering - Coursera",
           date: "Jul 2025",
-          image: "/assets/certificates/prompt-engineering.jpg"
+          image: certPromptEngineering
         },
         {
           title: "Generative AI Essentials - Coursera",
           date: "Jul 2025",
-          image: "/assets/certificates/gen-ai-essentials.jpg"
+          image: certGenAiEssentials
         },
         {
           title: "AI and Machine Learning Foundations - Sprints",
           date: "Jun 2025",
-          image: "/assets/certificates/sprints-ai-ml.png"
+          image: certSprintsAiMl
         },
         {
           title: "Artificial Intelligence Essentials V2 - Coursera",
           date: "Jun 2025",
-          image: "/assets/certificates/ai-essentials-v2.jpg"
+          image: certAiEssentialsV2
         },
         {
           title: "React Native: Mobile App Development (CLI) - Udemy",
           date: "Jun 2025",
-          image: "/assets/certificates/react-native-udemy.jpg"
+          image: certReactNativeUdemy
         },
         {
           title: "The Principles of Writing Clean Code - MaharaTech",
           date: "Apr 2025",
-          image: "/assets/certificates/clean-code.jpg"
+          image: certCleanCode
         },
         {
           title: "React Basics - HackerRank",
           date: "Apr 2025",
-          image: "/assets/certificates/react-basics-hackerrank.jpg"
+          image: certReactBasicsHackerrank
         },
         {
           title: "React JS - MaharaTech (ITIMooca)",
           date: "Apr 2025",
-          image: "/assets/certificates/react-js-maharatech.jpg"
+          image: certReactJsMaharatech
         },
         {
           title: "Frontend Development Diploma - Route",
           date: "Mar 2025",
-          image: "/assets/certificates/frontend-diploma-route.jpg"
+          image: certFrontendDiplomaRoute
         },
         {
           title: "Database Fundamentals - MaharaTech",
           date: "Mar 2025",
-          image: "/assets/certificates/database-fundamentals.jpg"
+          image: certDatabaseFundamentals
         },
         {
           title: "HTML & CSS - MaharaTech",
           date: "Mar 2025",
-          image: "/assets/certificates/html-css.jpg"
+          image: certHtmlCss
         },
         {
           title: "UX Design Fundamentals - MaharaTech",
           date: "Jan 2025",
-          image: "/assets/certificates/ux-design.jpg"
+          image: certUxDesign
         }
       ]
     },
@@ -248,7 +271,7 @@ export const DATA = {
           category: "RAG & FastAPI",
           description: "Built an end-to-end RAG system with document ingestion, embeddings, retrieval (Qdrant), and reranking. Exposed the workflow via FastAPI, with a configurable LLM factory (Local / Cohere / Groq) and production-ready logging.",
           tech: ["LangChain", "Qdrant", "FastAPI", "Cohere", "Groq"],
-          image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+          image: ragProject
         },
         {
           id: "doc-understanding",
@@ -260,7 +283,7 @@ export const DATA = {
           category: "OCR & FastAPI",
           description: "Fine-tuned OCR models on combined real and synthetic data, increasing Arabic accuracy from 78% to 92% and achieving 96% in English. Built end-to-end preprocessing and inference pipelines exposed via FastAPI.",
           tech: ["Python", "FastAPI", "OCR", "Transformers"],
-          image: "https://images.unsplash.com/photo-1622814859704-c6cd5ae75dd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+          image: ocrProject
         },
         {
           id: "digital-assistant",
@@ -272,7 +295,7 @@ export const DATA = {
           category: "OCI & NLP",
           description: "Developed a digital assistant on the Oracle platform, enabling natural language interaction with the database. Designed end-to-end AI workflows on OCI, including model training and prompt engineering.",
           tech: ["Oracle Cloud", "NLP", "Prompt Engineering"],
-          image: "https://images.unsplash.com/photo-1764336312138-14a5368a6cd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+          image: odaProject
         },
         {
           id: "safety-detection",
@@ -284,7 +307,7 @@ export const DATA = {
           category: "Computer Vision",
           description: "Annotated and preprocessed datasets using Label Studio, achieving ~99% labeling accuracy to support training an object detection model for worker safety gear detection.",
           tech: ["Label Studio", "Object Detection", "Computer Vision"],
-          image: "https://images.unsplash.com/photo-1750365919971-7dd273e7b317?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+          image: safetyProject
         },
         {
           id: "fs-1",
@@ -468,93 +491,92 @@ To assist recruiters, clients, and visitors by answering professional questions 
         {
           title: "Applied Deep Learning - MaharaTech (ITIMooca)",
           date: "Jan 2026",
-          image: "/assets/certificates/applied-deep-learning.jpg"
+          image: certAppliedDeepLearning
         },
         {
           title: "Python Programming Basics - MaharaTech (ITIMooca)",
           date: "Jan 2026",
-          image: "/assets/certificates/python-basics.jpg"
+          image: certPythonBasics
         },
         {
           title: "AI Diploma Intermediate Level - NeuroTech",
           date: "Jan 2026",
-          image: "/assets/certificates/ai-diploma-neurotech.jpg"
+          image: certAiDiplomaNeurotech
         },
         {
           title: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
           date: "Oct 2025",
-          image: "/assets/certificates/oracle-ai-foundations.jpg"
+          image: certOracleAiFoundations
         },
         {
           title: "Elements of AI Course - University of Helsinki",
           date: "Sep 2025",
-          image: "/assets/certificates/elements-of-ai.jpg"
+          image: certElementsOfAi
         },
-
         {
           title: "Python for Data Science and AI - Coursera",
           date: "Jul 2025",
-          image: "/assets/certificates/python-data-science-coursera.jpg"
+          image: certPythonDataScienceCoursera
         },
         {
           title: "Generative AI: Prompt Engineering - Coursera",
           date: "Jul 2025",
-          image: "/assets/certificates/prompt-engineering.jpg"
+          image: certPromptEngineering
         },
         {
           title: "Generative AI Essentials - Coursera",
           date: "Jul 2025",
-          image: "/assets/certificates/gen-ai-essentials.jpg"
+          image: certGenAiEssentials
         },
         {
           title: "AI and Machine Learning Foundations - Sprints",
           date: "Jun 2025",
-          image: "/assets/certificates/sprints-ai-ml.png"
+          image: certSprintsAiMl
         },
         {
           title: "Artificial Intelligence Essentials V2 - Coursera",
           date: "Jun 2025",
-          image: "/assets/certificates/ai-essentials-v2.jpg"
+          image: certAiEssentialsV2
         },
         {
           title: "React Native: Mobile App Development (CLI) - Udemy",
           date: "Jun 2025",
-          image: "/assets/certificates/react-native-udemy.jpg"
+          image: certReactNativeUdemy
         },
         {
           title: "The Principles of Writing Clean Code - MaharaTech",
           date: "Apr 2025",
-          image: "/assets/certificates/clean-code.jpg"
+          image: certCleanCode
         },
         {
           title: "React Basics - HackerRank",
           date: "Apr 2025",
-          image: "/assets/certificates/react-basics-hackerrank.jpg"
+          image: certReactBasicsHackerrank
         },
         {
           title: "React JS - MaharaTech (ITIMooca)",
           date: "Apr 2025",
-          image: "/assets/certificates/react-js-maharatech.jpg"
+          image: certReactJsMaharatech
         },
         {
           title: "Frontend Development Diploma - Route",
           date: "Mar 2025",
-          image: "/assets/certificates/frontend-diploma-route.jpg"
+          image: certFrontendDiplomaRoute
         },
         {
           title: "Database Fundamentals - MaharaTech",
           date: "Mar 2025",
-          image: "/assets/certificates/database-fundamentals.jpg"
+          image: certDatabaseFundamentals
         },
         {
           title: "HTML & CSS - MaharaTech",
           date: "Mar 2025",
-          image: "/assets/certificates/html-css.jpg"
+          image: certHtmlCss
         },
         {
           title: "UX Design Fundamentals - MaharaTech",
           date: "Jan 2025",
-          image: "/assets/certificates/ux-design.jpg"
+          image: certUxDesign
         }
       ]
     },
@@ -622,7 +644,7 @@ To assist recruiters, clients, and visitors by answering professional questions 
         }
       ]
     },
-projects: {
+    projects: {
       title: "المشاريع المميزة",
       items: [
         {
@@ -657,7 +679,7 @@ projects: {
           category: "RAG و FastAPI",
           description: "بناء نظام RAG متكامل لاستيعاب المستندات، وتضمينها، واسترجاعها (Qdrant)، وإعادة ترتيبها. تم توفير مسار العمل عبر واجهة FastAPI، مع مصنع نماذج لغوية كبيرة (LLM) قابل للتكوين (محلي / Cohere / Groq) وتسجيل بيانات جاهز للإنتاج.",
           tech: ["LangChain", "Qdrant", "FastAPI", "Cohere", "Groq"],
-          image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+          image: ragProject
         },
         {
           id: "doc-understanding",
@@ -669,7 +691,7 @@ projects: {
           category: "OCR و FastAPI",
           description: "تم تحسين نماذج OCR باستخدام بيانات حقيقية واصطناعية، مما أدى إلى زيادة دقة اللغة العربية من 78% إلى 92% وتحقيق 96% في اللغة الإنجليزية. بناء مسارات عمل متكاملة للمعالجة المسبقة والاستدلال وتوفيرها عبر FastAPI.",
           tech: ["Python", "FastAPI", "OCR", "Transformers"],
-          image: "https://images.unsplash.com/photo-1622814859704-c6cd5ae75dd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+          image: ocrProject
         },
         {
           id: "digital-assistant",
@@ -681,7 +703,7 @@ projects: {
           category: "OCI و NLP",
           description: "تطوير مساعد رقمي على منصة أوراكل (Oracle)، يتيح التفاعل بلغة طبيعية مع قاعدة البيانات. تصميم مسارات عمل متكاملة للذكاء الاصطناعي على السحابة (OCI)، بما في ذلك تدريب النماذج وهندسة الأوامر (Prompt Engineering).",
           tech: ["Oracle Cloud", "NLP", "Prompt Engineering"],
-          image: "https://images.unsplash.com/photo-1764336312138-14a5368a6cd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+          image: odaProject
         },
         {
           id: "safety-detection",
@@ -693,7 +715,7 @@ projects: {
           category: "الرؤية الحاسوبية",
           description: "تعليق ومعالجة مجموعات البيانات باستخدام Label Studio، وتحقيق دقة تصنيف تصل إلى ~99% لدعم تدريب نموذج اكتشاف الكائنات للتعرف على معدات سلامة العمال.",
           tech: ["Label Studio", "Object Detection", "Computer Vision"],
-          image: "https://images.unsplash.com/photo-1750365919971-7dd273e7b317?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+          image: safetyProject
         },
         {
           id: "fs-1",

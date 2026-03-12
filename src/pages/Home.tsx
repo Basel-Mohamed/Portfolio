@@ -69,7 +69,7 @@ export function Home() {
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 animate-gradient bg-300% blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-700"></div>
                 {/* Actual Image */}
                 <img
-                  src="/assets/profile_pic.png" 
+                  src="/profile_pic.png" 
                   alt="Basel Mohamed"
                   className="relative w-full h-full object-cover rounded-full border-4 border-white dark:border-[#0D1117] shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
                 />
