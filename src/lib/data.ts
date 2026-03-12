@@ -15,6 +15,16 @@ import {
   GraduationCap
 } from 'lucide-react';
 
+import project1 from '../../public/assets/projects/project-1.png';
+import project2 from '../../public/assets/projects/project-2.png';
+import project3 from '../../public/assets/projects/project-3.png';
+import project4 from '../../public/assets/projects/project-4.png';
+import project7 from '../../public/assets/projects/project-7.png';
+import oilSalesImage from '../../public/assets/projects/oil-sales.jpg';
+import churnImage from '../../public/assets/projects/churn-prediction.jpg';
+import roomImage from '../../public/assets/projects/Room.png';
+
+
 export const DATA = {
   en: {
     nav: {
@@ -207,11 +217,33 @@ export const DATA = {
       title: "Featured Projects",
       items: [
         {
+          id: "ai-5",
+          type: "ai",
+          title: "Oil Sales Prediction System",
+          category: "Generative AI & ML",
+          image: oilSalesImage,
+          description: "An end-to-end AI solution combining a Random Forest Regression model for edible oil sales prediction with an LLM-integrated chat interface. It achieves an R² score of ~0.98 and is served via a FastAPI REST API for real-time inference and conversational insights.",
+          tech: ["Python", "Machine Learning", "Random Forest", "LLM", "FastAPI"],
+          github: "https://github.com/Basel-Mohamed/oil-sales-regression-model",
+          live: "#"
+        },
+        {
+          id: "ai-6",
+          type: "ai",
+          title: "Customer Churn Prediction & AI Assistant",
+          category: "Generative AI & ML",
+          image: churnImage,
+          description: "An AI solution combining an Ensemble Voting Classifier (Gradient Boosting, Logistic Regression, AdaBoost) with an LLM-powered conversational agent via the Groq API. It predicts customer churn and provides a chat interface for marketing teams to assess risk.",
+          tech: ["Python", "LLM", "Ensemble Learning", "FastAPI", "Groq API"],
+          github: "https://github.com/Basel-Mohamed/churn-classification-ensemble",
+          live: "#"
+        },
+        {
           id: "rag-agent",
-          type: "ai",             
-          nda: true,              
-          github: "",             
-          live: "", 
+          type: "ai",
+          nda: true,
+          github: "",
+          live: "",
           title: "Enterprise RAG Agent",
           category: "RAG & FastAPI",
           description: "Built an end-to-end RAG system with document ingestion, embeddings, retrieval (Qdrant), and reranking. Exposed the workflow via FastAPI, with a configurable LLM factory (Local / Cohere / Groq) and production-ready logging.",
@@ -220,10 +252,10 @@ export const DATA = {
         },
         {
           id: "doc-understanding",
-          type: "ai",             
-          nda: true,              
-          github: "",             
-          live: "", 
+          type: "ai",
+          nda: true,
+          github: "",
+          live: "",
           title: "Document AI - Arabic OCR System",
           category: "OCR & FastAPI",
           description: "Fine-tuned OCR models on combined real and synthetic data, increasing Arabic accuracy from 78% to 92% and achieving 96% in English. Built end-to-end preprocessing and inference pipelines exposed via FastAPI.",
@@ -232,10 +264,10 @@ export const DATA = {
         },
         {
           id: "digital-assistant",
-          type: "ai",             
-          nda: true,              
-          github: "",             
-          live: "", 
+          type: "ai",
+          nda: true,
+          github: "",
+          live: "",
           title: "OCI Digital Assistant",
           category: "OCI & NLP",
           description: "Developed a digital assistant on the Oracle platform, enabling natural language interaction with the database. Designed end-to-end AI workflows on OCI, including model training and prompt engineering.",
@@ -244,15 +276,81 @@ export const DATA = {
         },
         {
           id: "safety-detection",
-          type: "ai",             
-          nda: true,              
-          github: "",             
-          live: "", 
+          type: "ai",
+          nda: true,
+          github: "",
+          live: "",
           title: "Industrial Safety Gear Detection",
           category: "Computer Vision",
           description: "Annotated and preprocessed datasets using Label Studio, achieving ~99% labeling accuracy to support training an object detection model for worker safety gear detection.",
           tech: ["Label Studio", "Object Detection", "Computer Vision"],
           image: "https://images.unsplash.com/photo-1750365919971-7dd273e7b317?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        },
+        {
+          id: "fs-1",
+          type: "fullstack",
+          title: "A Personal Video Editor Portfolio",
+          category: "Web Development",
+          image: project1,
+          description: "A fully responsive personal portfolio website built with React, Tailwind CSS, and JavaScript. It features a modern design to showcase projects, skills, and contact information, offering a seamless user experience across all devices.",
+          tech: ["React", "Tailwind CSS", "JavaScript", "React-Icons", "Motion", "CSS"],
+          github: "https://github.com/Basel-Mohamed/abdelrhman-portfolio",
+          live: "https://abdelrhman-portfolio-ten.vercel.app/"
+        },
+        {
+          id: "fs-6",
+          type: "fullstack",
+          title: "ROOM APP Marketplace",
+          category: "Full Stack Development",
+          image: roomImage,
+          description: "The premier digital marketplace in the UAE connecting over 200k+ users with verified service providers for design, construction, and furnishing. Built a full-stack platform featuring vendor profiles, tiered subscription plans, and a secure application workflow for business verification.",
+          tech: ["React", "Tailwind CSS", "Framer Motion", "React Icons", "CSS", "Node.js"],
+          github: "#",
+          live: "https://roomapp.ae"
+        },
+        {
+          id: "fs-4",
+          type: "fullstack",
+          title: "FreshCart",
+          category: "Web Development",
+          image: project4,
+          description: "A modern, responsive e-commerce platform offering a seamless shopping experience. Features include secure user authentication, an advanced product catalog with filtering, a dynamic shopping cart, and wishlist management with real-time updates using React Query.",
+          tech: ["React.js", "Tailwind CSS", "React Query", "Context API", "Formik", "Axios"],
+          github: "https://github.com/Basel-Mohamed/fresh-cart",
+          live: "https://fresh-cart-sigma-ashen.vercel.app/"
+        },
+        {
+          id: "fs-7",
+          type: "fullstack",
+          title: "A Personal Frontend Portfolio",
+          category: "Web Development",
+          image: project7,
+          description: "A fully responsive personal portfolio website built with React, Tailwind CSS, and JavaScript. It features a modern design to showcase projects, skills, and contact information, offering a seamless user experience across all devices.",
+          tech: ["React", "Tailwind CSS", "JavaScript", "React-Icons", "CSS"],
+          github: "https://github.com/Basel-Mohamed/My_Portfolio",
+          live: "https://my-portfolio-v2-olive-delta.vercel.app/"
+        },
+        {
+          id: "fs-3",
+          type: "fullstack",
+          title: "Daniels Website",
+          category: "Web Development",
+          image: project3,
+          description: "A responsive personal portfolio website built with HTML, CSS, and Bootstrap, based on a Figma design, showcasing skills in converting designs into functional web interfaces.",
+          tech: ["HTML", "CSS", "Bootstrap"],
+          github: "https://github.com/Basel-Mohamed/Daniels-Website",
+          live: "https://basel-mohamed.github.io/Daniels-Website/"
+        },
+        {
+          id: "fs-2",
+          type: "fullstack",
+          title: "Simple CRUD System",
+          category: "Web Development",
+          image: project2,
+          description: "Simple CRUD (Create, Read, Update, Delete) system implemented using HTML, CSS, JavaScript, and Bootstrap.",
+          tech: ["HTML", "CSS", "JavaScript", "Bootstrap"],
+          github: "https://github.com/Basel-Mohamed/Simple-crud-system",
+          live: "https://basel-mohamed.github.io/Simple-crud-system/"
         },
       ]
     },
@@ -524,57 +622,146 @@ To assist recruiters, clients, and visitors by answering professional questions 
         }
       ]
     },
-    projects: {
-      title: "مشاريع مميزة",
+projects: {
+      title: "المشاريع المميزة",
       items: [
+        {
+          id: "ai-5",
+          type: "ai",
+          title: "نظام توقع مبيعات الزيوت",
+          category: "الذكاء الاصطناعي التوليدي والتعلم الآلي",
+          image: oilSalesImage,
+          description: "حل ذكاء اصطناعي متكامل يجمع بين نموذج انحدار (Random Forest) لتوقع مبيعات زيوت الطعام مع واجهة محادثة مدمجة بنماذج لغوية كبيرة (LLM). يحقق دقة تصل إلى ~0.98 ويتم تشغيله عبر واجهة FastAPI لتوفير التوقعات والرؤى في الوقت الفعلي.",
+          tech: ["Python", "Machine Learning", "Random Forest", "LLM", "FastAPI"],
+          github: "https://github.com/Basel-Mohamed/oil-sales-regression-model",
+          live: "#"
+        },
+        {
+          id: "ai-6",
+          type: "ai",
+          title: "توقع تسرب العملاء ومساعد ذكاء اصطناعي",
+          category: "الذكاء الاصطناعي التوليدي والتعلم الآلي",
+          image: churnImage,
+          description: "حل ذكاء اصطناعي يجمع بين نموذج تصنيف مجمع (Ensemble) ومساعد يعتمد على النماذج اللغوية الكبيرة (LLM) عبر واجهة Groq. يقوم بتوقع تسرب العملاء ويوفر واجهة محادثة لفرق التسويق لتقييم المخاطر بسهولة.",
+          tech: ["Python", "LLM", "Ensemble Learning", "FastAPI", "Groq API"],
+          github: "https://github.com/Basel-Mohamed/churn-classification-ensemble",
+          live: "#"
+        },
         {
           id: "rag-agent",
           type: "ai",
           nda: true,
           github: "",
           live: "",
-          title: "نظام وكيل RAG المؤسسي",
-          category: "RAG & FastAPI",
-          description: "بناء نظام RAG متكامل يتضمن استيعاب المستندات، التضمين، الاسترجاع (Qdrant)، وإعادة الترتيب. تم نشر واجهة برمجة التطبيقات عبر FastAPI مع مصنع LLM قابل للتهيئة (Local / Cohere / Groq).",
+          title: "نظام RAG للمؤسسات",
+          category: "RAG و FastAPI",
+          description: "بناء نظام RAG متكامل لاستيعاب المستندات، وتضمينها، واسترجاعها (Qdrant)، وإعادة ترتيبها. تم توفير مسار العمل عبر واجهة FastAPI، مع مصنع نماذج لغوية كبيرة (LLM) قابل للتكوين (محلي / Cohere / Groq) وتسجيل بيانات جاهز للإنتاج.",
           tech: ["LangChain", "Qdrant", "FastAPI", "Cohere", "Groq"],
           image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
         },
         {
           id: "doc-understanding",
-          type: "ai",             
-          nda: true,              
-          github: "",             
-          live: "",               
-          title: "نظام فهم المستندات (OCR عربي)",
-          category: "OCR & FastAPI",
-          description: "تحسين نماذج OCR على بيانات حقيقية واصطناعية، مما رفع دقة اللغة العربية من 78٪ إلى 92٪. بناء خطوط أنابيب استدلال متكاملة عبر FastAPI لدمجها مع مكونات الذكاء الاصطناعي الأخرى.",
+          type: "ai",
+          nda: true,
+          github: "",
+          live: "",
+          title: "الذكاء الاصطناعي للمستندات - نظام OCR باللغة العربية",
+          category: "OCR و FastAPI",
+          description: "تم تحسين نماذج OCR باستخدام بيانات حقيقية واصطناعية، مما أدى إلى زيادة دقة اللغة العربية من 78% إلى 92% وتحقيق 96% في اللغة الإنجليزية. بناء مسارات عمل متكاملة للمعالجة المسبقة والاستدلال وتوفيرها عبر FastAPI.",
           tech: ["Python", "FastAPI", "OCR", "Transformers"],
           image: "https://images.unsplash.com/photo-1622814859704-c6cd5ae75dd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
         },
         {
           id: "digital-assistant",
-          type: "ai",             
-          nda: true,              
-          github: "",             
-          live: "", 
-          title: "المساعد الرقمي OCI",
-          category: "OCI & NLP",
-          description: "تطوير مساعد رقمي على منصة أوراكل للتفاعل مع قواعد البيانات باللغة الطبيعية. تصميم مسارات عمل الذكاء الاصطناعي على OCI، بما في ذلك تدريب النماذج وهندسة التلقين.",
+          type: "ai",
+          nda: true,
+          github: "",
+          live: "",
+          title: "المساعد الرقمي لـ OCI",
+          category: "OCI و NLP",
+          description: "تطوير مساعد رقمي على منصة أوراكل (Oracle)، يتيح التفاعل بلغة طبيعية مع قاعدة البيانات. تصميم مسارات عمل متكاملة للذكاء الاصطناعي على السحابة (OCI)، بما في ذلك تدريب النماذج وهندسة الأوامر (Prompt Engineering).",
           tech: ["Oracle Cloud", "NLP", "Prompt Engineering"],
           image: "https://images.unsplash.com/photo-1764336312138-14a5368a6cd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
         },
         {
           id: "safety-detection",
-          type: "ai",             
-          nda: true,              
-          github: "",             
-          live: "", 
-          title: "نظام الكشف عن معدات السلامة",
-          category: "Computer Vision",
-          description: "معالجة وتعليق البيانات باستخدام Label Studio بدقة 99٪ لتدريب نموذج اكتشاف الكائنات للتعرف على معدات السلامة للعمال في البيئات الصناعية.",
+          type: "ai",
+          nda: true,
+          github: "",
+          live: "",
+          title: "اكتشاف معدات السلامة الصناعية",
+          category: "الرؤية الحاسوبية",
+          description: "تعليق ومعالجة مجموعات البيانات باستخدام Label Studio، وتحقيق دقة تصنيف تصل إلى ~99% لدعم تدريب نموذج اكتشاف الكائنات للتعرف على معدات سلامة العمال.",
           tech: ["Label Studio", "Object Detection", "Computer Vision"],
           image: "https://images.unsplash.com/photo-1750365919971-7dd273e7b317?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
         },
+        {
+          id: "fs-1",
+          type: "fullstack",
+          title: "موقع سيرة ذاتية لمحرر فيديو",
+          category: "تطوير الويب",
+          image: project1,
+          description: "موقع سيرة ذاتية شخصي متجاوب بالكامل مبني باستخدام React و Tailwind CSS و JavaScript. يتميز بتصميم عصري لعرض المشاريع والمهارات ومعلومات الاتصال، مما يوفر تجربة مستخدم سلسة عبر جميع الأجهزة.",
+          tech: ["React", "Tailwind CSS", "JavaScript", "React-Icons", "Motion", "CSS"],
+          github: "https://github.com/Basel-Mohamed/abdelrhman-portfolio",
+          live: "https://abdelrhman-portfolio-ten.vercel.app/"
+        },
+        {
+          id: "fs-6",
+          type: "fullstack",
+          title: "تطبيق روم (ROOM APP)",
+          category: "تطوير متكامل (Full Stack)",
+          image: roomImage,
+          description: "السوق الرقمي الأول في الإمارات الذي يربط أكثر من 200 ألف مستخدم بمزودي الخدمات المعتمدين في مجالات التصميم والبناء والمفروشات. تم بناء منصة متكاملة تتميز بملفات تعريف للبائعين، وخطط اشتراك متدرجة، ونظام آمن لتقديم طلبات توثيق الشركات.",
+          tech: ["React", "Tailwind CSS", "Framer Motion", "React Icons", "CSS", "Node.js"],
+          github: "#",
+          live: "https://roomapp.ae"
+        },
+        {
+          id: "fs-4",
+          type: "fullstack",
+          title: "فريش كارت (FreshCart)",
+          category: "تطوير الويب",
+          image: project4,
+          description: "منصة تجارة إلكترونية حديثة ومتجاوبة تقدم تجربة تسوق سلسة. تشمل الميزات مصادقة آمنة للمستخدمين، كتالوج منتجات متقدم مع إمكانية التصفية، عربة تسوق ديناميكية، وإدارة قائمة الرغبات مع تحديثات في الوقت الفعلي باستخدام React Query.",
+          tech: ["React.js", "Tailwind CSS", "React Query", "Context API", "Formik", "Axios"],
+          github: "https://github.com/Basel-Mohamed/fresh-cart",
+          live: "https://fresh-cart-sigma-ashen.vercel.app/"
+        },
+        {
+          id: "fs-7",
+          type: "fullstack",
+          title: "موقع سيرة ذاتية لمطور واجهات",
+          category: "تطوير الويب",
+          image: project7,
+          description: "موقع سيرة ذاتية شخصي متجاوب بالكامل مبني باستخدام React و Tailwind CSS و JavaScript. يتميز بتصميم عصري لعرض المشاريع والمهارات ومعلومات الاتصال، مما يوفر تجربة مستخدم سلسة عبر جميع الأجهزة.",
+          tech: ["React", "Tailwind CSS", "JavaScript", "React-Icons", "CSS"],
+          github: "https://github.com/Basel-Mohamed/My_Portfolio",
+          live: "https://my-portfolio-v2-olive-delta.vercel.app/"
+        },
+        {
+          id: "fs-3",
+          type: "fullstack",
+          title: "موقع Daniels",
+          category: "تطوير الويب",
+          image: project3,
+          description: "موقع سيرة ذاتية شخصي متجاوب مبني باستخدام HTML و CSS و Bootstrap، بناءً على تصميم Figma، يعرض المهارات في تحويل التصاميم إلى واجهات ويب عملية.",
+          tech: ["HTML", "CSS", "Bootstrap"],
+          github: "https://github.com/Basel-Mohamed/Daniels-Website",
+          live: "https://basel-mohamed.github.io/Daniels-Website/"
+        },
+        {
+          id: "fs-2",
+          type: "fullstack",
+          title: "نظام CRUD بسيط",
+          category: "تطوير الويب",
+          image: project2,
+          description: "نظام بسيط لإنشاء وقراءة وتحديث وحذف البيانات (CRUD) مبرمج باستخدام HTML و CSS و JavaScript و Bootstrap.",
+          tech: ["HTML", "CSS", "JavaScript", "Bootstrap"],
+          github: "https://github.com/Basel-Mohamed/Simple-crud-system",
+          live: "https://basel-mohamed.github.io/Simple-crud-system/"
+        },
+        
       ]
     },
     services: {
