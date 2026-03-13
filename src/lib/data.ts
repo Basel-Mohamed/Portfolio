@@ -248,7 +248,7 @@ export const DATA = {
           description: "An end-to-end AI solution combining a Random Forest Regression model for edible oil sales prediction with an LLM-integrated chat interface. It achieves an R² score of ~0.98 and is served via a FastAPI REST API for real-time inference and conversational insights.",
           tech: ["Python", "Machine Learning", "Random Forest", "LLM", "FastAPI"],
           github: "https://github.com/Basel-Mohamed/oil-sales-regression-model",
-          live: "#"
+          live: "https://ai-machine-learning-hub.vercel.app/model/oil-sales"
         },
         {
           id: "ai-6",
@@ -259,7 +259,7 @@ export const DATA = {
           description: "An AI solution combining an Ensemble Voting Classifier (Gradient Boosting, Logistic Regression, AdaBoost) with an LLM-powered conversational agent via the Groq API. It predicts customer churn and provides a chat interface for marketing teams to assess risk.",
           tech: ["Python", "LLM", "Ensemble Learning", "FastAPI", "Groq API"],
           github: "https://github.com/Basel-Mohamed/churn-classification-ensemble",
-          live: "#"
+          live: "https://ai-machine-learning-hub.vercel.app/model/churn"
         },
         {
           id: "rag-agent",
@@ -656,7 +656,7 @@ To assist recruiters, clients, and visitors by answering professional questions 
           description: "حل ذكاء اصطناعي متكامل يجمع بين نموذج انحدار (Random Forest) لتوقع مبيعات زيوت الطعام مع واجهة محادثة مدمجة بنماذج لغوية كبيرة (LLM). يحقق دقة تصل إلى ~0.98 ويتم تشغيله عبر واجهة FastAPI لتوفير التوقعات والرؤى في الوقت الفعلي.",
           tech: ["Python", "Machine Learning", "Random Forest", "LLM", "FastAPI"],
           github: "https://github.com/Basel-Mohamed/oil-sales-regression-model",
-          live: "#"
+          live: "https://ai-machine-learning-hub.vercel.app/model/oil-sales"
         },
         {
           id: "ai-6",
@@ -667,7 +667,7 @@ To assist recruiters, clients, and visitors by answering professional questions 
           description: "حل ذكاء اصطناعي يجمع بين نموذج تصنيف مجمع (Ensemble) ومساعد يعتمد على النماذج اللغوية الكبيرة (LLM) عبر واجهة Groq. يقوم بتوقع تسرب العملاء ويوفر واجهة محادثة لفرق التسويق لتقييم المخاطر بسهولة.",
           tech: ["Python", "LLM", "Ensemble Learning", "FastAPI", "Groq API"],
           github: "https://github.com/Basel-Mohamed/churn-classification-ensemble",
-          live: "#"
+          live: "https://ai-machine-learning-hub.vercel.app/model/churn"
         },
         {
           id: "rag-agent",
