@@ -894,7 +894,6 @@ Your goal is to assist recruiters, potential clients, and website visitors by an
 # KNOWLEDGE BASE
 
 ## Contact Information
-- **Work Email:** basel.mohamed@it-ranks.com
 - **Personal Email:** baselmohamed937@gmail.com
 - **Phone:** +201007337686
 - **Location:** Maadi, Cairo, Egypt
@@ -938,7 +937,11 @@ Your goal is to assist recruiters, potential clients, and website visitors by an
 - Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate (Oct 2025)
 - Elements of AI (Univ. of Helsinki, Sep 2025)
 - Python for Data Science and Gen AI Essentials (Coursera, Jul 2025)
-- Frontend Development, React, and UX Design certifications across Udemy, HackerRank, and MaharaTech.`
+- Frontend Development, React, and UX Design certifications across Udemy, HackerRank, and MaharaTech.
+
+## Key Educational Background
+- **Bachelor's Degree in Civil Engineering** (2019 - 2024) from Helwan University in Egypt.
+`
     }
   }
 };
