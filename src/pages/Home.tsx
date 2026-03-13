@@ -103,7 +103,7 @@ export function Home() {
               {/* Secondary Download CV Button */}
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <a
-                  href="https://drive.usercontent.google.com/u/0/uc?id=1D3QPHb0HzQN17Nx388mUcEcKig7HS8Av&export=download" 
+                  href="https://drive.usercontent.google.com/u/0/uc?id=1vZiVfNVylmzwwh5FzFpEdZn2VC7uufIs&export=download" 
                   download="Basel_Mohamed_CV.pdf"
                   className="w-full px-8 py-3.5 bg-white dark:bg-[#161b22] text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all font-bold flex items-center justify-center gap-2 shadow-sm"
                 >
@@ -126,7 +126,7 @@ export function Home() {
                 <motion.a 
                   whileHover={{ scale: 1.1, y: -2 }} 
                   whileTap={{ scale: 0.9 }}
-                  href="https://github.com" 
+                  href="https://github.com/Basel-Mohamed" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors p-3 bg-white dark:bg-[#161b22] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm"
@@ -136,7 +136,7 @@ export function Home() {
                 <motion.a 
                   whileHover={{ scale: 1.1, y: -2 }} 
                   whileTap={{ scale: 0.9 }}
-                  href="https://linkedin.com" 
+                  href="https://www.linkedin.com/in/basel-mohamed-94972a334/" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-3 bg-white dark:bg-[#161b22] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm"
