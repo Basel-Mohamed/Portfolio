@@ -487,95 +487,95 @@ To assist recruiters, clients, and visitors by answering professional questions 
         frontend: "الواجهة الأمامية (React, Tailwind)",
         cloud: "السحابة والأدوات (OCI, Docker)",
       },
-      certifications: [
+certifications: [
         {
-          title: "Applied Deep Learning - MaharaTech (ITIMooca)",
-          date: "Jan 2026",
+          title: "التعلم العميق التطبيقي - منصة مهارة تك (ITIMooca)",
+          date: "يناير 2026",
           image: certAppliedDeepLearning
         },
         {
-          title: "Python Programming Basics - MaharaTech (ITIMooca)",
-          date: "Jan 2026",
+          title: "أساسيات برمجة بايثون - منصة مهارة تك (ITIMooca)",
+          date: "يناير 2026",
           image: certPythonBasics
         },
         {
-          title: "AI Diploma Intermediate Level - NeuroTech",
-          date: "Jan 2026",
+          title: "دبلومة الذكاء الاصطناعي (المستوى المتوسط) - نيروتك (NeuroTech)",
+          date: "يناير 2026",
           image: certAiDiplomaNeurotech
         },
         {
-          title: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
-          date: "Oct 2025",
+          title: "شهادة مساعد معتمد في أساسيات الذكاء الاصطناعي للبنية التحتية السحابية من أوراكل 2025",
+          date: "أكتوبر 2025",
           image: certOracleAiFoundations
         },
         {
-          title: "Elements of AI Course - University of Helsinki",
-          date: "Sep 2025",
+          title: "دورة مبادئ الذكاء الاصطناعي - جامعة هلسنكي",
+          date: "سبتمبر 2025",
           image: certElementsOfAi
         },
         {
-          title: "Python for Data Science and AI - Coursera",
-          date: "Jul 2025",
+          title: "بايثون لعلوم البيانات والذكاء الاصطناعي - كورسيرا (Coursera)",
+          date: "يوليو 2025",
           image: certPythonDataScienceCoursera
         },
         {
-          title: "Generative AI: Prompt Engineering - Coursera",
-          date: "Jul 2025",
+          title: "الذكاء الاصطناعي التوليدي: هندسة الأوامر - كورسيرا (Coursera)",
+          date: "يوليو 2025",
           image: certPromptEngineering
         },
         {
-          title: "Generative AI Essentials - Coursera",
-          date: "Jul 2025",
+          title: "أساسيات الذكاء الاصطناعي التوليدي - كورسيرا (Coursera)",
+          date: "يوليو 2025",
           image: certGenAiEssentials
         },
         {
-          title: "AI and Machine Learning Foundations - Sprints",
-          date: "Jun 2025",
+          title: "أساسيات الذكاء الاصطناعي وتعلم الآلة - سبرينتس (Sprints)",
+          date: "يونيو 2025",
           image: certSprintsAiMl
         },
         {
-          title: "Artificial Intelligence Essentials V2 - Coursera",
-          date: "Jun 2025",
+          title: "أساسيات الذكاء الاصطناعي (الإصدار الثاني) - كورسيرا (Coursera)",
+          date: "يونيو 2025",
           image: certAiEssentialsV2
         },
         {
-          title: "React Native: Mobile App Development (CLI) - Udemy",
-          date: "Jun 2025",
+          title: "تطوير تطبيقات الهاتف باستخدام React Native - يوديمي (Udemy)",
+          date: "يونيو 2025",
           image: certReactNativeUdemy
         },
         {
-          title: "The Principles of Writing Clean Code - MaharaTech",
-          date: "Apr 2025",
+          title: "مبادئ كتابة الكود النظيف - منصة مهارة تك",
+          date: "أبريل 2025",
           image: certCleanCode
         },
         {
-          title: "React Basics - HackerRank",
-          date: "Apr 2025",
+          title: "أساسيات React - هاكر رانك (HackerRank)",
+          date: "أبريل 2025",
           image: certReactBasicsHackerrank
         },
         {
-          title: "React JS - MaharaTech (ITIMooca)",
-          date: "Apr 2025",
+          title: "إطار عمل React JS - منصة مهارة تك (ITIMooca)",
+          date: "أبريل 2025",
           image: certReactJsMaharatech
         },
         {
-          title: "Frontend Development Diploma - Route",
-          date: "Mar 2025",
+          title: "دبلومة تطوير الواجهات الأمامية - أكاديمية روت (Route)",
+          date: "مارس 2025",
           image: certFrontendDiplomaRoute
         },
         {
-          title: "Database Fundamentals - MaharaTech",
-          date: "Mar 2025",
+          title: "أساسيات قواعد البيانات - منصة مهارة تك",
+          date: "مارس 2025",
           image: certDatabaseFundamentals
         },
         {
-          title: "HTML & CSS - MaharaTech",
-          date: "Mar 2025",
+          title: "أساسيات HTML & CSS - منصة مهارة تك",
+          date: "مارس 2025",
           image: certHtmlCss
         },
         {
-          title: "UX Design Fundamentals - MaharaTech",
-          date: "Jan 2025",
+          title: "أساسيات تصميم تجربة المستخدم (UX) - منصة مهارة تك",
+          date: "يناير 2025",
           image: certUxDesign
         }
       ]
