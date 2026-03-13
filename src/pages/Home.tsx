@@ -1,6 +1,9 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, Download, Github, Linkedin, Terminal, Brain, Sparkles, Server } from 'lucide-react';
+import { 
+  ArrowRight, Download, Github, Linkedin, Terminal, 
+  Brain, Sparkles, Server, Cpu, Database, Code, Globe 
+} from 'lucide-react';
 import { Link } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -27,125 +30,170 @@ export function Home() {
     }
   };
 
+  // Flying AI Icons Configuration
+  const floatingIcons = [
+    { Icon: Brain, top: '15%', left: '10%', color: 'text-purple-500/30 dark:text-purple-400/20', delay: 0, size: 64 },
+    { Icon: Cpu, top: '20%', right: '12%', color: 'text-blue-500/30 dark:text-blue-400/20', delay: 1, size: 56 },
+    { Icon: Database, bottom: '20%', left: '15%', color: 'text-green-500/30 dark:text-green-400/20', delay: 2, size: 48 },
+    { Icon: Code, bottom: '25%', right: '15%', color: 'text-orange-500/30 dark:text-orange-400/20', delay: 1.5, size: 52 },
+    { Icon: Sparkles, top: '45%', left: '5%', color: 'text-yellow-500/30 dark:text-yellow-400/20', delay: 0.5, size: 40 },
+    { Icon: Globe, top: '50%', right: '8%', color: 'text-indigo-500/30 dark:text-indigo-400/20', delay: 2.5, size: 60 },
+  ];
+
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
       <section className="relative min-h-[95vh] flex items-center justify-center bg-gray-50 dark:bg-[#0D1117] overflow-hidden">
+        
         {/* Animated Abstract Background Shapes */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
           <motion.div 
-            animate={{ 
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
+            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
             className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[120px]" 
           />
           <motion.div 
-            animate={{ 
-              scale: [1, 1.3, 1],
-              opacity: [0.2, 0.4, 0.2],
-            }}
+            animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             className="absolute bottom-[10%] right-[-5%] w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[120px]" 
           />
         </div>
 
+        {/* Flying AI Icons */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          {floatingIcons.map((iconData, index) => (
+            <motion.div
+              key={index}
+              className={`absolute ${iconData.color}`}
+              style={{ 
+                top: iconData.top, 
+                left: iconData.left, 
+                right: iconData.right, 
+                bottom: iconData.bottom 
+              }}
+              animate={{
+                y: [0, -25, 0],
+                x: [0, 15, 0],
+                rotate: [0, 10, -10, 0],
+              }}
+              transition={{
+                duration: 6,
+                delay: iconData.delay,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <iconData.Icon size={iconData.size} strokeWidth={1.5} />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Hero Content Grid */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-24 pb-16">
-          <motion.div 
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="text-center max-w-4xl mx-auto"
-          >
-            {/* Profile Picture Area */}
-            <motion.div variants={item} className="flex justify-center mb-12">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
+            
+            {/* Left Content (Text & Buttons) */}
+            <motion.div 
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="flex-1 text-center lg:text-start w-full"
+            >
+              <motion.h1 variants={item} className="text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight mb-6">
+                <span className="block text-gray-900 dark:text-white mb-2">{t.hero.name}</span>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 animate-gradient bg-300%">
+                  {t.hero.title}
+                </span>
+              </motion.h1>
+              
+              <motion.p variants={item} className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                {t.hero.tagline}
+              </motion.p>
+              
+              {/* Action Buttons */}
+              <motion.div variants={item} className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 flex-wrap">
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+                  <Link 
+                    to="/contact"
+                    className="w-full px-8 py-3.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
+                  >
+                    {t.hero.buttons.contact} <ArrowRight size={20} className={dir === 'rtl' ? 'rotate-180' : ''} />
+                  </Link>
+                </motion.div>
+                
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+                  <a
+                    href="https://drive.usercontent.google.com/u/0/uc?id=1vZiVfNVylmzwwh5FzFpEdZn2VC7uufIs&export=download" 
+                    download="Basel_Mohamed_CV.pdf"
+                    className="w-full px-8 py-3.5 bg-white dark:bg-[#161b22] text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all font-bold flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    <Download size={20} /> CV
+                  </a>
+                </motion.div>
+
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+                  <Link
+                    to="/projects"
+                    className="w-full px-6 py-3.5 bg-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200/50 dark:hover:bg-gray-800/50 rounded-xl transition-all font-bold flex items-center justify-center"
+                  >
+                    {t.hero.buttons.projects}
+                  </Link>
+                </motion.div>
+
+                {/* Social Links */}
+                <div className="flex gap-4 w-full sm:w-auto justify-center mt-2 sm:mt-0 sm:ml-2 sm:rtl:mr-2 sm:rtl:ml-0 sm:pl-6 sm:rtl:pr-6 sm:border-l sm:rtl:border-r sm:border-gray-200 dark:sm:border-gray-800">
+                  <motion.a 
+                    whileHover={{ scale: 1.1, y: -2 }} 
+                    whileTap={{ scale: 0.9 }}
+                    href="https://github.com/Basel-Mohamed" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors p-3 bg-white dark:bg-[#161b22] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm"
+                  >
+                    <Github size={24} />
+                  </motion.a>
+                  <motion.a 
+                    whileHover={{ scale: 1.1, y: -2 }} 
+                    whileTap={{ scale: 0.9 }}
+                    href="https://www.linkedin.com/in/basel-mohamed-94972a334/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-3 bg-white dark:bg-[#161b22] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm"
+                  >
+                    <Linkedin size={24} />
+                  </motion.a>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Content (Profile Picture) */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+              className="flex-1 flex justify-center lg:justify-end w-full mt-10 lg:mt-0"
+            >
               <motion.div 
-                className="relative w-56 h-56 md:w-72 md:h-72 group"
-                animate={{ y: [-10, 10, -10] }}
+                className="relative w-64 h-64 md:w-80 md:h-80 group"
+                animate={{ y: [-15, 15, -15] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
+                {/* Tech Ring Background */}
+                <div className="absolute -inset-4 border-2 border-dashed border-blue-500/30 dark:border-blue-400/30 rounded-full animate-[spin_20s_linear_infinite]" />
+                <div className="absolute -inset-8 border-2 border-dashed border-purple-500/20 dark:border-purple-400/20 rounded-full animate-[spin_25s_linear_infinite_reverse]" />
+                
                 {/* Animated Glow Behind Image */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 animate-gradient bg-300% blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 animate-gradient bg-300% blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
+                
                 {/* Actual Image */}
                 <img
                   src="/profile_pic.png" 
                   alt="Basel Mohamed"
-                  className="relative w-full h-full object-cover rounded-full border-4 border-white dark:border-[#0D1117] shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
+                  className="relative w-full h-full object-cover rounded-full border-4 border-white dark:border-[#0D1117] shadow-2xl transition-transform duration-500 group-hover:scale-[1.03]"
                 />
               </motion.div>
             </motion.div>
-
-            <motion.h1 variants={item} className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-              <span className="block text-gray-900 dark:text-white mb-2">{t.hero.name}</span>
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 animate-gradient bg-300%">
-                {t.hero.title}
-              </span>
-            </motion.h1>
-            
-            <motion.p variants={item} className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-12 leading-relaxed max-w-3xl mx-auto">
-              {t.hero.tagline}
-            </motion.p>
-            
-            {/* Action Buttons - Enhanced Visual Hierarchy */}
-            <motion.div variants={item} className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 flex-wrap">
-              
-              {/* Primary Contact Button (Highest Priority) */}
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
-                <Link 
-                  to="/contact"
-                  className="w-full px-8 py-3.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
-                >
-                  {t.hero.buttons.contact} <ArrowRight size={20} className={dir === 'rtl' ? 'rotate-180' : ''} />
-                </Link>
-              </motion.div>
-              
-              {/* Secondary Download CV Button */}
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
-                <a
-                  href="https://drive.usercontent.google.com/u/0/uc?id=1vZiVfNVylmzwwh5FzFpEdZn2VC7uufIs&export=download" 
-                  download="Basel_Mohamed_CV.pdf"
-                  className="w-full px-8 py-3.5 bg-white dark:bg-[#161b22] text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all font-bold flex items-center justify-center gap-2 shadow-sm"
-                >
-                  <Download size={20} /> CV
-                </a>
-              </motion.div>
-
-              {/* Tertiary View Projects Link */}
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
-                <Link
-                  to="/projects"
-                  className="w-full px-8 py-3.5 bg-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200/50 dark:hover:bg-gray-800/50 rounded-xl transition-all font-bold flex items-center justify-center"
-                >
-                  {t.hero.buttons.projects}
-                </Link>
-              </motion.div>
-
-              {/* Social Links (Separated by a vertical divider on desktop) */}
-              <div className="flex gap-4 w-full sm:w-auto justify-center mt-2 sm:mt-0 sm:ml-2 sm:rtl:mr-2 sm:rtl:ml-0 sm:pl-6 sm:rtl:pr-6 sm:border-l sm:rtl:border-r sm:border-gray-200 dark:sm:border-gray-800">
-                <motion.a 
-                  whileHover={{ scale: 1.1, y: -2 }} 
-                  whileTap={{ scale: 0.9 }}
-                  href="https://github.com/Basel-Mohamed" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors p-3 bg-white dark:bg-[#161b22] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm"
-                >
-                  <Github size={24} />
-                </motion.a>
-                <motion.a 
-                  whileHover={{ scale: 1.1, y: -2 }} 
-                  whileTap={{ scale: 0.9 }}
-                  href="https://www.linkedin.com/in/basel-mohamed-94972a334/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-3 bg-white dark:bg-[#161b22] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm"
-                >
-                  <Linkedin size={24} />
-                </motion.a>
-              </div>
-            </motion.div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
