@@ -61,7 +61,7 @@ export const DATA = {
     },
     hero: {
       name: "Basel Mohamed Ahmed",
-      title: "Associate AI Engineer",
+      title: "Full Stack AI Engineer",
       tagline: "Building intelligent AI systems that transform data into actionable insights.",
       buttons: {
         contact: "Get in Touch",
@@ -506,7 +506,7 @@ Your goal is to assist recruiters, potential clients, and website visitors by an
     },
     hero: {
       name: "باسل محمد أحمد",
-      title: "مهندس ذكاء اصطناعي",
+      title: "مهندس ذكاء اصطناعي متكامل",
       tagline: "بناء أنظمة ذكاء اصطناعي ذكية تحول البيانات إلى رؤى قابلة للتنفيذ.",
       buttons: {
         contact: "تواصل معي",
