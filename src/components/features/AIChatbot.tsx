@@ -99,7 +99,9 @@ export function AIChatbot() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null); // Added ref for the input
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -108,6 +110,16 @@ export function AIChatbot() {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isOpen, isTyping]);
+
+  // New useEffect to focus the input when modal opens or bot finishes typing
+  useEffect(() => {
+    if (isOpen && !isTyping) {
+      // Slight delay ensures the modal animation completes before focusing
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  }, [isOpen, isTyping]);
 
   const generateResponse = async (query: string, currentMessages: Message[]) => {
     setIsTyping(true);
@@ -325,6 +337,7 @@ export function AIChatbot() {
               
               <div className="relative flex items-center gap-2">
                 <input
+                  ref={inputRef}
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
