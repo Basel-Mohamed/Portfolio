@@ -131,8 +131,12 @@ export function Contact() {
                   {card.label}
                 </p>
 
-                {/* Value */}
-                <p className="text-lg font-medium text-gray-800 dark:text-gray-200 leading-relaxed w-full overflow-hidden text-ellipsis" style={{ wordBreak: 'break-word' }}>
+                {/* Value - Forced LTR for numbers like +20 to render properly */}
+                <p 
+                  dir="ltr"
+                  className="text-lg font-medium text-gray-800 dark:text-gray-200 leading-relaxed w-full overflow-hidden text-ellipsis" 
+                  style={{ wordBreak: 'break-word' }}
+                >
                   {card.value}
                 </p>
               </motion.div>

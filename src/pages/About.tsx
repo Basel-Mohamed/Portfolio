@@ -114,15 +114,15 @@ export function About() {
           <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaAward size={32} />
           </div>
-          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Continuous Learning</h2>
+          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{t.about.learning.title}</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-xl mx-auto">
-            I have earned over 18 professional certifications from institutions like Oracle, Coursera, and MaharaTech.
+            {t.about.learning.desc}
           </p>
           <Link
             to="/certifications"
             className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30"
           >
-            View All Certifications
+            {t.about.learning.cta}
           </Link>
         </motion.div>
       </div>

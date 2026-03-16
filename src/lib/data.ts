@@ -52,6 +52,19 @@ export const DATA = {
         projects: "View Projects",
       }
     },
+    home: {
+      skills: {
+        genAi: { title: "Generative AI", desc: "LLMs, RAG Systems, Prompt Engineering, RLHF" },
+        ml: { title: "Machine Learning", desc: "PyTorch, Scikit-learn, Computer Vision, OCR" },
+        deploy: { title: "Deployment", desc: "Docker, FastAPI, Oracle OCI, Cloud Architecture" },
+        dev: { title: "Development", desc: "Python, React, TypeScript, Tailwind CSS" }
+      },
+      cta: {
+        title: "Ready to transform your data into intelligence?",
+        subtitle: "Whether you need a custom RAG system, an NLP solution, or a predictive model, I can help you build it.",
+        button: "Let's Work Together"
+      }
+    },
     about: {
       title: "About Me",
       summary: "I am an Associate AI Engineer based in Maadi, Cairo, specializing in Natural Language Processing (NLP), Generative AI, and Machine Learning. With a strong foundation in building RAG systems, RLHF pipelines, and OCR solutions, I transform complex data into intelligent applications. My passion lies in pushing the boundaries of what AI can achieve, from optimizing large language models to deploying scalable inference engines.",
@@ -62,6 +75,11 @@ export const DATA = {
         frameworks: "Libraries & Frameworks",
         frontend: "Frontend Development",
         cloud: "Cloud & Infrastructure",
+      },
+      learning: {
+        title: "Continuous Learning",
+        desc: "I have earned over 18 professional certifications from institutions like Oracle, Coursera, and MaharaTech.",
+        cta: "View All Certifications"
       },
       certifications: [
         {
@@ -444,6 +462,19 @@ export const DATA = {
         projects: "عرض المشاريع",
       }
     },
+    home: {
+      skills: {
+        genAi: { title: "الذكاء الاصطناعي التوليدي", desc: "LLMs, RAG Systems, Prompt Engineering, RLHF" },
+        ml: { title: "تعلم الآلة", desc: "PyTorch, Scikit-learn, Computer Vision, OCR" },
+        deploy: { title: "النشر والاستضافة", desc: "Docker, FastAPI, Oracle OCI, Cloud Architecture" },
+        dev: { title: "التطوير", desc: "Python, React, TypeScript, Tailwind CSS" }
+      },
+      cta: {
+        title: "هل أنت مستعد لتحويل بياناتك إلى ذكاء حقيقي؟",
+        subtitle: "سواء كنت بحاجة إلى نظام RAG مخصص، أو حل لمعالجة اللغات الطبيعية (NLP)، أو نموذج تنبؤي، يمكنني مساعدتك في بنائه.",
+        button: "دعنا نعمل معاً"
+      }
+    },
     about: {
       title: "نبذة عني",
       summary: "أنا مهندس ذكاء اصطناعي مقيم في المعادي، القاهرة، متخصص في معالجة اللغات الطبيعية (NLP)، والذكاء الاصطناعي التوليدي، وتعلم الآلة. لدي أساس قوي في بناء أنظمة RAG، وخطوط أنابيب RLHF، وحلول OCR. أقوم بتحويل البيانات المعقدة إلى تطبيقات ذكية.",
@@ -454,6 +485,11 @@ export const DATA = {
         frameworks: "أطر العمل والمكتبات",
         frontend: "تطوير واجهات المستخدم",
         cloud: "السحابة والبنية التحتية",
+      },
+      learning: {
+        title: "التعلم المستمر",
+        desc: "حصلت على أكثر من 18 شهادة مهنية من مؤسسات مثل Oracle و Coursera و MaharaTech.",
+        cta: "عرض كل الشهادات"
       },
       certifications: [
         {
@@ -769,7 +805,6 @@ export const DATA = {
           github: "https://github.com/Basel-Mohamed/Simple-crud-system",
           live: "https://basel-mohamed.github.io/Simple-crud-system/"
         },
-
       ]
     },
     services: {

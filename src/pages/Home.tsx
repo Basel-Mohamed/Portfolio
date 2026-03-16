@@ -211,8 +211,8 @@ export function Home() {
               <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
                 <FaBrain size={28} />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Generative AI</h3>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">LLMs, RAG Systems, Prompt Engineering, RLHF</p>
+              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{t.home.skills.genAi.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{t.home.skills.genAi.desc}</p>
             </motion.div>
 
              <motion.div 
@@ -225,8 +225,8 @@ export function Home() {
               <div className="w-14 h-14 rounded-xl bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300 shadow-sm">
                 <FaTerminal size={28} />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">Machine Learning</h3>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">PyTorch, Scikit-learn, Computer Vision, OCR</p>
+              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">{t.home.skills.ml.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{t.home.skills.ml.desc}</p>
             </motion.div>
 
              <motion.div 
@@ -239,8 +239,8 @@ export function Home() {
               <div className="w-14 h-14 rounded-xl bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-green-600 group-hover:text-white transition-all duration-300 shadow-sm">
                 <FaServer size={28} />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">Deployment</h3>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">Docker, FastAPI, Oracle OCI, Cloud Architecture</p>
+              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">{t.home.skills.deploy.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{t.home.skills.deploy.desc}</p>
             </motion.div>
 
              <motion.div 
@@ -253,8 +253,8 @@ export function Home() {
               <div className="w-14 h-14 rounded-xl bg-orange-100 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-orange-600 group-hover:text-white transition-all duration-300 shadow-sm">
                 <FaCode size={28} />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">Development</h3>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">Python, React, TypeScript, Tailwind CSS</p>
+              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{t.home.skills.dev.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{t.home.skills.dev.desc}</p>
             </motion.div>
           </div>
         </div>
@@ -327,16 +327,16 @@ export function Home() {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto px-4 text-center relative z-10"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">Ready to transform your data into intelligence?</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">{t.home.cta.title}</h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto">
-              Whether you need a custom RAG system, an NLP solution, or a predictive model, I can help you build it.
+              {t.home.cta.subtitle}
             </p>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
               <Link 
                 to="/contact"
                 className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-blue-600 dark:hover:bg-blue-500 hover:text-white transition-all shadow-xl hover:shadow-blue-500/25 duration-300"
               >
-                Let's Work Together
+                {t.home.cta.button}
               </Link>
             </motion.div>
          </motion.div>
