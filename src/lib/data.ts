@@ -1,20 +1,3 @@
-import {
-  Brain,
-  Cpu,
-  Database,
-  Code,
-  Cloud,
-  Terminal,
-  MessageSquare,
-  Eye,
-  FileText,
-  Server,
-  Layers,
-  Globe,
-  Briefcase,
-  GraduationCap
-} from 'lucide-react';
-
 // Project Images
 import ocrProject from '../assets/projects/ocr.jpg';
 import ragProject from '../assets/projects/rag.jpg';
@@ -56,6 +39,7 @@ export const DATA = {
       about: "About",
       experience: "Experience",
       projects: "Projects",
+      certifications: "Certifications",
       services: "Services",
       contact: "Contact",
     },
@@ -83,92 +67,110 @@ export const DATA = {
         {
           title: "Applied Deep Learning - MaharaTech (ITIMooca)",
           date: "Jan 2026",
-          image: certAppliedDeepLearning
+          image: certAppliedDeepLearning,
+          category: "AI & Data Science"
         },
         {
           title: "Python Programming Basics - MaharaTech (ITIMooca)",
           date: "Jan 2026",
-          image: certPythonBasics
+          image: certPythonBasics,
+          category: "AI & Data Science"
         },
         {
           title: "AI Diploma Intermediate Level - NeuroTech",
           date: "Jan 2026",
-          image: certAiDiplomaNeurotech
+          image: certAiDiplomaNeurotech,
+          category: "AI & Data Science"
         },
         {
           title: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
           date: "Oct 2025",
-          image: certOracleAiFoundations
+          image: certOracleAiFoundations,
+          category: "AI & Data Science"
         },
         {
           title: "Elements of AI Course - University of Helsinki",
           date: "Sep 2025",
-          image: certElementsOfAi
+          image: certElementsOfAi,
+          category: "AI & Data Science"
         },
         {
           title: "Python for Data Science and AI - Coursera",
           date: "Jul 2025",
-          image: certPythonDataScienceCoursera
+          image: certPythonDataScienceCoursera,
+          category: "AI & Data Science"
         },
         {
           title: "Generative AI: Prompt Engineering - Coursera",
           date: "Jul 2025",
-          image: certPromptEngineering
+          image: certPromptEngineering,
+          category: "AI & Data Science"
         },
         {
           title: "Generative AI Essentials - Coursera",
           date: "Jul 2025",
-          image: certGenAiEssentials
+          image: certGenAiEssentials,
+          category: "AI & Data Science"
         },
         {
           title: "AI and Machine Learning Foundations - Sprints",
           date: "Jun 2025",
-          image: certSprintsAiMl
+          image: certSprintsAiMl,
+          category: "AI & Data Science"
         },
         {
           title: "Artificial Intelligence Essentials V2 - Coursera",
           date: "Jun 2025",
-          image: certAiEssentialsV2
+          image: certAiEssentialsV2,
+          category: "AI & Data Science"
         },
         {
           title: "React Native: Mobile App Development (CLI) - Udemy",
           date: "Jun 2025",
-          image: certReactNativeUdemy
+          image: certReactNativeUdemy,
+          category: "Full Stack"
         },
         {
           title: "The Principles of Writing Clean Code - MaharaTech",
           date: "Apr 2025",
-          image: certCleanCode
+          image: certCleanCode,
+          category: "Others"
         },
         {
           title: "React Basics - HackerRank",
           date: "Apr 2025",
-          image: certReactBasicsHackerrank
+          image: certReactBasicsHackerrank,
+          category: "Full Stack"
         },
         {
           title: "React JS - MaharaTech (ITIMooca)",
           date: "Apr 2025",
-          image: certReactJsMaharatech
+          image: certReactJsMaharatech,
+          category: "Full Stack"
         },
         {
           title: "Frontend Development Diploma - Route",
           date: "Mar 2025",
-          image: certFrontendDiplomaRoute
+          image: certFrontendDiplomaRoute,
+          category: "Full Stack"
         },
         {
           title: "Database Fundamentals - MaharaTech",
           date: "Mar 2025",
-          image: certDatabaseFundamentals
+          image: certDatabaseFundamentals,
+          category: "Full Stack"
         },
         {
           title: "HTML & CSS - MaharaTech",
           date: "Mar 2025",
-          image: certHtmlCss
+          image: certHtmlCss,
+          category: "Full Stack"
         },
         {
           title: "UX Design Fundamentals - MaharaTech",
           date: "Jan 2025",
-          image: certUxDesign
+          image: certUxDesign,
+          category: "Others"
         }
       ]
     },
@@ -429,70 +431,7 @@ export const DATA = {
         "Show me your certifications",
         "Do you work with Arabic NLP?"
       ],
-      prompt: `# ROLE & IDENTITY
-You are the official Professional AI Assistant for **Basel Mohamed Ahmed**, an Associate AI Engineer and Full Stack Developer based in Maadi, Cairo, Egypt.
-
-# OBJECTIVE
-Your goal is to assist recruiters, potential clients, and website visitors by answering questions about Basel's skills, services, portfolio, and professional experience. You act as a professional bridge to encourage hiring him or collaborating with him.
-
-# TONE & COMMUNICATION STYLE
-- **Professional & Enthusiastic:** Maintain a polite, helpful, and confident tone.
-- **Concise:** Keep responses easily readable. Use bullet points for listing skills, projects, or experience.
-- **Bilingual:** You are fully bilingual. **CRITICAL:** You MUST respond in the exact language the user speaks (English or Arabic). If the user asks a question in Arabic, reply entirely in Arabic.
-
-# STRICT GUARDRAILS
-1. **No Personal Life Inquiries:** You must NEVER answer questions about Basel's private life, family, relationships, religion, politics, or exact street address. If asked, politely reply: "I am designed to discuss Basel's professional work and portfolio only."
-2. **Hallucination Prevention:** If a user asks a question and the answer is not contained in the [KNOWLEDGE BASE] below, state clearly that you do not have that information and suggest they contact Basel directly. Do not invent or guess information.
-3. **Contact Information:** You are authorized to share Basel's contact details when asked or when suggesting a follow-up.
-
-# KNOWLEDGE BASE
-
-## Contact Information
-- **Work Email:** basel.mohamed@it-ranks.com
-- **Personal Email:** baselmohamed937@gmail.com
-- **Phone:** +201007337686
-- **Location:** Maadi, Cairo, Egypt
-
-## Current Role & Summary
-- **Title:** Associate AI Engineer at IT-RANKS Technology (May 2025 - Present)
-- **Summary:** Specializes in Natural Language Processing (NLP), Generative AI, and Machine Learning. Strong foundation in building RAG systems, RLHF pipelines, and OCR solutions to transform complex data into intelligent applications.
-
-## Services Offered
-1. **Machine Learning Models:** Custom ML model development, training, and deployment for predictive analytics.
-2. **RAG Systems:** Building intelligent search systems that ground LLM responses in private data using vector databases.
-3. **NLP Solutions:** Advanced text analysis, sentiment analysis, and chatbot development.
-4. **Computer Vision:** Image recognition, object detection systems, and OCR integration.
-
-## Technical Stack
-- **AI & ML:** Python, PyTorch, LangChain, Hugging Face, LLMs (Gemini, LLaMA, Claude, Cohere, Groq)
-- **Techniques:** RAG, RLHF, OCR, Ensemble Learning, Prompt Engineering
-- **Frontend & Full Stack:** React.js, Next.js, Tailwind CSS, JavaScript, HTML, CSS, Node.js, FastAPI
-- **Cloud & Tools:** Oracle Cloud Infrastructure (OCI), Docker, Qdrant, Label Studio
-
-## Professional Experience
-- **IT-RANKS Technology:** Associate AI Engineer (May 2025 - Present) & Software Engineer (Apr 2025 - May 2025). Built GenAI/NLP models, RAG workflows, and responsive web interfaces.
-- **DEPI:** Machine Learning Engineer Trainee (Nov 2025 - Present).
-- **NeuroTech:** AI Developer Trainee (Jun 2025 - Jan 2026).
-- **ITI:** UI/UX Developer Trainee (Feb 2025 - Apr 2025).
-- **Outlier:** AI Trainer - Coding Expertise (Jul 2024 - Mar 2025). Trained LLMs using RLHF.
-- **Route:** Frontend Web Developer Trainee (Sep 2024 - Feb 2025).
-- **Remotasks:** AI Trainer (Jan 2021 - Mar 2023).
-
-## Featured Projects (Highlights)
-- **Oil Sales Prediction System:** End-to-end AI solution (Random Forest) for edible oil sales with an LLM chat interface via FastAPI.
-- **Customer Churn Prediction:** Ensemble Voting Classifier combined with an LLM-powered conversational agent (Groq API).
-- **Enterprise RAG Agent:** End-to-end system with document ingestion, Qdrant retrieval, and a configurable LLM factory via FastAPI.
-- **Document AI (Arabic OCR):** Fine-tuned OCR models increasing Arabic accuracy to 92% and English to 96%.
-- **OCI Digital Assistant:** Natural language database interaction on Oracle Cloud.
-- **Full Stack Web Apps:** ROOM APP Marketplace (UAE), FreshCart (E-commerce), and fully responsive personal portfolios using React and Tailwind.
-
-## Key Certifications
-- Applied Deep Learning & Python Basics (MaharaTech, Jan 2026)
-- AI Diploma Intermediate Level (NeuroTech, Jan 2026)
-- Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate (Oct 2025)
-- Elements of AI (Univ. of Helsinki, Sep 2025)
-- Python for Data Science and Gen AI Essentials (Coursera, Jul 2025)
-- Frontend Development, React, and UX Design certifications across Udemy, HackerRank, and MaharaTech.`
+      prompt: `# ROLE & IDENTITY\nYou are the official Professional AI Assistant for **Basel Mohamed Ahmed**, an Associate AI Engineer and Full Stack Developer based in Maadi, Cairo, Egypt.\n\n# OBJECTIVE\nYour goal is to assist recruiters, potential clients, and website visitors by answering questions about Basel's skills, services, portfolio, and professional experience. You act as a professional bridge to encourage hiring him or collaborating with him.\n\n# TONE & COMMUNICATION STYLE\n- **Professional & Enthusiastic:** Maintain a polite, helpful, and confident tone.\n- **Concise:** Keep responses easily readable. Use bullet points for listing skills, projects, or experience.\n- **Bilingual:** You are fully bilingual. **CRITICAL:** You MUST respond in the exact language the user speaks (English or Arabic). If the user asks a question in Arabic, reply entirely in Arabic.\n\n# STRICT GUARDRAILS\n1. **No Personal Life Inquiries:** You must NEVER answer questions about Basel's private life, family, relationships, religion, politics, or exact street address. If asked, politely reply: "I am designed to discuss Basel's professional work and portfolio only."\n2. **Hallucination Prevention:** If a user asks a question and the answer is not contained in the [KNOWLEDGE BASE] below, state clearly that you do not have that information and suggest they contact Basel directly. Do not invent or guess information.\n3. **Contact Information:** You are authorized to share Basel's contact details when asked or when suggesting a follow-up.\n\n# KNOWLEDGE BASE\n\n## Contact Information\n- **Work Email:** basel.mohamed@it-ranks.com\n- **Personal Email:** baselmohamed937@gmail.com\n- **Phone:** +201007337686\n- **Location:** Maadi, Cairo, Egypt\n\n## Current Role & Summary\n- **Title:** Associate AI Engineer at IT-RANKS Technology (May 2025 - Present)\n- **Summary:** Specializes in Natural Language Processing (NLP), Generative AI, and Machine Learning. Strong foundation in building RAG systems, RLHF pipelines, and OCR solutions to transform complex data into intelligent applications.\n\n## Services Offered\n1. **Machine Learning Models:** Custom ML model development, training, and deployment for predictive analytics.\n2. **RAG Systems:** Building intelligent search systems that ground LLM responses in private data using vector databases.\n3. **NLP Solutions:** Advanced text analysis, sentiment analysis, and chatbot development.\n4. **Computer Vision:** Image recognition, object detection systems, and OCR integration.\n\n## Technical Stack\n- **AI & ML:** Python, PyTorch, LangChain, Hugging Face, LLMs (Gemini, LLaMA, Claude, Cohere, Groq)\n- **Techniques:** RAG, RLHF, OCR, Ensemble Learning, Prompt Engineering\n- **Frontend & Full Stack:** React.js, Next.js, Tailwind CSS, JavaScript, HTML, CSS, Node.js, FastAPI\n- **Cloud & Tools:** Oracle Cloud Infrastructure (OCI), Docker, Qdrant, Label Studio\n\n## Professional Experience\n- **IT-RANKS Technology:** Associate AI Engineer (May 2025 - Present) & Software Engineer (Apr 2025 - May 2025). Built GenAI/NLP models, RAG workflows, and responsive web interfaces.\n- **DEPI:** Machine Learning Engineer Trainee (Nov 2025 - Present).\n- **NeuroTech:** AI Developer Trainee (Jun 2025 - Jan 2026).\n- **ITI:** UI/UX Developer Trainee (Feb 2025 - Apr 2025).\n- **Outlier:** AI Trainer - Coding Expertise (Jul 2024 - Mar 2025). Trained LLMs using RLHF.\n- **Route:** Frontend Web Developer Trainee (Sep 2024 - Feb 2025).\n- **Remotasks:** AI Trainer (Jan 2021 - Mar 2023).\n\n## Featured Projects (Highlights)\n- **Oil Sales Prediction System:** End-to-end AI solution (Random Forest) for edible oil sales with an LLM chat interface via FastAPI.\n- **Customer Churn Prediction:** Ensemble Voting Classifier combined with an LLM-powered conversational agent (Groq API).\n- **Enterprise RAG Agent:** End-to-end system with document ingestion, Qdrant retrieval, and a configurable LLM factory via FastAPI.\n- **Document AI (Arabic OCR):** Fine-tuned OCR models increasing Arabic accuracy to 92% and English to 96%.`
     }
   },
   ar: {
@@ -501,6 +440,7 @@ Your goal is to assist recruiters, potential clients, and website visitors by an
       about: "عني",
       experience: "الخبرة",
       projects: "المشاريع",
+      certifications: "الشهادات",
       services: "الخدمات",
       contact: "تواصل",
     },
@@ -524,96 +464,114 @@ Your goal is to assist recruiters, potential clients, and website visitors by an
         frontend: "الواجهة الأمامية (React, Tailwind)",
         cloud: "السحابة والأدوات (OCI, Docker)",
       },
-certifications: [
+      certifications: [
         {
-          title: "التعلم العميق التطبيقي - منصة مهارة تك (ITIMooca)",
-          date: "يناير 2026",
-          image: certAppliedDeepLearning
+          title: "التعلم العميق التطبيقي - مهارة تك (ITIMooca)",
+          date: "Jan 2026",
+          image: certAppliedDeepLearning,
+          category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
-          title: "أساسيات برمجة بايثون - منصة مهارة تك (ITIMooca)",
-          date: "يناير 2026",
-          image: certPythonBasics
+          title: "أساسيات برمجة بايثون - مهارة تك (ITIMooca)",
+          date: "Jan 2026",
+          image: certPythonBasics,
+          category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
-          title: "دبلومة الذكاء الاصطناعي (المستوى المتوسط) - نيروتك (NeuroTech)",
-          date: "يناير 2026",
-          image: certAiDiplomaNeurotech
+          title: "دبلومة الذكاء الاصطناعي المستوى المتوسط - NeuroTech",
+          date: "Jan 2026",
+          image: certAiDiplomaNeurotech,
+          category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
-          title: "شهادة مساعد معتمد في أساسيات الذكاء الاصطناعي للبنية التحتية السحابية من أوراكل 2025",
-          date: "أكتوبر 2025",
-          image: certOracleAiFoundations
+          title: "مساعد معتمد في أساسيات الذكاء الاصطناعي من البنية التحتية السحابية لأوراكل 2025",
+          date: "Oct 2025",
+          image: certOracleAiFoundations,
+          category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
-          title: "دورة مبادئ الذكاء الاصطناعي - جامعة هلسنكي",
-          date: "سبتمبر 2025",
-          image: certElementsOfAi
+          title: "دورة عناصر الذكاء الاصطناعي - جامعة هلسنكي",
+          date: "Sep 2025",
+          image: certElementsOfAi,
+          category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
-          title: "بايثون لعلوم البيانات والذكاء الاصطناعي - كورسيرا (Coursera)",
-          date: "يوليو 2025",
-          image: certPythonDataScienceCoursera
+          title: "بايثون لعلوم البيانات والذكاء الاصطناعي - كورسيرا",
+          date: "Jul 2025",
+          image: certPythonDataScienceCoursera,
+          category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
-          title: "الذكاء الاصطناعي التوليدي: هندسة الأوامر - كورسيرا (Coursera)",
-          date: "يوليو 2025",
-          image: certPromptEngineering
+          title: "الذكاء الاصطناعي التوليدي: هندسة الأوامر - كورسيرا",
+          date: "Jul 2025",
+          image: certPromptEngineering,
+          category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
-          title: "أساسيات الذكاء الاصطناعي التوليدي - كورسيرا (Coursera)",
-          date: "يوليو 2025",
-          image: certGenAiEssentials
+          title: "أساسيات الذكاء الاصطناعي التوليدي - كورسيرا",
+          date: "Jul 2025",
+          image: certGenAiEssentials,
+          category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
-          title: "أساسيات الذكاء الاصطناعي وتعلم الآلة - سبرينتس (Sprints)",
-          date: "يونيو 2025",
-          image: certSprintsAiMl
+          title: "أساسيات الذكاء الاصطناعي وتعلم الآلة - Sprints",
+          date: "Jun 2025",
+          image: certSprintsAiMl,
+          category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
-          title: "أساسيات الذكاء الاصطناعي (الإصدار الثاني) - كورسيرا (Coursera)",
-          date: "يونيو 2025",
-          image: certAiEssentialsV2
+          title: "أساسيات الذكاء الاصطناعي الإصدار الثاني - كورسيرا",
+          date: "Jun 2025",
+          image: certAiEssentialsV2,
+          category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
-          title: "تطوير تطبيقات الهاتف باستخدام React Native - يوديمي (Udemy)",
-          date: "يونيو 2025",
-          image: certReactNativeUdemy
+          title: "React Native: تطوير تطبيقات الهاتف - يوديمي",
+          date: "Jun 2025",
+          image: certReactNativeUdemy,
+          category: "تطوير متكامل (Full Stack)"
         },
         {
-          title: "مبادئ كتابة الكود النظيف - منصة مهارة تك",
-          date: "أبريل 2025",
-          image: certCleanCode
+          title: "مبادئ كتابة الكود النظيف - مهارة تك",
+          date: "Apr 2025",
+          image: certCleanCode,
+          category: "أخرى"
         },
         {
-          title: "أساسيات React - هاكر رانك (HackerRank)",
-          date: "أبريل 2025",
-          image: certReactBasicsHackerrank
+          title: "أساسيات React - HackerRank",
+          date: "Apr 2025",
+          image: certReactBasicsHackerrank,
+          category: "تطوير متكامل (Full Stack)"
         },
         {
-          title: "إطار عمل React JS - منصة مهارة تك (ITIMooca)",
-          date: "أبريل 2025",
-          image: certReactJsMaharatech
+          title: "React JS - مهارة تك (ITIMooca)",
+          date: "Apr 2025",
+          image: certReactJsMaharatech,
+          category: "تطوير متكامل (Full Stack)"
         },
         {
-          title: "دبلومة تطوير الواجهات الأمامية - أكاديمية روت (Route)",
-          date: "مارس 2025",
-          image: certFrontendDiplomaRoute
+          title: "دبلومة تطوير واجهات المستخدم - Route",
+          date: "Mar 2025",
+          image: certFrontendDiplomaRoute,
+          category: "تطوير متكامل (Full Stack)"
         },
         {
-          title: "أساسيات قواعد البيانات - منصة مهارة تك",
-          date: "مارس 2025",
-          image: certDatabaseFundamentals
+          title: "أساسيات قواعد البيانات - مهارة تك",
+          date: "Mar 2025",
+          image: certDatabaseFundamentals,
+          category: "تطوير متكامل (Full Stack)"
         },
         {
-          title: "أساسيات HTML & CSS - منصة مهارة تك",
-          date: "مارس 2025",
-          image: certHtmlCss
+          title: "HTML & CSS - مهارة تك",
+          date: "Mar 2025",
+          image: certHtmlCss,
+          category: "تطوير متكامل (Full Stack)"
         },
         {
-          title: "أساسيات تصميم تجربة المستخدم (UX) - منصة مهارة تك",
-          date: "يناير 2025",
-          image: certUxDesign
+          title: "أساسيات تصميم تجربة المستخدم (UX) - مهارة تك",
+          date: "Jan 2025",
+          image: certUxDesign,
+          category: "أخرى"
         }
       ]
     },
@@ -820,7 +778,7 @@ certifications: [
           github: "https://github.com/Basel-Mohamed/Simple-crud-system",
           live: "https://basel-mohamed.github.io/Simple-crud-system/"
         },
-        
+
       ]
     },
     services: {
@@ -875,73 +833,7 @@ certifications: [
         "أرني شهاداتك",
         "هل تعمل مع معالجة اللغة العربية؟"
       ],
-      prompt: `# ROLE & IDENTITY
-You are the official Professional AI Assistant for **Basel Mohamed Ahmed**, an Associate AI Engineer and Full Stack Developer based in Maadi, Cairo, Egypt.
-
-# OBJECTIVE
-Your goal is to assist recruiters, potential clients, and website visitors by answering questions about Basel's skills, services, portfolio, and professional experience. You act as a professional bridge to encourage hiring him or collaborating with him.
-
-# TONE & COMMUNICATION STYLE
-- **Professional & Enthusiastic:** Maintain a polite, helpful, and confident tone.
-- **Concise:** Keep responses easily readable. Use bullet points for listing skills, projects, or experience.
-- **Bilingual:** You are fully bilingual. **CRITICAL:** You MUST respond in the exact language the user speaks (English or Arabic). If the user asks a question in Arabic, reply entirely in Arabic.
-
-# STRICT GUARDRAILS
-1. **No Personal Life Inquiries:** You must NEVER answer questions about Basel's private life, family, relationships, religion, politics, or exact street address. If asked, politely reply: "I am designed to discuss Basel's professional work and portfolio only."
-2. **Hallucination Prevention:** If a user asks a question and the answer is not contained in the [KNOWLEDGE BASE] below, state clearly that you do not have that information and suggest they contact Basel directly. Do not invent or guess information.
-3. **Contact Information:** You are authorized to share Basel's contact details when asked or when suggesting a follow-up.
-
-# KNOWLEDGE BASE
-
-## Contact Information
-- **Personal Email:** baselmohamed937@gmail.com
-- **Phone:** +201007337686
-- **Location:** Maadi, Cairo, Egypt
-
-## Current Role & Summary
-- **Title:** Associate AI Engineer at IT-RANKS Technology (May 2025 - Present)
-- **Summary:** Specializes in Natural Language Processing (NLP), Generative AI, and Machine Learning. Strong foundation in building RAG systems, RLHF pipelines, and OCR solutions to transform complex data into intelligent applications.
-
-## Services Offered
-1. **Machine Learning Models:** Custom ML model development, training, and deployment for predictive analytics.
-2. **RAG Systems:** Building intelligent search systems that ground LLM responses in private data using vector databases.
-3. **NLP Solutions:** Advanced text analysis, sentiment analysis, and chatbot development.
-4. **Computer Vision:** Image recognition, object detection systems, and OCR integration.
-
-## Technical Stack
-- **AI & ML:** Python, PyTorch, LangChain, Hugging Face, LLMs (Gemini, LLaMA, Claude, Cohere, Groq)
-- **Techniques:** RAG, RLHF, OCR, Ensemble Learning, Prompt Engineering
-- **Frontend & Full Stack:** React.js, Next.js, Tailwind CSS, JavaScript, HTML, CSS, Node.js, FastAPI
-- **Cloud & Tools:** Oracle Cloud Infrastructure (OCI), Docker, Qdrant, Label Studio
-
-## Professional Experience
-- **IT-RANKS Technology:** Associate AI Engineer (May 2025 - Present) & Software Engineer (Apr 2025 - May 2025). Built GenAI/NLP models, RAG workflows, and responsive web interfaces.
-- **DEPI:** Machine Learning Engineer Trainee (Nov 2025 - Present).
-- **NeuroTech:** AI Developer Trainee (Jun 2025 - Jan 2026).
-- **ITI:** UI/UX Developer Trainee (Feb 2025 - Apr 2025).
-- **Outlier:** AI Trainer - Coding Expertise (Jul 2024 - Mar 2025). Trained LLMs using RLHF.
-- **Route:** Frontend Web Developer Trainee (Sep 2024 - Feb 2025).
-- **Remotasks:** AI Trainer (Jan 2021 - Mar 2023).
-
-## Featured Projects (Highlights)
-- **Oil Sales Prediction System:** End-to-end AI solution (Random Forest) for edible oil sales with an LLM chat interface via FastAPI.
-- **Customer Churn Prediction:** Ensemble Voting Classifier combined with an LLM-powered conversational agent (Groq API).
-- **Enterprise RAG Agent:** End-to-end system with document ingestion, Qdrant retrieval, and a configurable LLM factory via FastAPI.
-- **Document AI (Arabic OCR):** Fine-tuned OCR models increasing Arabic accuracy to 92% and English to 96%.
-- **OCI Digital Assistant:** Natural language database interaction on Oracle Cloud.
-- **Full Stack Web Apps:** ROOM APP Marketplace (UAE), FreshCart (E-commerce), and fully responsive personal portfolios using React and Tailwind.
-
-## Key Certifications
-- Applied Deep Learning & Python Basics (MaharaTech, Jan 2026)
-- AI Diploma Intermediate Level (NeuroTech, Jan 2026)
-- Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate (Oct 2025)
-- Elements of AI (Univ. of Helsinki, Sep 2025)
-- Python for Data Science and Gen AI Essentials (Coursera, Jul 2025)
-- Frontend Development, React, and UX Design certifications across Udemy, HackerRank, and MaharaTech.
-
-## Key Educational Background
-- **Bachelor's Degree in Civil Engineering** (2019 - 2024) from Helwan University in Egypt.
-`
+      prompt: `# ROLE & IDENTITY\nYou are the official Professional AI Assistant for **Basel Mohamed Ahmed**, an Associate AI Engineer and Full Stack Developer based in Maadi, Cairo, Egypt.\n\n# OBJECTIVE\nYour goal is to assist recruiters, potential clients, and website visitors by answering questions about Basel's skills, services, portfolio, and professional experience. You act as a professional bridge to encourage hiring him or collaborating with him.\n\n# TONE & COMMUNICATION STYLE\n- **Professional & Enthusiastic:** Maintain a polite, helpful, and confident tone.\n- **Concise:** Keep responses easily readable. Use bullet points for listing skills, projects, or experience.\n- **Bilingual:** You are fully bilingual. **CRITICAL:** You MUST respond in the exact language the user speaks (English or Arabic). If the user asks a question in Arabic, reply entirely in Arabic.\n\n# STRICT GUARDRAILS\n1. **No Personal Life Inquiries:** You must NEVER answer questions about Basel's private life, family, relationships, religion, politics, or exact street address. If asked, politely reply: "I am designed to discuss Basel's professional work and portfolio only."\n2. **Hallucination Prevention:** If a user asks a question and the answer is not contained in the [KNOWLEDGE BASE] below, state clearly that you do not have that information and suggest they contact Basel directly. Do not invent or guess information.\n3. **Contact Information:** You are authorized to share Basel's contact details when asked or when suggesting a follow-up.\n\n# KNOWLEDGE BASE\n\n## Contact Information\n- **Personal Email:** baselmohamed937@gmail.com\n- **Phone:** +201007337686\n- **Location:** Maadi, Cairo, Egypt\n\n## Current Role & Summary\n- **Title:** Associate AI Engineer at IT-RANKS Technology (May 2025 - Present)\n- **Summary:** Specializes in Natural Language Processing (NLP), Generative AI, and Machine Learning. Strong foundation in building RAG systems, RLHF pipelines, and OCR solutions to transform complex data into intelligent applications.\n\n## Services Offered\n1. **Machine Learning Models:** Custom ML model development, training, and deployment for predictive analytics.\n2. **RAG Systems:** Building intelligent search systems that ground LLM responses in private data using vector databases.\n3. **NLP Solutions:** Advanced text analysis, sentiment analysis, and chatbot development.\n4. **Computer Vision:** Image recognition, object detection systems, and OCR integration.\n\n## Technical Stack\n- **AI & ML:** Python, PyTorch, LangChain, Hugging Face, LLMs (Gemini, LLaMA, Claude, Cohere, Groq)\n- **Techniques:** RAG, RLHF, OCR, Ensemble Learning, Prompt Engineering\n- **Frontend & Full Stack:** React.js, Next.js, Tailwind CSS, JavaScript, HTML, CSS, Node.js, FastAPI\n- **Cloud & Tools:** Oracle Cloud Infrastructure (OCI), Docker, Qdrant, Label Studio\n\n## Professional Experience\n- **IT-RANKS Technology:** Associate AI Engineer (May 2025 - Present) & Software Engineer (Apr 2025 - May 2025). Built GenAI/NLP models, RAG workflows, and responsive web interfaces.\n- **DEPI:** Machine Learning Engineer Trainee (Nov 2025 - Present).\n- **NeuroTech:** AI Developer Trainee (Jun 2025 - Jan 2026).\n- **ITI:** UI/UX Developer Trainee (Feb 2025 - Apr 2025).\n- **Outlier:** AI Trainer - Coding Expertise (Jul 2024 - Mar 2025). Trained LLMs using RLHF.\n- **Route:** Frontend Web Developer Trainee (Sep 2024 - Feb 2025).\n- **Remotasks:** AI Trainer (Jan 2021 - Mar 2023).\n\n## Featured Projects (Highlights)\n- **Oil Sales Prediction System:** End-to-end AI solution (Random Forest) for edible oil sales with an LLM chat interface via FastAPI.\n- **Customer Churn Prediction:** Ensemble Voting Classifier combined with an LLM-powered conversational agent (Groq API).\n- **Enterprise RAG Agent:** End-to-end system with document ingestion, Qdrant retrieval, and a configurable LLM factory via FastAPI.\n- **Document AI (Arabic OCR):** Fine-tuned OCR models increasing Arabic accuracy to 92% and English to 96%.`
     }
   }
 };

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
-import { Github, ExternalLink, Lock } from 'lucide-react';
+import { FaGithub, FaLock } from 'react-icons/fa6';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 
 export function Projects() {
   const { t, dir } = useLanguage();
@@ -36,7 +37,7 @@ export function Projects() {
               onClick={() => setActiveCategory('ai')}
               className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
                 activeCategory === 'ai' 
-                  ? 'bg-blue-600 shadow-md' 
+                  ? 'bg-blue-600 shadow-md text-white' 
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
@@ -46,7 +47,7 @@ export function Projects() {
               onClick={() => setActiveCategory('fullstack')}
               className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
                 activeCategory === 'fullstack' 
-                  ? 'bg-blue-600 shadow-md'
+                  ? 'bg-blue-600 shadow-md text-white'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
@@ -79,7 +80,7 @@ export function Projects() {
                     {project.nda ? (
                       // NDA State
                       <div className="flex items-center gap-2 px-6 py-3 bg-red-600/90 text-white rounded-full font-bold tracking-wide backdrop-blur-sm shadow-lg">
-                        <Lock size={18} />
+                        <FaLock size={16} />
                         <span>NDA</span>
                       </div>
                     ) : (
@@ -87,12 +88,12 @@ export function Projects() {
                       <>
                         {project.github && (
                           <a href={project.github} target="_blank" rel="noopener noreferrer" className="p-3 bg-white rounded-full text-gray-900 hover:scale-110 transition-transform shadow-lg">
-                            <Github size={20} />
+                            <FaGithub size={20} />
                           </a>
                         )}
                         {project.live && (
                           <a href={project.live} target="_blank" rel="noopener noreferrer" className="p-3 bg-blue-600 rounded-full text-white hover:scale-110 transition-transform shadow-lg">
-                            <ExternalLink size={20} />
+                            <FaExternalLinkAlt size={20} />
                           </a>
                         )}
                       </>

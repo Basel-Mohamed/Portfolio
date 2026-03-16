@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar } from './Navbar';
 import { Outlet } from 'react-router';
-import { Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa6';
 import { useLanguage } from '../../context/LanguageContext';
 import { AIChatbot } from '../features/AIChatbot';
 
@@ -39,10 +39,10 @@ export function Layout() {
             <div className="flex flex-col md:items-end">
               <div className="flex space-x-4 rtl:space-x-reverse mb-4">
                 <a href="https://github.com/Basel-Mohamed" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                  <Github size={20} />
+                  <FaGithub size={20} />
                 </a>
                 <a href="https://linkedin.com/in/basel-mohamed-94972a334" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
-                  <Linkedin size={20} />
+                  <FaLinkedin size={20} />
                 </a>
               </div>
             </div>

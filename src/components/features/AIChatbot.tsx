@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MessageSquare, Send, X, Bot, Sparkles, User, Loader2 } from 'lucide-react';
+import { FaPaperPlane, FaXmark, FaRobot, FaWandMagicSparkles, FaUser, FaSpinner } from 'react-icons/fa6';
 import { useLanguage } from '../../context/LanguageContext';
 import { clsx } from 'clsx';
 
@@ -224,7 +224,7 @@ export function AIChatbot() {
           isOpen ? "hidden" : "flex items-center gap-2"
         )}
       >
-        <Sparkles size={24} />
+        <FaWandMagicSparkles size={24} />
         <span className="font-semibold hidden sm:inline">{t.chatbot.title}</span>
       </button>
 
@@ -239,7 +239,7 @@ export function AIChatbot() {
             <div className="p-4 bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-between text-white shrink-0">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-white/20 rounded-full backdrop-blur-sm">
-                  <Bot size={24} />
+                  <FaRobot size={24} />
                 </div>
                 <div>
                   <h3 className="font-bold">{t.chatbot.title}</h3>
@@ -253,7 +253,7 @@ export function AIChatbot() {
                 onClick={() => setIsOpen(false)}
                 className="p-1 hover:bg-white/20 rounded-full transition-colors"
               >
-                <X size={20} />
+                <FaXmark size={20} />
               </button>
             </div>
 
@@ -272,7 +272,7 @@ export function AIChatbot() {
                     "w-8 h-8 rounded-full flex items-center justify-center shrink-0",
                     msg.sender === 'user' ? "bg-gray-200 dark:bg-gray-700" : "bg-gradient-to-r from-blue-600 to-purple-600"
                   )}>
-                    {msg.sender === 'user' ? <User size={16} className="text-gray-600 dark:text-gray-300" /> : <Bot size={16} className="text-white" />}
+                    {msg.sender === 'user' ? <FaUser size={16} className="text-gray-600 dark:text-gray-300" /> : <FaRobot size={16} className="text-white" />}
                   </div>
                   <div className={clsx(
                     "p-3 rounded-2xl text-sm leading-relaxed shadow-sm",
@@ -288,10 +288,10 @@ export function AIChatbot() {
               {isTyping && (
                 <div className="flex gap-3 max-w-[85%]">
                    <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-gradient-to-r from-blue-600 to-purple-600">
-                    <Bot size={16} className="text-white" />
+                    <FaRobot size={16} className="text-white" />
                   </div>
                   <div className="bg-white dark:bg-gray-800 p-3 rounded-2xl rounded-tl-none border border-gray-100 dark:border-gray-700 flex items-center gap-1">
-                    <Loader2 size={16} className="animate-spin text-gray-400 mr-1" />
+                    <FaSpinner size={16} className="animate-spin text-gray-400 mr-1" />
                     <span className="text-xs text-gray-400">Typing...</span>
                   </div>
                 </div>
@@ -330,7 +330,7 @@ export function AIChatbot() {
                   disabled={!inputValue.trim() || isTyping}
                   className="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  <Send size={18} />
+                  <FaPaperPlane size={18} />
                 </button>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X } from "lucide-react";
+import { FaXmark } from "react-icons/fa6";
 import { Certificate } from "./Certifications";
 
 interface CertificateModalProps {
@@ -43,7 +43,7 @@ export function CertificateModal({ cert, onClose }: CertificateModalProps) {
                 className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-800 rounded-lg transition-colors duration-200 shrink-0"
                 aria-label="Close modal"
               >
-                <X className="w-5 h-5" />
+                <FaXmark className="w-5 h-5" />
               </button>
             </div>
 
@@ -59,7 +59,6 @@ export function CertificateModal({ cert, onClose }: CertificateModalProps) {
                 <img
                   src={cert.image}
                   alt={cert.title}
-                  // Replaced w-full with max-w-full and w-auto to prevent resolution stretching
                   className="max-w-full w-auto h-auto max-h-[80vh] object-contain rounded-lg shadow-lg"
                 />
               )}

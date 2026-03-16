@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
-import { Briefcase, Calendar, GraduationCap } from 'lucide-react';
+import { FaBriefcase, FaGraduationCap } from 'react-icons/fa6';
+import { FaRegCalendarAlt } from 'react-icons/fa';
 
 export function Experience() {
   const { t } = useLanguage();
@@ -38,7 +39,7 @@ export function Experience() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{role.title}</h3>
                 <div className="flex items-center text-sm text-blue-600 dark:text-blue-400 font-medium mt-1 sm:mt-0 bg-blue-50 dark:bg-blue-900/20 px-3 py-1 rounded-full">
-                  <Calendar size={14} className="mr-1 rtl:ml-1 rtl:mr-0" />
+                  <FaRegCalendarAlt size={14} className="mr-2 rtl:ml-2 rtl:mr-0" />
                   {role.period}
                 </div>
               </div>
@@ -61,14 +62,14 @@ export function Experience() {
         <TimelineSection 
           title={t.experience.title} 
           items={t.experience.professional} 
-          icon={Briefcase} 
+          icon={FaBriefcase} 
         />
 
         {/* Render Internships & Training */}
         <TimelineSection 
           title={t.experience.internshipsTitle} 
           items={t.experience.internships} 
-          icon={GraduationCap} 
+          icon={FaGraduationCap} 
         />
 
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { FaArrowRight, FaCircleCheck } from 'react-icons/fa6';
 import { useNavigate } from 'react-router';
 
 export function Services() {
@@ -40,7 +40,7 @@ export function Services() {
               <ul className="space-y-4 mb-8 flex-grow">
                 {service.features.map((feature: string) => (
                   <li key={feature} className="flex items-start gap-3 text-gray-700 dark:text-gray-300">
-                    <CheckCircle2 size={20} className="text-green-500 mt-0.5 shrink-0" />
+                    <FaCircleCheck size={20} className="text-green-500 mt-0.5 shrink-0" />
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -51,7 +51,7 @@ export function Services() {
                 className="w-full py-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg font-medium hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-all flex items-center justify-center gap-2 group"
               >
                 {t.services.cta}
-                <ArrowRight size={18} className={`transition-transform group-hover:translate-x-1 ${dir === 'rtl' ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
+                <FaArrowRight size={16} className={`transition-transform group-hover:translate-x-1 ${dir === 'rtl' ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
               </button>
             </motion.div>
           ))}

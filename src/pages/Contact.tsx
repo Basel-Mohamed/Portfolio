@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { useSearchParams } from 'react-router';
-import { Mail, Phone, MapPin, Send, Loader2 } from 'lucide-react';
+import { FaEnvelope, FaPhone, FaLocationDot } from 'react-icons/fa6';
 import { clsx } from 'clsx';
 
 const contactCards = [
   {
-    icon: Mail,
+    icon: FaEnvelope,
     label: 'Email',
     value: 'baselmohamed937@gmail.com',
     href: 'mailto:baselmohamed937@gmail.com',
@@ -20,7 +20,7 @@ const contactCards = [
     glow: 'hover:shadow-blue-100 dark:hover:shadow-blue-900/30',
   },
   {
-    icon: Phone,
+    icon: FaPhone,
     label: 'Phone',
     value: '+20 100 733 7686',
     href: 'tel:+201007337686',
@@ -33,7 +33,7 @@ const contactCards = [
     glow: 'hover:shadow-purple-100 dark:hover:shadow-purple-900/30',
   },
   {
-    icon: MapPin,
+    icon: FaLocationDot,
     label: 'Location',
     value: 'Maadi, Cairo, Egypt',
     href: null,

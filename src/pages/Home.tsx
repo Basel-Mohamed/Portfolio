@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { 
-  ArrowRight, Download, Github, Linkedin, Terminal, 
-  Brain, Sparkles, Server, Cpu, Database, Code, Globe 
-} from 'lucide-react';
+  FaArrowRight, FaDownload, FaGithub, FaLinkedin, FaTerminal, 
+  FaBrain, FaServer, FaMicrochip, FaDatabase, FaCode, FaGlobe, FaWandMagicSparkles 
+} from 'react-icons/fa6';
 import { Link } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -32,12 +32,12 @@ export function Home() {
 
   // Flying AI Icons Configuration
   const floatingIcons = [
-    { Icon: Brain, top: '15%', left: '10%', color: 'text-purple-500/30 dark:text-purple-400/20', delay: 0, size: 64 },
-    { Icon: Cpu, top: '20%', right: '12%', color: 'text-blue-500/30 dark:text-blue-400/20', delay: 1, size: 56 },
-    { Icon: Database, bottom: '20%', left: '15%', color: 'text-green-500/30 dark:text-green-400/20', delay: 2, size: 48 },
-    { Icon: Code, bottom: '25%', right: '15%', color: 'text-orange-500/30 dark:text-orange-400/20', delay: 1.5, size: 52 },
-    { Icon: Sparkles, top: '45%', left: '5%', color: 'text-yellow-500/30 dark:text-yellow-400/20', delay: 0.5, size: 40 },
-    { Icon: Globe, top: '50%', right: '8%', color: 'text-indigo-500/30 dark:text-indigo-400/20', delay: 2.5, size: 60 },
+    { Icon: FaBrain, top: '15%', left: '10%', color: 'text-purple-500/30 dark:text-purple-400/20', delay: 0, size: 64 },
+    { Icon: FaMicrochip, top: '20%', right: '12%', color: 'text-blue-500/30 dark:text-blue-400/20', delay: 1, size: 56 },
+    { Icon: FaDatabase, bottom: '20%', left: '15%', color: 'text-green-500/30 dark:text-green-400/20', delay: 2, size: 48 },
+    { Icon: FaCode, bottom: '25%', right: '15%', color: 'text-orange-500/30 dark:text-orange-400/20', delay: 1.5, size: 52 },
+    { Icon: FaWandMagicSparkles, top: '45%', left: '5%', color: 'text-yellow-500/30 dark:text-yellow-400/20', delay: 0.5, size: 40 },
+    { Icon: FaGlobe, top: '50%', right: '8%', color: 'text-indigo-500/30 dark:text-indigo-400/20', delay: 2.5, size: 60 },
   ];
 
   return (
@@ -83,7 +83,7 @@ export function Home() {
                 ease: "easeInOut"
               }}
             >
-              <iconData.Icon size={iconData.size} strokeWidth={1.5} />
+              <iconData.Icon size={iconData.size} />
             </motion.div>
           ))}
         </div>
@@ -117,7 +117,7 @@ export function Home() {
                     to="/contact"
                     className="w-full px-8 py-3.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
                   >
-                    {t.hero.buttons.contact} <ArrowRight size={20} className={dir === 'rtl' ? 'rotate-180' : ''} />
+                    {t.hero.buttons.contact} <FaArrowRight size={18} className={dir === 'rtl' ? 'rotate-180' : ''} />
                   </Link>
                 </motion.div>
                 
@@ -127,7 +127,7 @@ export function Home() {
                     download="Basel_Mohamed_CV.pdf"
                     className="w-full px-8 py-3.5 bg-white dark:bg-[#161b22] text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all font-bold flex items-center justify-center gap-2 shadow-sm"
                   >
-                    <Download size={20} /> CV
+                    <FaDownload size={18} /> CV
                   </a>
                 </motion.div>
 
@@ -150,7 +150,7 @@ export function Home() {
                     rel="noopener noreferrer" 
                     className="text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors p-3 bg-white dark:bg-[#161b22] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm"
                   >
-                    <Github size={24} />
+                    <FaGithub size={24} />
                   </motion.a>
                   <motion.a 
                     whileHover={{ scale: 1.1, y: -2 }} 
@@ -160,7 +160,7 @@ export function Home() {
                     rel="noopener noreferrer" 
                     className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-3 bg-white dark:bg-[#161b22] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm"
                   >
-                    <Linkedin size={24} />
+                    <FaLinkedin size={24} />
                   </motion.a>
                 </div>
               </motion.div>
@@ -209,7 +209,7 @@ export function Home() {
               className="p-8 rounded-2xl bg-gray-50 dark:bg-[#0D1117] border border-gray-100 dark:border-gray-800 hover:border-blue-500/50 dark:hover:border-blue-500/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 group"
             >
               <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                <Brain size={28} />
+                <FaBrain size={28} />
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Generative AI</h3>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed">LLMs, RAG Systems, Prompt Engineering, RLHF</p>
@@ -223,7 +223,7 @@ export function Home() {
               className="p-8 rounded-2xl bg-gray-50 dark:bg-[#0D1117] border border-gray-100 dark:border-gray-800 hover:border-purple-500/50 dark:hover:border-purple-500/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 group"
             >
               <div className="w-14 h-14 rounded-xl bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                <Terminal size={28} />
+                <FaTerminal size={28} />
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">Machine Learning</h3>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed">PyTorch, Scikit-learn, Computer Vision, OCR</p>
@@ -237,7 +237,7 @@ export function Home() {
               className="p-8 rounded-2xl bg-gray-50 dark:bg-[#0D1117] border border-gray-100 dark:border-gray-800 hover:border-green-500/50 dark:hover:border-green-500/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-green-500/5 transition-all duration-300 group"
             >
               <div className="w-14 h-14 rounded-xl bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-green-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                <Server size={28} />
+                <FaServer size={28} />
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">Deployment</h3>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed">Docker, FastAPI, Oracle OCI, Cloud Architecture</p>
@@ -251,7 +251,7 @@ export function Home() {
               className="p-8 rounded-2xl bg-gray-50 dark:bg-[#0D1117] border border-gray-100 dark:border-gray-800 hover:border-orange-500/50 dark:hover:border-orange-500/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-orange-500/5 transition-all duration-300 group"
             >
               <div className="w-14 h-14 rounded-xl bg-orange-100 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-orange-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                <Terminal size={28} />
+                <FaCode size={28} />
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">Development</h3>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed">Python, React, TypeScript, Tailwind CSS</p>
@@ -269,7 +269,7 @@ export function Home() {
               <div className="h-1.5 w-24 bg-blue-600 rounded-full"></div>
             </div>
             <Link to="/projects" className="hidden sm:flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold group">
-              View All <ArrowRight size={18} className={`transition-transform group-hover:translate-x-1 ${dir === 'rtl' ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
+              View All <FaArrowRight size={16} className={`transition-transform group-hover:translate-x-1 ${dir === 'rtl' ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
             </Link>
           </div>
 
@@ -309,7 +309,7 @@ export function Home() {
 
            <div className="mt-10 text-center sm:hidden">
             <Link to="/projects" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold group">
-              View All <ArrowRight size={18} className={`transition-transform group-hover:translate-x-1 ${dir === 'rtl' ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
+              View All <FaArrowRight size={16} className={`transition-transform group-hover:translate-x-1 ${dir === 'rtl' ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
             </Link>
           </div>
         </div>

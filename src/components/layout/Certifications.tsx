@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Award, ExternalLink } from 'lucide-react';
+import { FaAward } from 'react-icons/fa6';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 import { useLanguage } from '../../context/LanguageContext';
 import { CertificateModal } from './CertificateModal';
 
@@ -62,7 +63,7 @@ export function Certifications({ certifications }: CertificationsProps) {
               {/* Header: Icon + Date */}
               <div className="flex items-start justify-between mb-4">
                 <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">
-                  <Award className="w-6 h-6" />
+                  <FaAward className="w-6 h-6" />
                 </div>
                 {cert.date && (
                    <span className="text-xs px-3 py-1 rounded-full border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 font-medium bg-gray-50 dark:bg-[#0D1117]">
@@ -81,7 +82,7 @@ export function Certifications({ certifications }: CertificationsProps) {
                 <span className="text-sm font-medium text-gray-500 dark:text-gray-400 flex items-center gap-2">
                   View Credential
                 </span>
-                <ExternalLink className="w-4 h-4 text-blue-600 dark:text-blue-400 transition-transform group-hover:translate-x-1" />
+                <FaExternalLinkAlt className="w-4 h-4 text-blue-600 dark:text-blue-400 transition-transform group-hover:translate-x-1" />
               </div>
             </motion.div>
           ))}
