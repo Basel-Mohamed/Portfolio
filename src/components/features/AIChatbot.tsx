@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { FaPaperPlane, FaXmark, FaRobot, FaWandMagicSparkles, FaUser, FaSpinner } from 'react-icons/fa6';
+import { FaPaperPlane, FaXmark, FaRobot, FaCommentDots, FaUser, FaSpinner } from 'react-icons/fa6';
 import { useLanguage } from '../../context/LanguageContext';
 import { clsx } from 'clsx';
 
@@ -230,6 +230,8 @@ export function AIChatbot() {
 
   return (
     <>
+      {/* Replaced FaWandMagicSparkles with FaCommentDots for the main floating button
+      */}
       <button
         onClick={() => setIsOpen(true)}
         className={clsx(
@@ -238,7 +240,7 @@ export function AIChatbot() {
           isOpen ? "hidden" : "flex items-center gap-2"
         )}
       >
-        <FaWandMagicSparkles size={24} />
+        <FaCommentDots size={24} />
         <span className="font-semibold hidden sm:inline">{t.chatbot.title}</span>
       </button>
 

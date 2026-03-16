@@ -1,15 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/profile_pic.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0D1117" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Basel Mohamed</title>
-    </head>
+    <title>Basel Mohamed | Full Stack AI Engineer</title>
+    <meta name="title" content="Basel Mohamed | Full Stack AI Engineer" />
+    <meta name="description" content="Portfolio of Basel Mohamed, an Associate AI Engineer specializing in NLP, Generative AI, RAG systems, and Full Stack Development based in Cairo, Egypt." />
+    <meta name="keywords" content="AI Engineer, Full Stack Developer, Machine Learning, NLP, React, Python, RAG, Egypt" />
+    <meta name="author" content="Basel Mohamed" />
 
-    <body>
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-    </body>
-  </html>
-  
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://your-portfolio-domain.com/" /> <meta property="og:title" content="Basel Mohamed | Full Stack AI Engineer" />
+    <meta property="og:description" content="Portfolio of Basel Mohamed, an Associate AI Engineer specializing in NLP, Generative AI, and Full Stack Development." />
+    <meta property="og:image" content="/profile_pic.png" /> <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Basel Mohamed | Full Stack AI Engineer" />
+    <meta property="twitter:description" content="Portfolio of Basel Mohamed, an Associate AI Engineer specializing in NLP, Generative AI, and Full Stack Development." />
+    <meta property="twitter:image" content="/profile_pic.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <style>
+      /* Apply the premium font globally and hide scrollbars cleanly */
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      }
+      
+      /* Custom clean scrollbar for webkit browsers */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #334155;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+    </style>
+  </head>
+
+  <body class="antialiased bg-gray-50 dark:bg-[#0D1117] text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

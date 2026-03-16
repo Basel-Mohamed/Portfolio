@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { useSearchParams } from 'react-router';
-import { FaEnvelope, FaPhone, FaLocationDot } from 'react-icons/fa6';
+import { FaEnvelope, FaPhone, FaLinkedin } from 'react-icons/fa6';
 import { clsx } from 'clsx';
 
 const contactCards = [
@@ -33,10 +33,10 @@ const contactCards = [
     glow: 'hover:shadow-purple-100 dark:hover:shadow-purple-900/30',
   },
   {
-    icon: FaLocationDot,
-    label: 'Location',
-    value: 'Maadi, Cairo, Egypt',
-    href: null,
+    icon: FaLinkedin,
+    label: 'LinkedIn',
+    value: 'Basel Mohamed',
+    href: 'https://www.linkedin.com/in/basel-mohamed-94972a334',
     color: 'emerald',
     bg: 'bg-emerald-50 dark:bg-emerald-950/30',
     border: 'border-emerald-200 dark:border-emerald-800',
@@ -139,7 +139,7 @@ export function Contact() {
             );
 
             return card.href ? (
-              <a key={card.label} href={card.href} className="w-full sm:w-auto no-underline">
+              <a key={card.label} href={card.href} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto no-underline">
                 {content}
               </a>
             ) : (
