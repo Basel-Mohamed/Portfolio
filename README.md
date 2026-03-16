@@ -1,8 +1,6 @@
 
   # Personal Portfolio Website Design
 
-  This is a code bundle for Personal Portfolio Website Design. The original project is available at https://www.figma.com/design/vGbd3Lfb1j7rZgFLkCLfIy/Personal-Portfolio-Website-Design.
-
   ## Running the code
 
   Run `npm i` to install the dependencies.
