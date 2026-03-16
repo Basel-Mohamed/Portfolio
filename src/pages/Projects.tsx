@@ -6,17 +6,13 @@ import { FaExternalLinkAlt } from 'react-icons/fa';
 
 export function Projects() {
   const { t, dir } = useLanguage();
-  // State to track which category is currently selected
   const [activeCategory, setActiveCategory] = useState<'ai' | 'fullstack'>('ai');
 
-  // We define the tab text here based on the language direction
   const tabLabels = {
     ai: dir === 'rtl' ? 'مشاريع الذكاء الاصطناعي' : 'AI Projects',
     fullstack: dir === 'rtl' ? 'مشاريع الواجهات' : 'Full Stack Projects',
   };
 
-  // Filter the projects based on the active category
-  // Make sure your data.ts items have a `type: 'ai'` or `type: 'fullstack'` property
   const filteredProjects = t.projects.items.filter((project: any) => project.type === activeCategory);
 
   return (
@@ -27,7 +23,10 @@ export function Projects() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-10"
         >
-          <h1 className="text-4xl font-bold mb-6">{t.projects.title}</h1>
+          {/* STANDARDIZED TITLE */}
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
+            {t.projects.title}
+          </h1>
         </motion.div>
 
         {/* --- CATEGORY TOGGLE --- */}
@@ -59,7 +58,6 @@ export function Projects() {
         {/* --- PROJECTS GRID --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredProjects.map((project: any, index: number) => {
-            // Updated to check the length of filteredProjects, not the whole list
             const isLastOdd = index === filteredProjects.length - 1 && filteredProjects.length % 2 !== 0;
 
             return (
@@ -75,16 +73,14 @@ export function Projects() {
                 <div className="aspect-video overflow-hidden relative">
                   <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   
-                  {/* --- HOVER OVERLAY --- */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+                  {/* --- DESKTOP HOVER OVERLAY (Hidden on Mobile) --- */}
+                  <div className="hidden md:flex absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity items-center justify-center gap-4">
                     {project.nda ? (
-                      // NDA State
                       <div className="flex items-center gap-2 px-6 py-3 bg-red-600/90 text-white rounded-full font-bold tracking-wide backdrop-blur-sm shadow-lg">
                         <FaLock size={16} />
                         <span>NDA</span>
                       </div>
                     ) : (
-                      // Links State
                       <>
                         {project.github && (
                           <a href={project.github} target="_blank" rel="noopener noreferrer" className="p-3 bg-white rounded-full text-gray-900 hover:scale-110 transition-transform shadow-lg">
@@ -111,12 +107,35 @@ export function Projects() {
                   </p>
                   
                   <div className="pt-6 border-t border-gray-100 dark:border-gray-800">
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mb-4 md:mb-0">
                       {project.tech.map((tech: string) => (
                         <span key={tech} className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm rounded-full font-medium">
                           {tech}
                         </span>
                       ))}
+                    </div>
+
+                    {/* --- MOBILE ACTION BUTTONS (Hidden on Desktop) --- */}
+                    <div className="md:hidden flex items-center gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-gray-800">
+                      {project.nda ? (
+                        <div className="flex items-center gap-2 px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg font-bold text-sm w-full justify-center">
+                          <FaLock size={14} />
+                          <span>Under NDA</span>
+                        </div>
+                      ) : (
+                        <>
+                          {project.github && (
+                            <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-sm">
+                              <FaGithub size={16} /> Code
+                            </a>
+                          )}
+                          {project.live && (
+                            <a href={project.live} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm">
+                              <FaExternalLinkAlt size={14} /> Live Demo
+                            </a>
+                          )}
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -125,7 +144,6 @@ export function Projects() {
           })}
         </div>
 
-        {/* Show a fallback if a category has no projects */}
         {filteredProjects.length === 0 && (
           <div className="text-center text-gray-500 py-12">
             No projects found in this category yet.

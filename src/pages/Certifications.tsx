@@ -9,13 +9,11 @@ export function Certifications() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [selectedCert, setSelectedCert] = useState<any | null>(null);
 
-  // Extract unique categories dynamically from the data
   const categories = useMemo(() => {
     const allCategories = t.about.certifications.map((cert: any) => cert.category || "Other");
     return ["All", ...Array.from(new Set(allCategories))];
   }, [t.about.certifications]);
 
-  // Filter certificates based on active tab
   const filteredCertifications = useMemo(() => {
     if (activeCategory === "All") return t.about.certifications;
     return t.about.certifications.filter((cert: any) => (cert.category || "Other") === activeCategory);
@@ -31,7 +29,8 @@ export function Certifications() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+          {/* STANDARDIZED TITLE */}
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
             {t.nav.certifications}
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -39,14 +38,14 @@ export function Certifications() {
           </p>
         </motion.div>
 
-        {/* --- UNIFIED CATEGORY TOGGLE (Projects Style) --- */}
-        <div className="flex justify-center mb-12">
-          <div className="bg-gray-100 dark:bg-[#161b22] p-1 rounded-full inline-flex flex-wrap justify-center border border-gray-200 dark:border-gray-800">
+        {/* --- RESPONSIVE CATEGORY TOGGLE (Projects Style) --- */}
+        <div className="flex md:justify-center mb-12 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 pb-2 sm:pb-0">
+          <div className="bg-gray-100 dark:bg-[#161b22] p-1 rounded-full inline-flex border border-gray-200 dark:border-gray-800 w-max">
             {categories.map((category: any) => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
+                className={`whitespace-nowrap px-6 md:px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
                   activeCategory === category
                     ? 'bg-blue-600 text-white shadow-md'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
@@ -58,11 +57,10 @@ export function Certifications() {
           </div>
         </div>
 
-        {/* --- SIMPLE STAGGERED GRID --- */}
+        {/* --- GRID --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCertifications.map((cert: any, index: number) => (
             <motion.div
-              // Using a composite key forces the animation to re-trigger when swapping categories
               key={`${cert.title}-${activeCategory}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -77,9 +75,12 @@ export function Certifications() {
                   alt={cert.title} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                
+                {/* Desktop Hover Overlay */}
+                <div className="hidden md:flex absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors items-center justify-center">
                   <FaExternalLinkAlt className="text-white opacity-0 group-hover:opacity-100 transition-opacity scale-50 group-hover:scale-100 duration-300" size={32} />
                 </div>
+                
                 <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-medium">
                   {cert.category || "Other"}
                 </div>
@@ -90,16 +91,24 @@ export function Certifications() {
                 <h3 className="font-bold text-gray-900 dark:text-white line-clamp-2 mb-3 min-h-[3rem] group-hover:text-blue-500 transition-colors">
                   {cert.title}
                 </h3>
-                <div className="mt-auto flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                  <FaRegCalendarAlt size={16} />
-                  <span>{cert.date}</span>
+                
+                <div className="mt-auto flex items-center justify-between border-t border-gray-100 dark:border-gray-800/50 pt-4">
+                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <FaRegCalendarAlt size={14} />
+                    <span>{cert.date}</span>
+                  </div>
+                  
+                  {/* Mobile Tap Indicator */}
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                    <span>View</span>
+                    <FaExternalLinkAlt size={10} />
+                  </div>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Fallback for empty categories */}
         {filteredCertifications.length === 0 && (
           <motion.div 
             initial={{ opacity: 0 }}

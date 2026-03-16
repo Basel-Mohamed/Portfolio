@@ -43,8 +43,9 @@ const MarkdownMessage = ({ content }: { content: string }) => {
     text = text.replace(/`(.+?)`/g, '<code class="bg-black/10 dark:bg-white/10 px-1.5 py-0.5 rounded font-mono text-sm">$1</code>');
     text = text.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 underline">$1</a>');
     text = text.replace(/\n/g, '<br/>');
-    text = text.replace(/^[\-\*] (.+)$/gm, '<li class="ml-5 list-disc">$1</li>');
-    text = text.replace(/^\d+\. (.+)$/gm, '<li class="ml-5 list-decimal">$1</li>');
+    // Replaced ml-5 with ms-5 (margin-inline-start) to support dir="auto"
+    text = text.replace(/^[\-\*] (.+)$/gm, '<li class="ms-5 list-disc">$1</li>');
+    text = text.replace(/^\d+\. (.+)$/gm, '<li class="ms-5 list-decimal">$1</li>');
     text = text.replace(/^### (.+)$/gm, '<h3 class="font-bold mt-2 mb-1 text-sm">$1</h3>');
     text = text.replace(/^## (.+)$/gm, '<h2 class="font-bold mt-2 mb-1 text-base">$1</h2>');
     text = text.replace(/^# (.+)$/gm, '<h1 class="font-bold mt-2 mb-1 text-lg">$1</h1>');
@@ -61,6 +62,7 @@ const MarkdownMessage = ({ content }: { content: string }) => {
           return (
             <pre
               key={index}
+              dir="ltr" // Code blocks always stay LTR
               className="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto mt-2 mb-2 text-xs"
             >
               <code className="font-mono whitespace-pre">
@@ -257,7 +259,8 @@ export function AIChatbot() {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-[#0D1117]">
+            {/* FORCED LTR container so bubbles stay in identical layout regardless of app direction */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-[#0D1117]" dir="ltr">
               {messages.map((msg) => (
                 <motion.div
                   key={msg.id}
@@ -265,7 +268,7 @@ export function AIChatbot() {
                   animate={{ opacity: 1, y: 0 }}
                   className={clsx(
                     "flex gap-3 max-w-[85%]",
-                    msg.sender === 'user' ? "ms-auto flex-row-reverse" : ""
+                    msg.sender === 'user' ? "ml-auto flex-row-reverse" : ""
                   )}
                 >
                   <div className={clsx(
@@ -274,12 +277,17 @@ export function AIChatbot() {
                   )}>
                     {msg.sender === 'user' ? <FaUser size={16} className="text-gray-600 dark:text-gray-300" /> : <FaRobot size={16} className="text-white" />}
                   </div>
-                  <div className={clsx(
-                    "p-3 rounded-2xl text-sm leading-relaxed shadow-sm",
-                    msg.sender === 'user' 
-                      ? "bg-blue-600 text-white rounded-tr-none rtl:rounded-tl-none rtl:rounded-tr-2xl" 
-                      : "bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-tl-none rtl:rounded-tr-none rtl:rounded-tl-2xl border border-gray-100 dark:border-gray-700"
-                  )}>
+                  
+                  {/* dir="auto" tells the browser to automatically text align RTL if text is Arabic, but keep LTR for English */}
+                  <div 
+                    dir="auto" 
+                    className={clsx(
+                      "p-3 rounded-2xl text-sm leading-relaxed shadow-sm flex-grow",
+                      msg.sender === 'user' 
+                        ? "bg-blue-600 text-white rounded-tr-none" 
+                        : "bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-tl-none border border-gray-100 dark:border-gray-700"
+                    )}
+                  >
                     {msg.sender === 'user' ? msg.text : <MarkdownMessage content={msg.text} />}
                   </div>
                 </motion.div>

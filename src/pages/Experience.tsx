@@ -19,7 +19,10 @@ export function Experience() {
         <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mb-4">
           <Icon size={32} />
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold">{title}</h2>
+        {/* STANDARDIZED TITLE */}
+        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
+          {title}
+        </h2>
       </motion.div>
 
       <div className="relative border-l-2 border-gray-200 dark:border-gray-800 ml-3 md:ml-6 rtl:mr-3 rtl:ml-0 rtl:border-r-2 rtl:border-l-0">
