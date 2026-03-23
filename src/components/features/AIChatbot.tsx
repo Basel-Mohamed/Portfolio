@@ -130,42 +130,19 @@ export function AIChatbot() {
         message: msg.text
       }));
 
-      let response;
-
-      // Allow convenient local development with npm run dev if the old key is still present locally.
-      // But in production (Vercel), it strictly uses the secure backend route to hide the key.
-      if ((import.meta as any).env.DEV && (import.meta as any).env.VITE_COHERE_API_KEY) {
-        // Fallback for local Vite strictly, not exposed in production build
-        const apiKey = (import.meta as any).env.VITE_COHERE_API_KEY;
-        response = await fetch('https://api.cohere.com/v1/chat', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-          },
-          body: JSON.stringify({
-            message: query,
-            model: 'command-r7b-12-2024',
-            preamble: t.chatbot.prompt,
-            temperature: 0.3,
-            chat_history: chatHistory
-          })
-        });
-      } else {
-        // Secure Production Route utilizing Vercel Serverless Function
-        response = await fetch('/api/chat', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: query,
-            preamble: t.chatbot.prompt,
-            temperature: 0.3,
-            chat_history: chatHistory
-          })
-        });
-      }
+      // Secure Production Route utilizing Vercel Serverless Function
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: query,
+          preamble: t.chatbot.prompt,
+          temperature: 0.3,
+          chat_history: chatHistory
+        })
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
