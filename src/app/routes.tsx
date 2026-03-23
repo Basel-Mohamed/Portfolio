@@ -1,12 +1,5 @@
 import { createBrowserRouter } from "react-router";
 import { Layout } from "../components/layout/Layout";
-import { Home } from "../pages/Home";
-import { About } from "../pages/About";
-import { Experience } from "../pages/Experience";
-import { Projects } from "../pages/Projects";
-import { Services } from "../pages/Services";
-import { Contact } from "../pages/Contact";
-import { Certifications } from '../pages/Certifications';
 
 export const router = createBrowserRouter([
   {
@@ -15,31 +8,31 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Home,
+        lazy: () => import("../pages/Home").then(m => ({ Component: m.Home })),
       },
       {
         path: "about",
-        Component: About,
+        lazy: () => import("../pages/About").then(m => ({ Component: m.About })),
       },
       {
         path: "experience",
-        Component: Experience,
+        lazy: () => import("../pages/Experience").then(m => ({ Component: m.Experience })),
       },
       {
         path: "projects",
-        Component: Projects,
+        lazy: () => import("../pages/Projects").then(m => ({ Component: m.Projects })),
       },
       {
         path: "certifications",
-        Component: Certifications,
+        lazy: () => import("../pages/Certifications").then(m => ({ Component: m.Certifications })),
       },
       {
         path: "services",
-        Component: Services,
+        lazy: () => import("../pages/Services").then(m => ({ Component: m.Services })),
       },
       {
         path: "contact",
-        Component: Contact,
+        lazy: () => import("../pages/Contact").then(m => ({ Component: m.Contact })),
       },
     ],
   },

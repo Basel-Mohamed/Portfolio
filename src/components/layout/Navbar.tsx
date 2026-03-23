@@ -6,56 +6,41 @@ import { useTheme } from '../../context/ThemeContext';
 import { motion, AnimatePresence } from 'motion/react';
 import { clsx } from 'clsx';
 
-// Custom Animated Theme Slider Component (Smaller Size)
-const ThemeSlider = ({ theme, toggleTheme }: { theme: string, toggleTheme: () => void }) => {
+// Compact Animated Theme Toggle Component
+const ThemeToggle = ({ theme, toggleTheme }: { theme: string, toggleTheme: () => void }) => {
   const isDark = theme === 'dark';
 
   return (
     <button
       onClick={toggleTheme}
-      dir="ltr" // Forces LTR so the graphics and text align exactly like the image regardless of app language
-      className={clsx(
-        "relative flex items-center h-8 w-[86px] rounded-full p-1 cursor-pointer transition-colors duration-500 shadow-[inset_0_2px_6px_rgba(0,0,0,0.4)] border-none outline-none",
-        isDark 
-          ? "bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] justify-start" 
-          : "bg-gradient-to-r from-[#f59e0b] to-[#fde047] justify-end"
-      )}
+      className="relative flex items-center justify-center p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none w-10 h-10"
       aria-label="Toggle Theme"
     >
-      {/* Background Text Labels */}
-      <div className="absolute inset-0 flex items-center justify-between px-2.5 pointer-events-none">
-        <div 
-          className={clsx(
-            "flex flex-col items-center justify-center leading-[1.1] transition-opacity duration-300",
-            !isDark ? "opacity-100" : "opacity-0"
-          )}
-        >
-          <span className="text-[10px] font-black text-[#9a3412] tracking-wide">LIGHT</span>
-          <span className="text-[8px] font-bold text-[#9a3412] tracking-wider">MODE</span>
-        </div>
-        <div 
-          className={clsx(
-            "flex flex-col items-center justify-center leading-[1.1] transition-opacity duration-300 pl-1.5",
-            isDark ? "opacity-100" : "opacity-0"
-          )}
-        >
-          <span className="text-[10px] font-black text-[#bfdbfe] tracking-wide">DARK</span>
-          <span className="text-[8px] font-bold text-[#bfdbfe] tracking-wider">MODE</span>
-        </div>
-      </div>
-
-      {/* Thumb */}
-      <motion.div
-        layout
-        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-        className="z-10 flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.3)]"
-      >
+      <AnimatePresence mode="wait" initial={false}>
         {isDark ? (
-          <FaMoon className="h-3.5 w-3.5 text-[#3b82f6]" />
+          <motion.div
+            key="moon"
+            initial={{ opacity: 0, rotate: -90, scale: 0 }}
+            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+            exit={{ opacity: 0, rotate: 90, scale: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute"
+          >
+            <FaMoon size={20} className="text-blue-400" />
+          </motion.div>
         ) : (
-          <FaSun className="h-3.5 w-3.5 text-[#f59e0b]" />
+          <motion.div
+            key="sun"
+            initial={{ opacity: 0, rotate: -90, scale: 0 }}
+            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+            exit={{ opacity: 0, rotate: 90, scale: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute"
+          >
+            <FaSun size={20} className="text-orange-500" />
+          </motion.div>
         )}
-      </motion.div>
+      </AnimatePresence>
     </button>
   );
 };
@@ -113,8 +98,8 @@ export function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center space-x-3 rtl:space-x-reverse">
-            {/* Rich Animated Theme Slider */}
-            <ThemeSlider theme={theme} toggleTheme={toggleTheme} />
+            {/* Compact Animated Theme Toggle */}
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
 
             <button
               onClick={toggleLanguage}
@@ -128,8 +113,8 @@ export function Navbar() {
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-3">
-            {/* Rich Animated Theme Slider */}
-            <ThemeSlider theme={theme} toggleTheme={toggleTheme} />
+            {/* Compact Animated Theme Toggle */}
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             
             <button
               onClick={toggleLanguage}
