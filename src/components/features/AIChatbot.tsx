@@ -3,6 +3,29 @@ import { motion, AnimatePresence } from 'motion/react';
 import { FaPaperPlane, FaXmark, FaRobot, FaCommentDots, FaUser, FaSpinner } from 'react-icons/fa6';
 import { useLanguage } from '../../context/LanguageContext';
 import { clsx } from 'clsx';
+import ReactMarkdown from 'react-markdown';
+
+const MarkdownComponents: any = {
+  h1: ({node, ...props}: any) => <h1 className="font-bold mt-2 mb-1 text-lg" {...props} />,
+  h2: ({node, ...props}: any) => <h2 className="font-bold mt-2 mb-1 text-base" {...props} />,
+  h3: ({node, ...props}: any) => <h3 className="font-bold mt-2 mb-1 text-sm" {...props} />,
+  p: ({node, ...props}: any) => <p className="mb-2 last:mb-0" {...props} />,
+  ul: ({node, ...props}: any) => <ul className="list-disc ms-5 space-y-1 my-2" {...props} />,
+  ol: ({node, ...props}: any) => <ol className="list-decimal ms-5 space-y-1 my-2" {...props} />,
+  a: ({node, ...props}: any) => <a className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer" {...props} />,
+  code: ({node, inline, className, children, ...props}: any) => {
+    // If it's inline code
+    if (!className) {
+      return <code className="bg-black/10 dark:bg-white/10 px-1.5 py-0.5 rounded font-mono text-sm" {...props}>{children}</code>;
+    }
+    // Block code (it has a language- className internally)
+    return (
+      <pre dir="ltr" className="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto mt-2 mb-2 text-xs">
+        <code className="font-mono whitespace-pre" {...props}>{children}</code>
+      </pre>
+    );
+  }
+};
 
 type Message = {
   id: string;
@@ -10,80 +33,6 @@ type Message = {
   sender: 'user' | 'bot';
   timestamp: Date;
 };
-
-// Simple markdown parser component adapted for Tailwind CSS
-const MarkdownMessage = ({ content }: { content: string }) => {
-  const parseMarkdown = (text: string) => {
-    // Split by code blocks first
-    const parts = [];
-    let lastIndex = 0;
-    const codeBlockRegex = /```(\w+)?\n([\s\S]+?)```/g;
-    let match;
-
-    while ((match = codeBlockRegex.exec(text)) !== null) {
-      if (match.index > lastIndex) {
-        parts.push({ type: 'text', content: text.slice(lastIndex, match.index) });
-      }
-      parts.push({ type: 'code', language: match[1] || 'text', content: match[2].trim() });
-      lastIndex = match.index + match[0].length;
-    }
-    
-    if (lastIndex < text.length) {
-      parts.push({ type: 'text', content: text.slice(lastIndex) });
-    }
-
-    return parts.length > 0 ? parts : [{ type: 'text', content: text }];
-  };
-
-  const renderText = (text: string) => {
-    text = text.replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold">$1</strong>');
-    text = text.replace(/__(.+?)__/g, '<strong class="font-bold">$1</strong>');
-    text = text.replace(/\*(.+?)\*/g, '<em class="italic">$1</em>');
-    text = text.replace(/_(.+?)_/g, '<em class="italic">$1</em>');
-    text = text.replace(/`(.+?)`/g, '<code class="bg-black/10 dark:bg-white/10 px-1.5 py-0.5 rounded font-mono text-sm">$1</code>');
-    text = text.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 underline">$1</a>');
-    text = text.replace(/\n/g, '<br/>');
-    // Replaced ml-5 with ms-5 (margin-inline-start) to support dir="auto"
-    text = text.replace(/^[\-\*] (.+)$/gm, '<li class="ms-5 list-disc">$1</li>');
-    text = text.replace(/^\d+\. (.+)$/gm, '<li class="ms-5 list-decimal">$1</li>');
-    text = text.replace(/^### (.+)$/gm, '<h3 class="font-bold mt-2 mb-1 text-sm">$1</h3>');
-    text = text.replace(/^## (.+)$/gm, '<h2 class="font-bold mt-2 mb-1 text-base">$1</h2>');
-    text = text.replace(/^# (.+)$/gm, '<h1 class="font-bold mt-2 mb-1 text-lg">$1</h1>');
-    
-    return text;
-  };
-
-  const parts = parseMarkdown(content);
-
-  return (
-    <div className="space-y-1">
-      {parts.map((part, index) => {
-        if (part.type === 'code') {
-          return (
-            <pre
-              key={index}
-              dir="ltr" // Code blocks always stay LTR
-              className="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto mt-2 mb-2 text-xs"
-            >
-              <code className="font-mono whitespace-pre">
-                {part.content}
-              </code>
-            </pre>
-          );
-        } else {
-          return (
-            <div
-              key={index}
-              dangerouslySetInnerHTML={{ __html: renderText(part.content as string) }}
-              className="space-y-1"
-            />
-          );
-        }
-      })}
-    </div>
-  );
-};
-
 export function AIChatbot() {
   const { t, language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
@@ -295,7 +244,7 @@ export function AIChatbot() {
                         : "bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-tl-none border border-gray-100 dark:border-gray-700"
                     )}
                   >
-                    {msg.sender === 'user' ? msg.text : <MarkdownMessage content={msg.text} />}
+                    {msg.sender === 'user' ? msg.text : <ReactMarkdown components={MarkdownComponents}>{msg.text}</ReactMarkdown>}
                   </div>
                 </motion.div>
               ))}

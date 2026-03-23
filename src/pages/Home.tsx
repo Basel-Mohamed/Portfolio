@@ -6,6 +6,7 @@ import {
 } from 'react-icons/fa6';
 import { Link } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';
+import { ProjectCard } from '../components/features/ProjectCard';
 
 export function Home() {
   const { t, dir } = useLanguage();
@@ -21,7 +22,7 @@ export function Home() {
     }
   };
 
-  const item = {
+  const item: any = {
     hidden: { opacity: 0, y: 30 },
     show: { 
       opacity: 1, 
@@ -275,35 +276,12 @@ export function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {t.projects.items.slice(0, 2).map((project: any, index: number) => (
-              <motion.div 
-                key={project.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.2, type: "spring" }}
-                viewport={{ once: true, margin: "-50px" }}
-                className="group relative bg-white dark:bg-[#161b22] rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
-              >
-                <div className="aspect-video overflow-hidden relative">
-                  <div className="absolute inset-0 bg-gray-900/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                </div>
-                <div className="p-8">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">{project.category}</span>
-                      <h3 className="text-2xl font-bold mt-2 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{project.title}</h3>
-                    </div>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6 line-clamp-2 leading-relaxed">{project.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech: string) => (
-                      <span key={tech} className="px-3 py-1 bg-gray-100 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg border border-gray-200 dark:border-gray-700">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
+              <ProjectCard 
+                key={project.id} 
+                project={project} 
+                index={index} 
+                isLastOdd={false} 
+              />
             ))}
           </div>
 

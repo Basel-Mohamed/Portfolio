@@ -25,9 +25,10 @@ interface ProjectCardProps {
 export function ProjectCard({ project, index, isLastOdd }: ProjectCardProps) {
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ delay: index * 0.1, type: "spring" }}
       className={`group bg-white dark:bg-[#161b22] rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col w-full ${
         isLastOdd ? 'md:col-span-2 md:w-[calc(50%-1rem)] md:mx-auto' : ''
       }`}
