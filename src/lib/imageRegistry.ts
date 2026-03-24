@@ -73,26 +73,68 @@ const IMAGE_REGISTRY: Record<string, string> = {
   'ux-design': certUxDesign,
 };
 
+const FILENAME_MAP: Record<string, string> = {
+  'ocr': 'ocr',
+  'rag': 'rag',
+  'oda': 'oda',
+  'safety': 'safety',
+  'project-1': 'project-1',
+  'project-2': 'project-2',
+  'project-3': 'project-3',
+  'project-4': 'project-4',
+  'project-7': 'project-7',
+  'oil-sales': 'oil-sales',
+  'churn-prediction': 'churn-prediction',
+  'room': 'room',
+  'applied-deep-learning': 'applied-deep-learning',
+  'python-basics': 'python-basics',
+  'ai-diploma-neurotech': 'ai-diploma-neurotech',
+  'oracle-ai-foundations': 'oracle-ai-foundations',
+  'elements-of-ai': 'elements-of-ai',
+  'python-data-science-coursera': 'python-data-science-coursera',
+  'prompt-engineering': 'prompt-engineering',
+  'gen-ai-essentials': 'gen-ai-essentials',
+  'sprints-ai-ml': 'sprints-ai-ml',
+  'ai-essentials-v2': 'ai-essentials-v2',
+  'react-native-udemy': 'react-native-udemy',
+  'clean-code': 'clean-code',
+  'react-basics-hackerrank': 'react-basics-hackerrank',
+  'react-js-maharatech': 'react-js-maharatech',
+  'frontend-diploma-route': 'frontend-diploma-route',
+  'database-fundamentals': 'database-fundamentals',
+  'html-css': 'html-css',
+  'ux-design': 'ux-design',
+};
+
 /**
  * Resolves an image key or path to a Vite-optimized URL.
  * - If it's a registry key (e.g., "ocr"), returns the hashed import.
- * - If it starts with "http" or "/", it's already an absolute URL, so return as-is.
- * - Falls back to the raw string if no match is found.
+ * - If it's a Supabase storage URL (uploaded via admin), returns as-is.
+ * - If it's a legacy local path (e.g., "/src/assets/..."), checks against FILENAME_MAP.
  */
 export function resolveImage(keyOrPath: string): string {
   if (!keyOrPath) return '';
-  
-  // Already a full URL or absolute path
-  if (keyOrPath.startsWith('http') || keyOrPath.startsWith('/')) {
-    return keyOrPath;
-  }
   
   // Direct registry key match
   if (IMAGE_REGISTRY[keyOrPath]) {
     return IMAGE_REGISTRY[keyOrPath];
   }
+  
+  // If it's already an absolute external URL like Supabase storage, trust it.
+  if (keyOrPath.startsWith('http') && keyOrPath.includes('supabase.co')) {
+    return keyOrPath;
+  }
+  
+  // Fallback: If DB holds legacy local filepath, extract filename to find registry key
+  const match = Object.keys(IMAGE_REGISTRY).find(key => 
+    keyOrPath.toLowerCase().includes(key)
+  );
+  
+  if (match) {
+    return IMAGE_REGISTRY[match];
+  }
 
-  // Fallback: return as-is
+  // Ultimate fallback (e.g., /profile_pic.png or generic http links)
   return keyOrPath;
 }
 
