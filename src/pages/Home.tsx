@@ -188,7 +188,7 @@ export function Home() {
                 
                 {/* Actual Image */}
                 <img
-                  src="/profile_pic.png" 
+                  src={t.hero.image || "/profile_pic.png"} 
                   alt="Basel Mohamed"
                   className="relative w-full h-full object-cover rounded-full border-4 border-white dark:border-[#0D1117] shadow-2xl transition-transform duration-500 group-hover:scale-[1.03]"
                 />

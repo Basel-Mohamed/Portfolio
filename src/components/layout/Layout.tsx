@@ -4,12 +4,14 @@ import { Outlet } from 'react-router';
 import { FaGithub, FaLinkedin } from 'react-icons/fa6';
 import { useLanguage } from '../../context/LanguageContext';
 import { AIChatbot } from '../features/AIChatbot';
+import { ScrollToTop } from './ScrollToTop';
 
 export function Layout() {
   const { t } = useLanguage();
   
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0D1117] text-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-300">
+      <ScrollToTop />
       <Navbar />
       
       <main className="flex-grow pt-16">

@@ -64,14 +64,14 @@ export function Experience() {
         {/* Render Professional Experience */}
         <TimelineSection 
           title={t.experience.title} 
-          items={t.experience.professional} 
+          items={t.experience.professional || t.experience.items || []} 
           icon={FaBriefcase} 
         />
 
         {/* Render Internships & Training */}
         <TimelineSection 
-          title={t.experience.internshipsTitle} 
-          items={t.experience.internships} 
+          title={t.experience.internshipsTitle || t.experience.title} 
+          items={t.experience.internships || []} 
           icon={FaGraduationCap} 
         />
 

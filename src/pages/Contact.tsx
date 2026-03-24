@@ -73,7 +73,14 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // Build mailto link with form data
+    const subject = encodeURIComponent(formData.subject || 'Portfolio Contact');
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
+    );
+    window.open(`mailto:baselmohamed937@gmail.com?subject=${subject}&body=${body}`, '_self');
+    
     setStatus('sent');
     setFormData({ name: '', email: '', subject: '', message: '' });
     setTimeout(() => setStatus('idle'), 3000);

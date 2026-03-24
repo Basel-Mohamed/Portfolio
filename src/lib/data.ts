@@ -47,6 +47,7 @@ export const DATA = {
       name: "Basel Mohamed Ahmed",
       title: "Full Stack AI Engineer",
       tagline: "Building intelligent AI systems that transform data into actionable insights.",
+      image: "/profile_pic.png",
       buttons: {
         contact: "Get in Touch",
         projects: "View Projects",
@@ -81,6 +82,7 @@ export const DATA = {
         desc: "I have earned over 18 professional certifications from institutions like Oracle, Coursera, and MaharaTech.",
         cta: "View All Certifications"
       },
+      certifications_subtitle: "A comprehensive overview of my continuous learning journey across AI, Full Stack Development, and Cloud Technologies.",
       certifications: [
         {
           title: "Applied Deep Learning - MaharaTech (ITIMooca)",
@@ -457,6 +459,7 @@ export const DATA = {
       name: "باسل محمد أحمد",
       title: "مهندس ذكاء اصطناعي متكامل",
       tagline: "بناء أنظمة ذكاء اصطناعي ذكية تحول البيانات إلى رؤى قابلة للتنفيذ.",
+      image: "/profile_pic.png",
       buttons: {
         contact: "تواصل معي",
         projects: "عرض المشاريع",
@@ -491,6 +494,7 @@ export const DATA = {
         desc: "حصلت على أكثر من 18 شهادة مهنية من مؤسسات مثل Oracle و Coursera و MaharaTech.",
         cta: "عرض كل الشهادات"
       },
+      certifications_subtitle: "نظرة شاملة على رحلة التعلم المستمر عبر الذكاء الاصطناعي وتطوير الويب والتقنيات السحابية.",
       certifications: [
         {
           title: "التعلم العميق التطبيقي - مهارة تك (ITIMooca)",

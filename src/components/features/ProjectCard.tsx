@@ -34,7 +34,7 @@ export function ProjectCard({ project, index, isLastOdd }: ProjectCardProps) {
       }`}
     >
       <div className="aspect-video overflow-hidden relative">
-        <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <img loading="lazy" src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
         
         {/* --- DESKTOP HOVER OVERLAY (Hidden on Mobile) --- */}
         <div className="hidden md:flex absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity items-center justify-center gap-4">

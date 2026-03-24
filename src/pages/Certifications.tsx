@@ -34,7 +34,7 @@ export function Certifications() {
             {t.nav.certifications}
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            A comprehensive overview of my continuous learning journey across AI, Full Stack Development, and Cloud Technologies.
+            {t.about.certifications_subtitle || "A comprehensive overview of my continuous learning journey across AI, Full Stack Development, and Cloud Technologies."}
           </p>
         </motion.div>
 
@@ -71,6 +71,7 @@ export function Certifications() {
               {/* Image Container */}
               <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-800">
                 <img 
+                  loading="lazy"
                   src={cert.image} 
                   alt={cert.title} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

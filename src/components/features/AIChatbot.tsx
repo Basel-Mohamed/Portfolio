@@ -4,6 +4,7 @@ import { FaPaperPlane, FaXmark, FaRobot, FaCommentDots, FaUser, FaSpinner } from
 import { useLanguage } from '../../context/LanguageContext';
 import { clsx } from 'clsx';
 import ReactMarkdown from 'react-markdown';
+import { supabase } from '../../lib/supabase';
 
 const MarkdownComponents: any = {
   h1: ({node, ...props}: any) => <h1 className="font-bold mt-2 mb-1 text-lg" {...props} />,
@@ -48,6 +49,21 @@ export function AIChatbot() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [dynamicPrompt, setDynamicPrompt] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchPrompt() {
+      try {
+        const { data } = await supabase.from('site_settings').select('ai_prompt').single();
+        if (data && data.ai_prompt) {
+          setDynamicPrompt(data.ai_prompt);
+        }
+      } catch (err) {
+        console.warn('Silent DB fetch fail, falling back to static prompt');
+      }
+    }
+    fetchPrompt();
+  }, []);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null); // Added ref for the input
@@ -87,7 +103,7 @@ export function AIChatbot() {
         },
         body: JSON.stringify({
           message: query,
-          preamble: t.chatbot.prompt,
+          preamble: dynamicPrompt || t.chatbot.prompt,
           temperature: 0.3,
           chat_history: chatHistory
         })

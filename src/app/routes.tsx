@@ -1,10 +1,12 @@
 import { createBrowserRouter } from "react-router";
 import { Layout } from "../components/layout/Layout";
+import { ErrorBoundary } from "../components/layout/ErrorBoundary";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: Layout,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         index: true,
@@ -36,4 +38,18 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/admin/login",
+    lazy: () => import("../pages/admin/Login").then(m => ({ Component: m.Login })),
+  },
+  {
+    path: "/admin",
+    lazy: () => import("../components/auth/ProtectedRoute").then(m => ({ Component: m.ProtectedRoute })),
+    children: [
+      {
+        index: true,
+        lazy: () => import("../pages/admin/Dashboard").then(m => ({ Component: m.Dashboard })),
+      }
+    ]
+  }
 ]);
