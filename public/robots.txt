@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/login
 
-Sitemap: https://portfolio-tan-three-jio5dda2ea.vercel.app/sitemap.xml
+Sitemap: https://baselmohamed.com/sitemap.xml

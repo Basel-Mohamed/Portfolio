@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const SITE_URL = 'https://portfolio-tan-three-jio5dda2ea.vercel.app';
+const SITE_URL = 'https://baselmohamed.com';
 const DEFAULT_IMAGE = `${SITE_URL}/profile_pic.png`;
 
 interface SEOProps {
