@@ -131,7 +131,7 @@ export function Home() {
                 
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                   <a
-                    href="https://drive.usercontent.google.com/u/0/uc?id=1vZiVfNVylmzwwh5FzFpEdZn2VC7uufIs&export=download" 
+                    href="https://drive.usercontent.google.com/u/0/uc?id=1kdVtgciKdU4OupzkPxOUA9qWEK2T21M2&export=download" 
                     download="Basel_Mohamed_CV.pdf"
                     className="w-full px-8 py-3.5 bg-white dark:bg-[#161b22] text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all font-bold flex items-center justify-center gap-2 shadow-sm"
                   >
