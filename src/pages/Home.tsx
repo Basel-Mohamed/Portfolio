@@ -163,7 +163,7 @@ export function Home() {
                   <motion.a 
                     whileHover={{ scale: 1.1, y: -2 }} 
                     whileTap={{ scale: 0.9 }}
-                    href="https://www.linkedin.com/in/basel-mohamed-94972a334/" 
+                    href="https://www.linkedin.com/in/baselmohamed937/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-3 bg-white dark:bg-[#161b22] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm"
