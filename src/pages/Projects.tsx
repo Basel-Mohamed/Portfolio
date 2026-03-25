@@ -2,10 +2,17 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { ProjectCard } from '../components/features/ProjectCard';
+import { useSEO } from '../hooks/useSEO';
 
 export function Projects() {
   const { t, dir } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<'ai' | 'fullstack'>('ai');
+
+  useSEO({
+    title: 'Projects - Basel Mohamed | AI & Full Stack Portfolio',
+    description: 'Explore AI and Full Stack projects by Basel Mohamed, including NLP systems, RAG pipelines, Generative AI applications, and modern web applications.',
+    url: '/projects',
+  });
 
   const tabLabels = {
     ai: dir === 'rtl' ? 'مشاريع الذكاء الاصطناعي' : 'AI Projects',

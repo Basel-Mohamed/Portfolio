@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useSearchParams } from 'react-router';
 import { FaEnvelope, FaPhone, FaLinkedin } from 'react-icons/fa6';
 import { clsx } from 'clsx';
+import { useSEO } from '../hooks/useSEO';
 
 const contactCards = [
   {
@@ -51,6 +52,12 @@ export function Contact() {
   const { t, dir } = useLanguage();
   const [searchParams] = useSearchParams();
   const serviceParam = searchParams.get('service');
+
+  useSEO({
+    title: 'Contact - Basel Mohamed | Get In Touch',
+    description: 'Get in touch with Basel Mohamed for AI engineering collaborations, freelance projects, or any inquiries. Available via email, phone, and LinkedIn.',
+    url: '/contact',
+  });
 
   const [formData, setFormData] = useState({
     name: '',

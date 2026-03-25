@@ -3,9 +3,16 @@ import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { FaBrain, FaCode, FaCloud, FaTerminal, FaAward } from 'react-icons/fa6';
 import { Link } from 'react-router';
+import { useSEO } from '../hooks/useSEO';
 
 export function About() {
   const { t } = useLanguage();
+
+  useSEO({
+    title: 'About - Basel Mohamed | AI Engineer',
+    description: 'Learn about Basel Mohamed, an Associate AI Engineer based in Cairo, Egypt, specializing in NLP, Generative AI, RAG systems, and Full Stack Development.',
+    url: '/about',
+  });
 
   const container = {
     hidden: { opacity: 0 },

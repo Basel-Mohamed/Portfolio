@@ -3,10 +3,17 @@ import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { FaArrowRight, FaCircleCheck } from 'react-icons/fa6';
 import { useNavigate } from 'react-router';
+import { useSEO } from '../hooks/useSEO';
 
 export function Services() {
   const { t, dir } = useLanguage();
   const navigate = useNavigate();
+
+  useSEO({
+    title: 'Services - Basel Mohamed | AI Engineering & Development',
+    description: 'Freelance AI engineering and software development services by Basel Mohamed: NLP solutions, RAG pipelines, Generative AI integrations, and Full Stack web applications.',
+    url: '/services',
+  });
 
   const handleRequest = (serviceTitle: string) => {
     navigate(`/contact?service=${encodeURIComponent(serviceTitle)}`);

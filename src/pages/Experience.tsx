@@ -3,9 +3,16 @@ import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { FaBriefcase, FaGraduationCap } from 'react-icons/fa6';
 import { FaRegCalendarAlt } from 'react-icons/fa';
+import { useSEO } from '../hooks/useSEO';
 
 export function Experience() {
   const { t } = useLanguage();
+
+  useSEO({
+    title: 'Experience - Basel Mohamed | AI Engineer',
+    description: 'Professional experience and internship history of Basel Mohamed — AI engineering roles, full stack development positions, and technical training.',
+    url: '/experience',
+  });
 
   // Helper component to render a single timeline to avoid repeating code
   const TimelineSection = ({ title, items, icon: Icon }: { title: string, items: any[], icon: any }) => (

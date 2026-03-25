@@ -3,11 +3,18 @@ import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { FaRegCalendarAlt, FaExternalLinkAlt } from 'react-icons/fa';
 import { CertificateModal } from '../components/layout/CertificateModal';
+import { useSEO } from '../hooks/useSEO';
 
 export function Certifications() {
   const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [selectedCert, setSelectedCert] = useState<any | null>(null);
+
+  useSEO({
+    title: 'Certifications - Basel Mohamed | AI & Cloud Learning',
+    description: 'Professional certifications earned by Basel Mohamed in Artificial Intelligence, Machine Learning, Cloud Computing, and Full Stack Development.',
+    url: '/certifications',
+  });
 
   const categories = useMemo(() => {
     const allCategories = t.about.certifications.map((cert: any) => cert.category || "Other");

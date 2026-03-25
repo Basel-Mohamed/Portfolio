@@ -7,9 +7,16 @@ import {
 import { Link } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';
 import { ProjectCard } from '../components/features/ProjectCard';
+import { useSEO } from '../hooks/useSEO';
 
 export function Home() {
   const { t, dir } = useLanguage();
+
+  useSEO({
+    title: 'Basel Mohamed | Full Stack AI Engineer',
+    description: 'Portfolio of Basel Mohamed, an Associate AI Engineer specializing in NLP, Generative AI, RAG systems, and Full Stack Development based in Cairo, Egypt.',
+    url: '/',
+  });
 
   const container = {
     hidden: { opacity: 0 },
