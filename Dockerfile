@@ -1,26 +1,25 @@
-# Stage 1: Build the Vite React Frontend
-FROM node:20-alpine AS frontend-builder
+# Stage 1: Build the Vite App
+FROM node:20-alpine AS builder
 WORKDIR /app
-# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
-# Copy the rest of the code and build
 COPY . .
 RUN npm run build
 
-# Stage 2: Setup FastAPI Python Backend
-FROM python:3.11-slim
-WORKDIR /app
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-# Copy the FastAPI backend code
-COPY main.py .
-# Copy the built React assets from Stage 1 into the Python container
-COPY --from=frontend-builder /app/dist ./dist
+# Stage 2: Serve with Nginx
+FROM nginx:alpine
+# Copy the built files from Stage 1 to Nginx's public folder
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Expose the standard Cloud Run port
+# Add a tiny config to make React Router work (forces all routes to index.html)
+RUN echo 'server { \
+    listen 8080; \
+    location / { \
+        root /usr/share/nginx/html; \
+        index index.html index.htm; \
+        try_files $uri $uri/ /index.html; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
+
 EXPOSE 8080
-
-# Run the FastAPI server
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["nginx", "-g", "daemon off;"]

@@ -95,8 +95,10 @@ export function AIChatbot() {
         message: msg.text
       }));
 
+      const API_URL = import.meta.env.VITE_API_URL || '';
+
       // Secure Production Route utilizing Vercel Serverless Function
-      const response = await fetch('/api/chat', {
+      const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
