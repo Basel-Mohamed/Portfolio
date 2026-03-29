@@ -38,14 +38,15 @@ export function Home() {
     }
   };
 
-  // Flying AI Icons Configuration
+  // Flying AI Icons — rendered only on md+ via `hidden md:block`.
+  // Each gets a pure-CSS animation class so zero framer-motion overhead on mobile.
   const floatingIcons = [
-    { Icon: FaBrain, top: '15%', left: '10%', color: 'text-purple-500/30 dark:text-purple-400/20', delay: 0, size: 64 },
-    { Icon: FaMicrochip, top: '20%', right: '12%', color: 'text-blue-500/30 dark:text-blue-400/20', delay: 1, size: 56 },
-    { Icon: FaDatabase, bottom: '20%', left: '15%', color: 'text-green-500/30 dark:text-green-400/20', delay: 2, size: 48 },
-    { Icon: FaCode, bottom: '25%', right: '15%', color: 'text-orange-500/30 dark:text-orange-400/20', delay: 1.5, size: 52 },
-    { Icon: FaWandMagicSparkles, top: '45%', left: '5%', color: 'text-yellow-500/30 dark:text-yellow-400/20', delay: 0.5, size: 40 },
-    { Icon: FaGlobe, top: '50%', right: '8%', color: 'text-indigo-500/30 dark:text-indigo-400/20', delay: 2.5, size: 60 },
+    { Icon: FaBrain,             top: '15%', left: '10%',   color: 'text-purple-500/30 dark:text-purple-400/20', animClass: 'animate-icon-float-0', size: 64 },
+    { Icon: FaMicrochip,         top: '20%', right: '12%',  color: 'text-blue-500/30 dark:text-blue-400/20',     animClass: 'animate-icon-float-1', size: 56 },
+    { Icon: FaDatabase,          bottom: '20%', left: '15%',color: 'text-green-500/30 dark:text-green-400/20',   animClass: 'animate-icon-float-2', size: 48 },
+    { Icon: FaCode,              bottom: '25%', right: '15%',color: 'text-orange-500/30 dark:text-orange-400/20',animClass: 'animate-icon-float-3', size: 52 },
+    { Icon: FaWandMagicSparkles, top: '45%', left: '5%',    color: 'text-yellow-500/30 dark:text-yellow-400/20', animClass: 'animate-icon-float-4', size: 40 },
+    { Icon: FaGlobe,             top: '50%', right: '8%',   color: 'text-indigo-500/30 dark:text-indigo-400/20', animClass: 'animate-icon-float-5', size: 60 },
   ];
 
   return (
@@ -53,46 +54,34 @@ export function Home() {
       {/* Hero Section */}
       <section className="relative min-h-[95vh] flex items-center justify-center bg-gray-50 dark:bg-[#0D1117] overflow-hidden">
         
-        {/* Animated Abstract Background Shapes */}
+        {/*
+          Background blobs: previously driven by framer-motion animate (JS rAF loop).
+          Now pure-CSS animations — identical visual result, zero JS cost on mobile.
+          On mobile the blur is reduced from 120px → 80px to avoid GPU overload.
+        */}
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-          <motion.div 
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[120px]" 
-          />
-          <motion.div 
-            animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute bottom-[10%] right-[-5%] w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[120px]" 
-          />
+          <div className="animate-blob-1 absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[80px] md:blur-[120px]" />
+          <div className="animate-blob-2 absolute bottom-[10%] right-[-5%] w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[80px] md:blur-[120px]" />
         </div>
 
-        {/* Flying AI Icons */}
+        {/*
+          Floating icons: hidden on mobile entirely (they're clipped behind content anyway).
+          On desktop they use pure-CSS keyframe classes — no framer-motion instances.
+        */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
           {floatingIcons.map((iconData, index) => (
-            <motion.div
+            <div
               key={index}
-              className={`absolute ${iconData.color}`}
+              className={`absolute hidden md:block ${iconData.color} ${iconData.animClass}`}
               style={{ 
                 top: iconData.top, 
                 left: iconData.left, 
                 right: iconData.right, 
                 bottom: iconData.bottom 
               }}
-              animate={{
-                y: [0, -25, 0],
-                x: [0, 15, 0],
-                rotate: [0, 10, -10, 0],
-              }}
-              transition={{
-                duration: 6,
-                delay: iconData.delay,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
             >
               <iconData.Icon size={iconData.size} />
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -174,18 +163,19 @@ export function Home() {
               </motion.div>
             </motion.div>
 
-            {/* Right Content (Profile Picture) */}
+            {/* Right Content (Profile Picture)
+                Previously: motion.div with animate={{ y: [-15, 15, -15] }} — a JS rAF loop.
+                Now: the inner wrapper uses `animate-hero-float` (pure CSS) instead.
+                The outer motion.div keeps only the one-shot entrance animation.
+            */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
               className="flex-1 flex justify-center lg:justify-end w-full mt-10 lg:mt-0"
             >
-              <motion.div 
-                className="relative w-64 h-64 md:w-80 md:h-80 group"
-                animate={{ y: [-15, 15, -15] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              >
+              {/* CSS float replaces the continuous framer-motion y-animation */}
+              <div className="animate-hero-float relative w-64 h-64 md:w-80 md:h-80 group">
                 {/* Tech Ring Background */}
                 <div className="absolute -inset-4 border-2 border-dashed border-blue-500/30 dark:border-blue-400/30 rounded-full animate-[spin_20s_linear_infinite]" />
                 <div className="absolute -inset-8 border-2 border-dashed border-purple-500/20 dark:border-purple-400/20 rounded-full animate-[spin_25s_linear_infinite_reverse]" />
@@ -199,7 +189,7 @@ export function Home() {
                   alt="Basel Mohamed"
                   className="relative w-full h-full object-cover rounded-full border-4 border-white dark:border-[#0D1117] shadow-2xl transition-transform duration-500 group-hover:scale-[1.03]"
                 />
-              </motion.div>
+              </div>
             </motion.div>
           </div>
         </div>
