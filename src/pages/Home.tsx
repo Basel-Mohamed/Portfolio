@@ -1,5 +1,4 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import { motion, type Variants } from 'motion/react';
 import { 
   FaArrowRight, FaDownload, FaGithub, FaLinkedin, FaTerminal, 
   FaBrain, FaServer, FaMicrochip, FaDatabase, FaCode, FaGlobe, FaWandMagicSparkles 
@@ -7,6 +6,7 @@ import {
 import { Link } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';
 import { ProjectCard } from '../components/features/ProjectCard';
+import { Project } from '../types/portfolio';
 import { useSEO } from '../hooks/useSEO';
 
 export function Home() {
@@ -18,7 +18,7 @@ export function Home() {
     url: '/',
   });
 
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -29,7 +29,7 @@ export function Home() {
     }
   };
 
-  const item: any = {
+  const item: Variants = {
     hidden: { opacity: 0, y: 30 },
     show: { 
       opacity: 1, 
@@ -272,7 +272,7 @@ export function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {t.projects.items.slice(0, 2).map((project: any, index: number) => (
+            {t.projects.items.slice(0, 2).map((project: Project, index: number) => (
               <ProjectCard 
                 key={project.id} 
                 project={project} 

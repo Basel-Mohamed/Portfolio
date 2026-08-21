@@ -31,8 +31,9 @@ import certFrontendDiplomaRoute from '../assets/certificates/frontend-diploma-ro
 import certDatabaseFundamentals from '../assets/certificates/database-fundamentals.jpg';
 import certHtmlCss from '../assets/certificates/html-css.jpg';
 import certUxDesign from '../assets/certificates/ux-design.jpg';
+import { PortfolioContent } from '../types/portfolio';
 
-export const DATA = {
+export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
   en: {
     nav: {
       home: "Home",
@@ -262,15 +263,136 @@ export const DATA = {
       title: "Featured Projects",
       items: [
         {
+          id: "rag-agent",
+          type: "ai",
+          nda: true,
+          github: "",
+          live: "",
+          title: "Enterprise RAG Agent",
+          category: "RAG & FastAPI",
+          description: "Built an end-to-end RAG system with document ingestion, embeddings, hybrid retrieval (Qdrant), and neural reranking. Exposed the workflow via FastAPI with a configurable LLM factory (Cohere / Groq / Local) and production observability.",
+          tech: ["LangChain", "Qdrant", "FastAPI", "Cohere", "Groq", "Python"],
+          image: ragProject,
+          metrics: [
+            { label: "Retrieval Latency", value: "< 380ms" },
+            { label: "Context Recall", value: "96.4%", change: "+18%" },
+            { label: "Indexed Chunks", value: "100k+" }
+          ],
+          architecture: {
+            overview: "Hybrid retrieval pipeline combining dense semantic vector search with cross-encoder re-ranking to deliver low-latency, hallucination-resistant enterprise context.",
+            diagramTitle: "RAG Pipeline Architecture",
+            pipeline: [
+              {
+                step: 1,
+                title: "Document Parsing & Chunking",
+                description: "Ingests heterogeneous multi-page PDFs and text docs using semantic-aware recursive character chunking with dynamic overlap.",
+                technologies: ["LangChain", "Unstructured", "PyPDF"],
+                keyHighlight: "Semantic Chunking"
+              },
+              {
+                step: 2,
+                title: "Dense Vector Embedding",
+                description: "Generates high-dimensional vector embeddings optimized for semantic similarity and multi-lingual retrieval.",
+                technologies: ["Cohere Embed v3", "HuggingFace"],
+                keyHighlight: "1024-dim Embeddings"
+              },
+              {
+                step: 3,
+                title: "Hybrid Vector Search",
+                description: "Performs low-latency approximate nearest neighbor (HNSW) search with payload metadata filtering.",
+                technologies: ["Qdrant Vector DB", "HNSW Index"],
+                keyHighlight: "Sub-50ms Search"
+              },
+              {
+                step: 4,
+                title: "Cross-Encoder Re-Ranking",
+                description: "Re-scores top-k retrieved candidates using neural cross-encoders to eliminate irrelevant noise and reduce context window usage.",
+                technologies: ["Cohere Rerank v3", "Cross-Encoder"],
+                keyHighlight: "+32% Precision"
+              },
+              {
+                step: 5,
+                title: "Contextual Synthesis & Guardrails",
+                description: "Constructs grounded prompt with safety guardrails and streams tokens asynchronously via FastAPI.",
+                technologies: ["FastAPI", "Cohere Command-R", "Groq LLaMA 3"],
+                keyHighlight: "Real-Time Streaming"
+              }
+            ]
+          }
+        },
+        {
+          id: "doc-understanding",
+          type: "ai",
+          nda: true,
+          github: "",
+          live: "",
+          title: "Document AI - Arabic OCR System",
+          category: "OCR & Vision",
+          description: "Fine-tuned Vision Transformer OCR models on combined real and synthetic datasets, increasing Arabic character accuracy from 78% to 92% and achieving 96% in English with automated deskewing and normalization pipelines.",
+          tech: ["Python", "FastAPI", "Vision Transformers", "OpenCV", "PyTorch"],
+          image: ocrProject,
+          metrics: [
+            { label: "Arabic Accuracy", value: "92.0%", change: "+14%" },
+            { label: "English Accuracy", value: "96.0%" },
+            { label: "Throughput", value: "420ms / page" }
+          ],
+          architecture: {
+            overview: "End-to-end multi-lingual OCR pipeline featuring automated image deskewing, binarization, Transformer-based sequence recognition, and Arabic linguistic post-processing.",
+            diagramTitle: "Arabic OCR Vision Pipeline",
+            pipeline: [
+              {
+                step: 1,
+                title: "Preprocessing & Deskewing",
+                description: "Applies adaptive thresholding, morphological noise removal, and orientation correction to ensure clean input.",
+                technologies: ["OpenCV", "NumPy", "Pillow"],
+                keyHighlight: "Automated Deskew"
+              },
+              {
+                step: 2,
+                title: "Text Line Localization",
+                description: "Detects text bounding boxes and line segments using contour analysis and deep feature maps.",
+                technologies: ["PyTorch", "CRAFT Detector"],
+                keyHighlight: "Line Segmentation"
+              },
+              {
+                step: 3,
+                title: "Deep Sequence Recognition",
+                description: "Extracts character sequences using a fine-tuned Vision Transformer encoder-decoder trained on Arabic typography.",
+                technologies: ["Transformers", "PyTorch", "CUDA"],
+                keyHighlight: "92% Arabic Accuracy"
+              },
+              {
+                step: 4,
+                title: "Arabic Linguistic Normalization",
+                description: "Normalizes diacritics, ligatures, and character joining rules to ensure downstream NLP compatibility.",
+                technologies: ["Python RegEx", "Arabic NLP Toolkit"],
+                keyHighlight: "Linguistic Post-process"
+              },
+              {
+                step: 5,
+                title: "Inference API & Batch Serving",
+                description: "Asynchronous microservice containerized with Docker for batch document extraction.",
+                technologies: ["FastAPI", "Docker", "Uvicorn"],
+                keyHighlight: "REST Service"
+              }
+            ]
+          }
+        },
+        {
           id: "ai-5",
           type: "ai",
-          title: "Oil Sales Prediction System",
+          title: "Oil Sales Prediction & Intelligence System",
           category: "Generative AI & ML",
           image: oilSalesImage,
           description: "An end-to-end AI solution combining a Random Forest Regression model for edible oil sales prediction with an LLM-integrated chat interface. It achieves an R² score of ~0.98 and is served via a FastAPI REST API for real-time inference and conversational insights.",
           tech: ["Python", "Machine Learning", "Random Forest", "LLM", "FastAPI"],
           github: "https://github.com/Basel-Mohamed/oil-sales-regression-model",
-          live: "https://ai-machine-learning-hub.vercel.app/model/oil-sales"
+          live: "https://ai-machine-learning-hub.vercel.app/model/oil-sales",
+          metrics: [
+            { label: "Model R² Score", value: "0.98" },
+            { label: "Inference Time", value: "< 45ms" },
+            { label: "Serving", value: "FastAPI REST" }
+          ]
         },
         {
           id: "ai-6",
@@ -281,31 +403,12 @@ export const DATA = {
           description: "An AI solution combining an Ensemble Voting Classifier (Gradient Boosting, Logistic Regression, AdaBoost) with an LLM-powered conversational agent via the Groq API. It predicts customer churn and provides a chat interface for marketing teams to assess risk.",
           tech: ["Python", "LLM", "Ensemble Learning", "FastAPI", "Groq API"],
           github: "https://github.com/Basel-Mohamed/churn-classification-ensemble",
-          live: "https://ai-machine-learning-hub.vercel.app/model/churn"
-        },
-        {
-          id: "rag-agent",
-          type: "ai",
-          nda: true,
-          github: "",
-          live: "",
-          title: "Enterprise RAG Agent",
-          category: "RAG & FastAPI",
-          description: "Built an end-to-end RAG system with document ingestion, embeddings, retrieval (Qdrant), and reranking. Exposed the workflow via FastAPI, with a configurable LLM factory (Local / Cohere / Groq) and production-ready logging.",
-          tech: ["LangChain", "Qdrant", "FastAPI", "Cohere", "Groq"],
-          image: ragProject
-        },
-        {
-          id: "doc-understanding",
-          type: "ai",
-          nda: true,
-          github: "",
-          live: "",
-          title: "Document AI - Arabic OCR System",
-          category: "OCR & FastAPI",
-          description: "Fine-tuned OCR models on combined real and synthetic data, increasing Arabic accuracy from 78% to 92% and achieving 96% in English. Built end-to-end preprocessing and inference pipelines exposed via FastAPI.",
-          tech: ["Python", "FastAPI", "OCR", "Transformers"],
-          image: ocrProject
+          live: "https://ai-machine-learning-hub.vercel.app/model/churn",
+          metrics: [
+            { label: "ROC-AUC Score", value: "0.94" },
+            { label: "Precision", value: "91.5%" },
+            { label: "LLM Engine", value: "Groq LLaMA 3" }
+          ]
         },
         {
           id: "digital-assistant",
@@ -674,15 +777,136 @@ export const DATA = {
       title: "المشاريع المميزة",
       items: [
         {
+          id: "rag-agent",
+          type: "ai",
+          nda: true,
+          github: "",
+          live: "",
+          title: "نظام RAG للمؤسسات",
+          category: "RAG و FastAPI",
+          description: "بناء نظام RAG متكامل لاستيعاب المستندات وتضمينها، والاسترجاع الهجين (Qdrant)، وإعادة الترتيب العصبي. تم توفير مسار العمل عبر واجهة FastAPI مع مصنع نماذج قابل للتكوين (Cohere / Groq / محلي) مع مراقبة وتسجيل كامل للبيانات.",
+          tech: ["LangChain", "Qdrant", "FastAPI", "Cohere", "Groq", "Python"],
+          image: ragProject,
+          metrics: [
+            { label: "زمن استجابة الاسترجاع", value: "< 380ms" },
+            { label: "دقة السياق", value: "96.4%", change: "+18%" },
+            { label: "المقاطع المفهرسة", value: "100k+" }
+          ],
+          architecture: {
+            overview: "خط أنابيب استرجاع هجين يجمع بين البحث الدلالي بالمتجهات وإعادة الترتيب العصبي لتوفير سياق مؤسسي منخفض الكمون ومقاوم للهلوسة.",
+            diagramTitle: "معمارية خط أنابيب RAG",
+            pipeline: [
+              {
+                step: 1,
+                title: "استيعاب المستندات والتقطيع الدلالي",
+                description: "استيعاب مستندات PDF والنصوص المعقدة مع تقطيع دلالي متقدم لضمان ترابط المعنى.",
+                technologies: ["LangChain", "Unstructured", "PyPDF"],
+                keyHighlight: "تقطيع دلالي"
+              },
+              {
+                step: 2,
+                title: "توليد المتجهات عالية الأبعاد",
+                description: "إنشاء تضمينات متجهات محسنة للمطابقة الدلالية متعددة اللغات.",
+                technologies: ["Cohere Embed v3", "HuggingFace"],
+                keyHighlight: "تضمين 1024 بعد"
+              },
+              {
+                step: 3,
+                title: "البحث الهجين في قاعدة بيانات المتجهات",
+                description: "تنفيذ بحث تقريبي سريع (HNSW) مع تصفية البيانات الوصفية المتقدمة.",
+                technologies: ["Qdrant Vector DB", "HNSW Index"],
+                keyHighlight: "بحث أقل من 50ms"
+              },
+              {
+                step: 4,
+                title: "إعادة الترتيب باستخدام Cross-Encoder",
+                description: "إعادة تقييم أفضل النتائج لفلترة الضوضاء وتقليل استهلاك نافذة السياق.",
+                technologies: ["Cohere Rerank v3", "Cross-Encoder"],
+                keyHighlight: "+32% دقة إضافية"
+              },
+              {
+                step: 5,
+                title: "التوليد المقيد بالضوابط والبث الحي",
+                description: "بناء أوامر مدعمة بسياق حقيقي مع ضوابط أمان وبث الرموز بشكل غير متزامن.",
+                technologies: ["FastAPI", "Cohere Command-R", "Groq LLaMA 3"],
+                keyHighlight: "بث فوري للرموز"
+              }
+            ]
+          }
+        },
+        {
+          id: "doc-understanding",
+          type: "ai",
+          nda: true,
+          github: "",
+          live: "",
+          title: "الذكاء الاصطناعي للمستندات - نظام OCR باللغة العربية",
+          category: "OCR والرؤية الحاسوبية",
+          description: "تحسين نماذج Vision Transformer للتعرف الضوئي على الحروف باستخدام بيانات حقيقية واصطناعية، مما رفع دقة اللغة العربية من 78% إلى 92% وتحقيق 96% في الإنجليزية مع تصحيح تلقائي للإمالة والضوضاء.",
+          tech: ["Python", "FastAPI", "Vision Transformers", "OpenCV", "PyTorch"],
+          image: ocrProject,
+          metrics: [
+            { label: "دقة اللغة العربية", value: "92.0%", change: "+14%" },
+            { label: "دقة اللغة الإنجليزية", value: "96.0%" },
+            { label: "سرعة المعالجة", value: "420ms / صفحة" }
+          ],
+          architecture: {
+            overview: "مسار متكامل لمعالجة المستندات العربية يشمل إزالة التشويش، والتجزئة السطرية، والتعرف القائم على Transformers والمعالجة اللغوية اللاحقة.",
+            diagramTitle: "مسار معمارية الـ OCR للغة العربية",
+            pipeline: [
+              {
+                step: 1,
+                title: "المعالجة المسبقة وتصحيح الإمالة",
+                description: "تطبيق تقنيات المعالجة الصورية لتنقية المستندات وتعديل زوايا الإمالة تلقائياً.",
+                technologies: ["OpenCV", "NumPy", "Pillow"],
+                keyHighlight: "تصحيح الإمالة تلقائياً"
+              },
+              {
+                step: 2,
+                title: "تحديد مواقع الأسطر والفقرات",
+                description: "استخراج مربعات الإحاطة وتجزئة الأسطر بدقة بالغة.",
+                technologies: ["PyTorch", "CRAFT Detector"],
+                keyHighlight: "تجزئة الأسطر"
+              },
+              {
+                step: 3,
+                title: "التعرف التسلسلي العميق",
+                description: "استخراج الحروف والنصوص عبر نموذج Vision Transformer مدرب على الخطوط العربية.",
+                technologies: ["Transformers", "PyTorch", "CUDA"],
+                keyHighlight: "دقة 92% للعربية"
+              },
+              {
+                step: 4,
+                title: "المعالجة اللغوية وضبط المحارف",
+                description: "تصحيح وتوحيد التشكيل والروابط الحرفية لضمان التوافق التام.",
+                technologies: ["Python RegEx", "Arabic NLP Toolkit"],
+                keyHighlight: "معالجة لغوية ذكية"
+              },
+              {
+                step: 5,
+                title: "واجهة الاستدلال والنشر السحابي",
+                description: "خدمة برمجية غير متزامنة معبأة داخل حاويات Docker للمعالجة الفردية والجماعية.",
+                technologies: ["FastAPI", "Docker", "Uvicorn"],
+                keyHighlight: "واجهة REST سريعة"
+              }
+            ]
+          }
+        },
+        {
           id: "ai-5",
           type: "ai",
-          title: "نظام توقع مبيعات الزيوت",
+          title: "نظام توقع مبيعات الزيوت والذكاء التحليلي",
           category: "الذكاء الاصطناعي التوليدي والتعلم الآلي",
           image: oilSalesImage,
           description: "حل ذكاء اصطناعي متكامل يجمع بين نموذج انحدار (Random Forest) لتوقع مبيعات زيوت الطعام مع واجهة محادثة مدمجة بنماذج لغوية كبيرة (LLM). يحقق دقة تصل إلى ~0.98 ويتم تشغيله عبر واجهة FastAPI لتوفير التوقعات والرؤى في الوقت الفعلي.",
           tech: ["Python", "Machine Learning", "Random Forest", "LLM", "FastAPI"],
           github: "https://github.com/Basel-Mohamed/oil-sales-regression-model",
-          live: "https://ai-machine-learning-hub.vercel.app/model/oil-sales"
+          live: "https://ai-machine-learning-hub.vercel.app/model/oil-sales",
+          metrics: [
+            { label: "معامل الدقة R²", value: "0.98" },
+            { label: "زمن الاستدلال", value: "< 45ms" },
+            { label: "بنية النشر", value: "FastAPI REST" }
+          ]
         },
         {
           id: "ai-6",
@@ -693,31 +917,12 @@ export const DATA = {
           description: "حل ذكاء اصطناعي يجمع بين نموذج تصنيف مجمع (Ensemble) ومساعد يعتمد على النماذج اللغوية الكبيرة (LLM) عبر واجهة Groq. يقوم بتوقع تسرب العملاء ويوفر واجهة محادثة لفرق التسويق لتقييم المخاطر بسهولة.",
           tech: ["Python", "LLM", "Ensemble Learning", "FastAPI", "Groq API"],
           github: "https://github.com/Basel-Mohamed/churn-classification-ensemble",
-          live: "https://ai-machine-learning-hub.vercel.app/model/churn"
-        },
-        {
-          id: "rag-agent",
-          type: "ai",
-          nda: true,
-          github: "",
-          live: "",
-          title: "نظام RAG للمؤسسات",
-          category: "RAG و FastAPI",
-          description: "بناء نظام RAG متكامل لاستيعاب المستندات، وتضمينها، واسترجاعها (Qdrant)، وإعادة ترتيبها. تم توفير مسار العمل عبر واجهة FastAPI، مع مصنع نماذج لغوية كبيرة (LLM) قابل للتكوين (محلي / Cohere / Groq) وتسجيل بيانات جاهز للإنتاج.",
-          tech: ["LangChain", "Qdrant", "FastAPI", "Cohere", "Groq"],
-          image: ragProject
-        },
-        {
-          id: "doc-understanding",
-          type: "ai",
-          nda: true,
-          github: "",
-          live: "",
-          title: "الذكاء الاصطناعي للمستندات - نظام OCR باللغة العربية",
-          category: "OCR و FastAPI",
-          description: "تم تحسين نماذج OCR باستخدام بيانات حقيقية واصطناعية، مما أدى إلى زيادة دقة اللغة العربية من 78% إلى 92% وتحقيق 96% في اللغة الإنجليزية. بناء مسارات عمل متكاملة للمعالجة المسبقة والاستدلال وتوفيرها عبر FastAPI.",
-          tech: ["Python", "FastAPI", "OCR", "Transformers"],
-          image: ocrProject
+          live: "https://ai-machine-learning-hub.vercel.app/model/churn",
+          metrics: [
+            { label: "مقياس ROC-AUC", value: "0.94" },
+            { label: "الدقة Precision", value: "91.5%" },
+            { label: "محرك التوليد", value: "Groq LLaMA 3" }
+          ]
         },
         {
           id: "digital-assistant",

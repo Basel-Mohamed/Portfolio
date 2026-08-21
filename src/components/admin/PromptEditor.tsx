@@ -15,7 +15,7 @@ export function PromptEditor() {
         setPrompt(data.ai_prompt);
       } else {
         // Fallback to data.ts if DB is completely empty
-        setPrompt(DATA.en.chatbot.prompt);
+        setPrompt(DATA.en.chatbot.prompt || '');
       }
       if (error && error.code !== 'PGRST116') {
         console.error('Fetch error:', error);
@@ -26,7 +26,7 @@ export function PromptEditor() {
   }, []);
 
   const handleLoadDefault = () => {
-    setPrompt(DATA.en.chatbot.prompt);
+    setPrompt(DATA.en.chatbot.prompt || '');
     setMessage('Loaded default template. Remember to save!');
     setTimeout(() => setMessage(''), 3000);
   };

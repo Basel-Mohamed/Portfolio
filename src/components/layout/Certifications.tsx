@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { FaAward } from 'react-icons/fa6';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { useLanguage } from '../../context/LanguageContext';
 import { CertificateModal } from './CertificateModal';
 
 // Define the type for your certificate object
@@ -18,7 +17,6 @@ interface CertificationsProps {
 }
 
 export function Certifications({ certifications }: CertificationsProps) {
-  const { t } = useLanguage();
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
 
   const container = {

@@ -1,14 +1,15 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { FaRegCalendarAlt, FaExternalLinkAlt } from 'react-icons/fa';
 import { CertificateModal } from '../components/layout/CertificateModal';
 import { useSEO } from '../hooks/useSEO';
+import { CertificationItem } from '../types/portfolio';
 
 export function Certifications() {
   const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>("All");
-  const [selectedCert, setSelectedCert] = useState<any | null>(null);
+  const [selectedCert, setSelectedCert] = useState<CertificationItem | null>(null);
 
   useSEO({
     title: 'Certifications - Basel Mohamed | AI & Cloud Learning',
@@ -17,13 +18,13 @@ export function Certifications() {
   });
 
   const categories = useMemo(() => {
-    const allCategories = t.about.certifications.map((cert: any) => cert.category || "Other");
+    const allCategories = t.about.certifications.map((cert: CertificationItem) => cert.category || "Other");
     return ["All", ...Array.from(new Set(allCategories))];
   }, [t.about.certifications]);
 
   const filteredCertifications = useMemo(() => {
     if (activeCategory === "All") return t.about.certifications;
-    return t.about.certifications.filter((cert: any) => (cert.category || "Other") === activeCategory);
+    return t.about.certifications.filter((cert: CertificationItem) => (cert.category || "Other") === activeCategory);
   }, [activeCategory, t.about.certifications]);
 
   return (
@@ -66,7 +67,7 @@ export function Certifications() {
 
         {/* --- GRID --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCertifications.map((cert: any, index: number) => (
+          {filteredCertifications.map((cert: CertificationItem, index: number) => (
             <motion.div
               key={`${cert.title}-${activeCategory}`}
               initial={{ opacity: 0, y: 20 }}

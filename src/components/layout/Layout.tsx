@@ -1,4 +1,3 @@
-import React from 'react';
 import { Navbar } from './Navbar';
 import { Outlet } from 'react-router';
 import { FaGithub, FaLinkedin } from 'react-icons/fa6';

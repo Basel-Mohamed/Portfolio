@@ -2,20 +2,22 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { DATA } from '../lib/data';
 import { resolveImage } from '../lib/imageRegistry';
+import { PortfolioContent } from '../types/portfolio';
 
 // Recursively walk an object and resolve any "image" fields through the registry
-function resolveImages(obj: any): any {
-  if (Array.isArray(obj)) return obj.map(item => resolveImages(item));
+function resolveImages<T>(obj: T): T {
+  if (Array.isArray(obj)) return obj.map(item => resolveImages(item)) as unknown as T;
   if (obj && typeof obj === 'object') {
-    const result: any = {};
+    const result: Record<string, any> = {};
     for (const key of Object.keys(obj)) {
-      if (key === 'image' && typeof obj[key] === 'string') {
-        result[key] = resolveImage(obj[key]);
+      const val = (obj as Record<string, any>)[key];
+      if (key === 'image' && typeof val === 'string') {
+        result[key] = resolveImage(val);
       } else {
-        result[key] = resolveImages(obj[key]);
+        result[key] = resolveImages(val);
       }
     }
-    return result;
+    return result as T;
   }
   return obj;
 }
@@ -25,7 +27,7 @@ type Language = 'en' | 'ar';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: any;
+  t: PortfolioContent;
   dir: 'ltr' | 'rtl';
 }
 
@@ -67,7 +69,7 @@ function applyThemeVariables(themeName: string) {
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>('en');
-  const [tData, setTData] = useState<any>(null);
+  const [tData, setTData] = useState<PortfolioContent>(DATA.en);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -84,48 +86,49 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     async function fetchDynamicContent() {
       setIsLoading(true);
       
-      // Concurrently fetch Content and Theme configuration
-      const [contentRes, settingsRes] = await Promise.all([
-         supabase.from('portfolio_content').select('*').eq('language', language),
-         supabase.from('site_settings').select('theme_color').single()
-      ]);
-      
-      if (settingsRes.data && settingsRes.data.theme_color) {
-          applyThemeVariables(settingsRes.data.theme_color);
+      try {
+        const [contentRes, settingsRes] = await Promise.all([
+           supabase.from('portfolio_content').select('*').eq('language', language),
+           supabase.from('site_settings').select('theme_color').single()
+        ]);
+        
+        if (settingsRes.data && settingsRes.data.theme_color) {
+            applyThemeVariables(settingsRes.data.theme_color);
+        }
+
+        const rows = contentRes.data;
+        const error = contentRes.error;
+        
+        if (error || !rows || rows.length === 0) {
+           setTData(DATA[language]);
+           setIsLoading(false);
+           return;
+        }
+
+        const rebuilt: PortfolioContent = JSON.parse(JSON.stringify(DATA[language]));
+        
+        rebuilt.projects.items = [];
+        if (rebuilt.experience) rebuilt.experience.items = [];
+        if (rebuilt.services) rebuilt.services.items = [];
+        if (rebuilt.about) rebuilt.about.certifications = [];
+
+        rows.forEach((row: any) => {
+            if (row.section === 'projects' && rebuilt.projects) rebuilt.projects.items.push(row.content);
+            else if (row.section === 'experience' && rebuilt.experience) rebuilt.experience.items?.push(row.content);
+            else if (row.section === 'services' && rebuilt.services) rebuilt.services.items?.push(row.content);
+            else if (row.section === 'certifications' && rebuilt.about) rebuilt.about.certifications.push(row.content);
+            else if (row.section === 'about' && rebuilt.about) rebuilt.about = { ...rebuilt.about, ...row.content };
+            else if (row.section === 'hero' && rebuilt.hero) rebuilt.hero = { ...rebuilt.hero, ...row.content };
+            else (rebuilt as Record<string, any>)[row.section] = row.content;
+        });
+
+        const resolved = resolveImages(rebuilt);
+        setTData(resolved);
+      } catch {
+        setTData(DATA[language]);
+      } finally {
+        setIsLoading(false);
       }
-
-      const rows = contentRes.data;
-      const error = contentRes.error;
-      
-      if (error || !rows || rows.length === 0) {
-         setTData(DATA[language]);
-         setIsLoading(false);
-         return;
-      }
-
-      // Base clone to preserve text labels (like Projects section title)
-      const rebuilt: any = JSON.parse(JSON.stringify(DATA[language]));
-      
-      // Wipe arrays to replace fully with remote DB rows
-      rebuilt.projects.items = [];
-      rebuilt.experience.items = [];
-      rebuilt.services.items = [];
-      rebuilt.about.certifications = [];
-
-      rows.forEach(row => {
-          if (row.section === 'projects') rebuilt.projects.items.push(row.content);
-          else if (row.section === 'experience') rebuilt.experience.items.push(row.content);
-          else if (row.section === 'services') rebuilt.services.items.push(row.content);
-          else if (row.section === 'certifications') rebuilt.about.certifications.push(row.content);
-          else if (row.section === 'about') rebuilt.about = { ...rebuilt.about, ...row.content };
-          else if (row.section === 'hero') rebuilt.hero = { ...rebuilt.hero, ...row.content };
-          else rebuilt[row.section] = row.content;
-      });
-
-      // Resolve all image keys to Vite-optimized URLs
-      const resolved = resolveImages(rebuilt);
-      setTData(resolved);
-      setIsLoading(false);
     }
     
     fetchDynamicContent();

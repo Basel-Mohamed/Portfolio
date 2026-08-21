@@ -41,9 +41,9 @@ export function Dashboard() {
     // Set initial timeout
     resetTimer();
 
-    // Track user activity
-    const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
-    events.forEach(e => window.addEventListener(e, resetTimer));
+    // Track user activity across typing, mouse, and touch
+    const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart', 'input', 'change', 'paste', 'focusin'];
+    events.forEach(e => window.addEventListener(e, resetTimer, { passive: true }));
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);

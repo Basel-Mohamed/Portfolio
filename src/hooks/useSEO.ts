@@ -34,9 +34,10 @@ export function useSEO({
       let el = document.querySelector<HTMLMetaElement>(selector);
       if (!el) {
         el = document.createElement('meta');
-        const [attrName, attrVal] = selector.replace('[', '').replace(']', '').split('=');
-        // Strip quotes from value if present
-        el.setAttribute(attrName, attrVal ? attrVal.replace(/"/g, '') : attr);
+        const match = selector.match(/\[([a-zA-Z0-9_:-]+)="?([^"\]]+)"?\]/);
+        if (match) {
+          el.setAttribute(match[1], match[2]);
+        }
         document.head.appendChild(el);
       }
       el.setAttribute(attr, value);

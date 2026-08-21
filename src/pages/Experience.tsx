@@ -1,9 +1,10 @@
-import React from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { FaBriefcase, FaGraduationCap } from 'react-icons/fa6';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { useSEO } from '../hooks/useSEO';
+import { ExperienceItem } from '../types/portfolio';
+import { IconType } from 'react-icons';
 
 export function Experience() {
   const { t } = useLanguage();
@@ -15,7 +16,7 @@ export function Experience() {
   });
 
   // Helper component to render a single timeline to avoid repeating code
-  const TimelineSection = ({ title, items, icon: Icon }: { title: string, items: any[], icon: any }) => (
+  const TimelineSection = ({ title, items, icon: Icon }: { title: string; items: ExperienceItem[]; icon: IconType }) => (
     <div className="mb-20">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -33,7 +34,7 @@ export function Experience() {
       </motion.div>
 
       <div className="relative border-l-2 border-gray-200 dark:border-gray-800 ml-3 md:ml-6 rtl:mr-3 rtl:ml-0 rtl:border-r-2 rtl:border-l-0">
-        {items.map((role: any, index: number) => (
+        {items.map((role: ExperienceItem, index: number) => (
           <motion.div 
             key={role.id}
             initial={{ opacity: 0, x: -20 }}

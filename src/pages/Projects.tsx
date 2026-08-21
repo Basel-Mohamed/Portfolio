@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { ProjectCard } from '../components/features/ProjectCard';
+import { Project } from '../types/portfolio';
 import { useSEO } from '../hooks/useSEO';
 
 export function Projects() {
@@ -19,7 +20,9 @@ export function Projects() {
     fullstack: dir === 'rtl' ? 'مشاريع الواجهات' : 'Full Stack Projects',
   };
 
-  const filteredProjects = t.projects.items.filter((project: any) => project.type === activeCategory);
+  const filteredProjects: Project[] = (t.projects?.items || []).filter(
+    (project: Project) => project.type === activeCategory
+  );
 
   return (
     <div className="py-20 min-h-screen">
@@ -63,7 +66,7 @@ export function Projects() {
 
         {/* --- PROJECTS GRID --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredProjects.map((project: any, index: number) => {
+          {filteredProjects.map((project: Project, index: number) => {
             const isLastOdd = index === filteredProjects.length - 1 && filteredProjects.length % 2 !== 0;
 
             return (

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useNavigate } from 'react-router';
+import { FaLock, FaEnvelope, FaSpinner } from 'react-icons/fa6';
 
 export function Login() {
   const [email, setEmail] = useState('');
@@ -9,7 +10,7 @@ export function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // If they are already logged in, redirect them immediately
+  // If already logged in, redirect immediately to admin dashboard
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) navigate('/admin');
@@ -20,65 +21,116 @@ export function Login() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
-    // Attempt sign in
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-    
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+
+    if (!cleanEmail || !cleanPassword) {
+      setError('Please provide both email and password.');
+      setLoading(false);
+      return;
+    }
+
+    // Strict sign in attempt only (auto-signup backdoor removed for security)
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      email: cleanEmail,
+      password: cleanPassword,
+    });
+
     if (signInError) {
-       // If sign in fails, try signing them up (first time creation)
-       const { data, error: signUpError } = await supabase.auth.signUp({ email, password });
-       if (signUpError) {
-          setError(signUpError.message);
-       } else {
-          // Signup success implies they need to check email or logged in
-          if (data.session) {
-             navigate('/admin');
-          } else {
-             setError('Check your email for the confirmation link!');
-          }
-       }
-    } else {
+      // Return a safe, generic message to prevent account enumeration
+      if (signInError.message.toLowerCase().includes('invalid login credentials')) {
+        setError('Invalid admin credentials. Please verify your email and password.');
+      } else {
+        setError(signInError.message);
+      }
+      setLoading(false);
+      return;
+    }
+
+    if (data.session) {
       navigate('/admin');
+    } else {
+      setError('Authentication succeeded but no active session was returned.');
     }
     setLoading(false);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0d1117]">
-      <div className="max-w-md w-full p-8 bg-[#161b22] rounded-2xl border border-gray-800 shadow-2xl">
-        <h2 className="text-3xl font-bold text-white mb-2 text-center">CMS Access</h2>
-        <p className="text-gray-400 text-center mb-8 text-sm">Sign in to manage your portfolio</p>
-        
-        {error && <div className="bg-red-500/10 border border-red-500/50 text-red-500 p-3 rounded-lg mb-4 text-sm font-medium">{error}</div>}
-        
-        <form onSubmit={handleLogin} className="space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Admin Email</label>
-            <input 
-              type="email" 
-              required 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-[#0d1117] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
-              placeholder="admin@example.com"
-            />
+    <div className="min-h-screen flex items-center justify-center bg-[#0d1117] p-4">
+      <div className="max-w-md w-full p-8 bg-[#161b22] rounded-3xl border border-gray-800 shadow-2xl relative overflow-hidden">
+        {/* Decorative Top Gradient */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600" />
+
+        <div className="w-12 h-12 bg-blue-900/30 text-blue-400 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-500/20">
+          <FaLock size={20} />
+        </div>
+
+        <h2 className="text-2xl font-bold text-white mb-2 text-center">Admin Console</h2>
+        <p className="text-gray-400 text-center mb-8 text-xs">
+          Sign in with authorized administrator credentials
+        </p>
+
+        {error && (
+          <div className="bg-red-500/10 border border-red-500/40 text-red-400 p-3.5 rounded-xl mb-6 text-xs leading-relaxed font-medium">
+            {error}
           </div>
+        )}
+
+        <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Secure Password</label>
-            <input 
-              type="password" 
-              required 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-[#0d1117] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
-              placeholder="••••••••"
-            />
+            <label className="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wider">
+              Admin Email
+            </label>
+            <div className="relative flex items-center">
+              <span className="absolute left-3.5 text-gray-500 pointer-events-none">
+                <FaEnvelope size={14} />
+              </span>
+              <input
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-[#0d1117] border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-sans"
+                placeholder="admin@example.com"
+              />
+            </div>
           </div>
-          <button 
-             disabled={loading}
-             className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-lg transition-colors mt-4"
+
+          <div>
+            <label className="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wider">
+              Master Password
+            </label>
+            <div className="relative flex items-center">
+              <span className="absolute left-3.5 text-gray-500 pointer-events-none">
+                <FaLock size={14} />
+              </span>
+              <input
+                type="password"
+                required
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-[#0d1117] border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-sans"
+                placeholder="••••••••••••"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 flex items-center justify-center gap-2 mt-6 text-sm"
           >
-            {loading ? 'Authenticating...' : 'Sign In'}
+            {loading ? (
+              <>
+                <FaSpinner size={16} className="animate-spin" />
+                <span>Authenticating...</span>
+              </>
+            ) : (
+              'Sign In to Dashboard'
+            )}
           </button>
         </form>
       </div>

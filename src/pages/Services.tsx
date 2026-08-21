@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { FaArrowRight, FaCircleCheck } from 'react-icons/fa6';

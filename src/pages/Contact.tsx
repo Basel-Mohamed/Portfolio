@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
-import { useSearchParams } from 'react-router';
 import { FaEnvelope, FaPhone, FaLinkedin } from 'react-icons/fa6';
 import { clsx } from 'clsx';
 import { useSEO } from '../hooks/useSEO';
@@ -49,49 +47,13 @@ const contactCards = [
 ];
 
 export function Contact() {
-  const { t, dir } = useLanguage();
-  const [searchParams] = useSearchParams();
-  const serviceParam = searchParams.get('service');
+  const { t } = useLanguage();
 
   useSEO({
     title: 'Contact - Basel Mohamed | Get In Touch',
     description: 'Get in touch with Basel Mohamed for AI engineering collaborations, freelance projects, or any inquiries. Available via email, phone, and LinkedIn.',
     url: '/contact',
   });
-
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: serviceParam ? `Inquiry about ${serviceParam}` : '',
-    message: ''
-  });
-
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
-
-  useEffect(() => {
-    if (serviceParam) {
-      setFormData(prev => ({
-        ...prev,
-        subject: `Inquiry about ${serviceParam}`
-      }));
-    }
-  }, [serviceParam]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus('sending');
-    
-    // Build mailto link with form data
-    const subject = encodeURIComponent(formData.subject || 'Portfolio Contact');
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
-    );
-    window.open(`mailto:baselmohamed937@gmail.com?subject=${subject}&body=${body}`, '_self');
-    
-    setStatus('sent');
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setTimeout(() => setStatus('idle'), 3000);
-  };
 
   return (
     <div className="py-20 min-h-screen">
