@@ -13,7 +13,9 @@
  *   COHERE_MODEL          defaults to command-r7b-12-2024
  *   VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY   to load the admin-edited prompt
  */
-import { CHATBOT_PROMPT } from '../src/lib/chatbotPrompt';
+// Explicit .js extension is required: package.json is "type": "module", so Vercel
+// runs this as native Node ESM, which does not resolve extensionless imports.
+import { CHATBOT_PROMPT } from '../src/lib/chatbotPrompt.js';
 
 const COHERE_URL = 'https://api.cohere.com/v2/chat';
 const DEFAULT_MODEL = 'command-r7b-12-2024';
