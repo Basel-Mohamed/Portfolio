@@ -84,7 +84,6 @@ export function AIChatbot() {
         message: msg.text
       }));
 
-    const API_URL = import.meta.env.VITE_API_URL || '';
     const botMsgId = Date.now().toString();
 
     // Optimistically insert empty bot message for token streaming
@@ -100,7 +99,8 @@ export function AIChatbot() {
     ]);
 
     try {
-      const response = await fetch(`${API_URL}/api/chat`, {
+      // Same-origin serverless function (api/chat.ts) — on Vercel and in `npm run dev`.
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -116,14 +116,21 @@ export function AIChatbot() {
         throw new Error(errorData.detail || errorData.message || `API error ${response.status}`);
       }
 
-      // Check if response is streamable
-      if (response.body) {
+      const contentType = response.headers.get('content-type') || '';
+
+      // Guard: an HTML page here means the request hit the SPA fallback, not the API.
+      if (contentType.includes('text/html')) {
+        throw new Error('Chat API endpoint not found (received HTML instead of a stream).');
+      }
+
+      if (contentType.includes('text/event-stream') && response.body) {
         const reader = response.body.getReader();
         const decoder = new TextDecoder('utf-8');
         let botText = '';
         let buffer = '';
 
-        while (true) {
+        let streamDone = false;
+        while (!streamDone) {
           const { done, value } = await reader.read();
           if (done) break;
 
@@ -137,20 +144,22 @@ export function AIChatbot() {
 
             if (trimmed.startsWith('data: ')) {
               const dataStr = trimmed.slice(6).trim();
-              if (dataStr === '[DONE]') break;
+              if (dataStr === '[DONE]') {
+                streamDone = true;
+                break;
+              }
 
+              let parsed: { token?: string; text?: string; delta?: string; error?: string } | null = null;
               try {
-                const parsed = JSON.parse(dataStr);
-                const token = parsed.token || parsed.text || parsed.delta || '';
-                if (token) {
-                  botText += token;
-                  setMessages(prev =>
-                    prev.map(m => (m.id === botMsgId ? { ...m, text: botText } : m))
-                  );
-                }
+                parsed = JSON.parse(dataStr);
               } catch {
-                // If raw string token was returned in data: payload
-                botText += dataStr;
+                parsed = null;
+              }
+
+              if (parsed?.error) throw new Error(parsed.error);
+              const token = parsed ? parsed.token || parsed.text || parsed.delta || '' : dataStr;
+              if (token) {
+                botText += token;
                 setMessages(prev =>
                   prev.map(m => (m.id === botMsgId ? { ...m, text: botText } : m))
                 );
@@ -158,24 +167,25 @@ export function AIChatbot() {
             }
           }
         }
+        if (streamDone) reader.cancel().catch(() => {});
+
+        if (!botText.trim()) {
+          throw new Error('The assistant returned an empty response.');
+        }
 
         // Finalize streaming state
         setMessages(prev =>
-          prev.map(m =>
-            m.id === botMsgId
-              ? { ...m, text: botText || 'Response received.', isStreaming: false }
-              : m
-          )
+          prev.map(m => (m.id === botMsgId ? { ...m, text: botText, isStreaming: false } : m))
         );
       } else {
-        // Fallback for non-streaming response
+        // Fallback for non-streaming JSON response
         const data = await response.json();
+        const text: string = data.text || data.response || data.message?.content?.[0]?.text || '';
+        if (!text.trim()) {
+          throw new Error('The assistant returned an empty response.');
+        }
         setMessages(prev =>
-          prev.map(m =>
-            m.id === botMsgId
-              ? { ...m, text: data.text || data.response || '', isStreaming: false }
-              : m
-          )
+          prev.map(m => (m.id === botMsgId ? { ...m, text, isStreaming: false } : m))
         );
       }
     } catch (error: any) {
