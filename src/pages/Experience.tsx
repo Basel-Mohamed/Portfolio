@@ -2,9 +2,10 @@ import { LuBriefcase, LuGraduationCap } from 'react-icons/lu';
 import type { IconType } from 'react-icons';
 import { useLanguage } from '../context/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
+import { CtaBand } from '../components/ui/CtaBand';
 import { useUI } from '../lib/ui-strings';
 import { ExperienceItem } from '../types/portfolio';
-import { PageHeader, Reveal, Eyebrow } from '../components/ui/primitives';
+import { PageHeader, Reveal } from '../components/ui/primitives';
 
 const isCurrent = (period: string) => /present|الحاضر|حالي/i.test(period);
 
@@ -16,12 +17,14 @@ function Timeline({ index, title, items, Icon }: { index: string; title: string;
     <section className="grid gap-10 py-16 md:py-20 lg:grid-cols-12">
       <div className="lg:col-span-4">
         <div className="lg:sticky lg:top-28">
-          <Eyebrow index={index}>{title}</Eyebrow>
-          <div className="mt-6 flex items-center gap-4">
+          <div className="flex items-center gap-4">
             <span className="flex size-12 items-center justify-center rounded-2xl bg-ink text-bg">
               <Icon size={22} aria-hidden="true" />
             </span>
-            <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl">{title}</h2>
+            <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl">
+              <span className="me-3 align-top font-mono text-sm text-coral-ink">{index}</span>
+              {title}
+            </h2>
           </div>
         </div>
       </div>
@@ -70,7 +73,7 @@ export function Experience() {
 
   return (
     <>
-      <PageHeader eyebrow={t.nav.experience} title={t.experience.title} lede={ui.experience.lede} />
+      <PageHeader eyebrow={t.nav.experience} title={t.nav.experience} lede={ui.experience.lede} />
       <div className="shell divide-y divide-line">
         <Timeline index="01" title={t.experience.title} items={t.experience.professional || t.experience.items || []} Icon={LuBriefcase} />
         <Timeline
@@ -80,6 +83,7 @@ export function Experience() {
           Icon={LuGraduationCap}
         />
       </div>
+      <CtaBand />
     </>
   );
 }

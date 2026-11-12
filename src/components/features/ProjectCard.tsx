@@ -28,7 +28,7 @@ export function ProjectCard({ project, index, featured = false }: ProjectCardPro
         as="article"
         delay={Math.min(index, 3) * 0.06}
         className={clsx(
-          'group flex flex-col overflow-hidden rounded-3xl border border-line bg-surface transition-colors duration-300 hover:border-line-strong',
+          'group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface transition-colors duration-300 hover:border-line-strong',
           featured && 'lg:grid lg:grid-cols-2',
         )}
       >
@@ -40,21 +40,22 @@ export function ProjectCard({ project, index, featured = false }: ProjectCardPro
             alt={project.title}
             className="absolute inset-0 size-full object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.03]"
           />
-          <span className="absolute end-4 bottom-4 rounded-full bg-bg/90 px-3 py-1 font-mono text-xs text-ink backdrop-blur-sm">
-            {number}
-          </span>
         </div>
 
         <div className={clsx('flex flex-grow flex-col p-6 sm:p-8', featured && 'lg:p-10')}>
-          <p className="eyebrow text-coral-ink">{project.category}</p>
+          <p className="eyebrow text-coral-ink">
+            <span className="text-ink-muted">{number}</span>
+            <span aria-hidden="true" className="mx-2 text-line-strong">/</span>
+            {project.category}
+          </p>
           <h3 className={clsx('mt-3 font-display font-medium tracking-tight', featured ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-3xl')}>
             {project.title}
           </h3>
 
           {project.metrics && project.metrics.length > 0 && (
-            <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
+            <dl className="mt-6 flex flex-wrap gap-px overflow-hidden rounded-2xl border border-line bg-line">
               {project.metrics.map(metric => (
-                <div key={metric.label} className="bg-surface px-4 py-3">
+                <div key={metric.label} className="min-w-0 flex-[1_1_7rem] bg-surface px-4 py-3">
                   <dt className="text-xs text-ink-muted">{metric.label}</dt>
                   <dd className="mt-1 flex items-baseline gap-1.5">
                     <span className="font-mono text-base font-medium tabular-nums">{metric.value}</span>
@@ -89,7 +90,7 @@ export function ProjectCard({ project, index, featured = false }: ProjectCardPro
               </span>
             ) : (
               <>
-                {project.github && (
+                {project.github && project.github !== '#' && (
                   <a href={project.github} target="_blank" rel="noopener noreferrer" className={actionBtn}>
                     <FaGithub size={15} aria-hidden="true" />
                     {ui.project.code}

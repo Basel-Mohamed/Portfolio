@@ -90,6 +90,7 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
           title: "Applied Deep Learning - MaharaTech (ITIMooca)",
           date: "Jan 2026",
           image: certAppliedDeepLearning,
+          featured: true,
           category: "AI & Data Science"
         },
         {
@@ -102,12 +103,14 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
           title: "AI Diploma Intermediate Level - NeuroTech",
           date: "Jan 2026",
           image: certAiDiplomaNeurotech,
+          featured: true,
           category: "AI & Data Science"
         },
         {
           title: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
           date: "Oct 2025",
           image: certOracleAiFoundations,
+          featured: true,
           category: "AI & Data Science"
         },
         {
@@ -265,6 +268,7 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
       items: [
         {
           id: "rag-agent",
+          featured: true,
           type: "ai",
           nda: true,
           github: "",
@@ -323,6 +327,7 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
         },
         {
           id: "doc-understanding",
+          featured: true,
           type: "ai",
           nda: true,
           github: "",
@@ -448,13 +453,13 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
         },
         {
           id: "fs-6",
+          featured: true,
           type: "fullstack",
           title: "ROOM APP Marketplace",
           category: "Full Stack Development",
           image: roomImage,
           description: "The premier digital marketplace in the UAE connecting over 200k+ users with verified service providers for design, construction, and furnishing. Built a full-stack platform featuring vendor profiles, tiered subscription plans, and a secure application workflow for business verification.",
           tech: ["React", "Tailwind CSS", "Framer Motion", "React Icons", "CSS", "Node.js"],
-          github: "#",
           live: "https://roomapp.ae"
         },
         {
@@ -604,6 +609,7 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
           title: "التعلم العميق التطبيقي - مهارة تك (ITIMooca)",
           date: "يناير 2026",
           image: certAppliedDeepLearning,
+          featured: true,
           category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
@@ -616,12 +622,14 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
           title: "دبلومة الذكاء الاصطناعي المستوى المتوسط - NeuroTech",
           date: "يناير 2026",
           image: certAiDiplomaNeurotech,
+          featured: true,
           category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
           title: "مساعد معتمد في أساسيات الذكاء الاصطناعي من البنية التحتية السحابية لأوراكل 2025",
           date: "أكتوبر 2025",
           image: certOracleAiFoundations,
+          featured: true,
           category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
@@ -779,6 +787,7 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
       items: [
         {
           id: "rag-agent",
+          featured: true,
           type: "ai",
           nda: true,
           github: "",
@@ -837,6 +846,7 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
         },
         {
           id: "doc-understanding",
+          featured: true,
           type: "ai",
           nda: true,
           github: "",
@@ -962,13 +972,13 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
         },
         {
           id: "fs-6",
+          featured: true,
           type: "fullstack",
           title: "تطبيق روم (ROOM APP)",
           category: "تطوير متكامل (Full Stack)",
           image: roomImage,
           description: "السوق الرقمي الأول في الإمارات الذي يربط أكثر من 200 ألف مستخدم بمزودي الخدمات المعتمدين في مجالات التصميم والبناء والمفروشات. تم بناء منصة متكاملة تتميز بملفات تعريف للبائعين، وخطط اشتراك متدرجة، ونظام آمن لتقديم طلبات توثيق الشركات.",
           tech: ["React", "Tailwind CSS", "Framer Motion", "React Icons", "CSS", "Node.js"],
-          github: "#",
           live: "https://roomapp.ae"
         },
         {

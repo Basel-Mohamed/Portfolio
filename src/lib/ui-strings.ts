@@ -16,16 +16,22 @@ const en = {
   },
   sections: {
     whatIDo: 'What I do',
+    whatIDoTitle: 'Four disciplines, one pipeline.',
     whatIDoLede: 'From research notebooks to production endpoints — the four areas I work across.',
     selectedWork: 'Selected work',
+    selectedWorkLede: 'A few systems I am proud of, with the numbers that matter.',
     experience: 'Experience',
+    credentials: 'Credentials',
+    credentialsTitle: 'Always learning, always shipping.',
+    credentialsLede: (n: number, k: number) =>
+      `${n} professional certifications across AI, data and the web, from ${k} institutions.`,
+    highlights: 'Highlights',
+    viewAllCerts: 'View all certifications',
   },
   theme: { toLight: 'Switch to light theme', toDark: 'Switch to dark theme' },
   language: { label: 'عربي', switchTo: 'التبديل إلى العربية' },
   menu: { open: 'Open menu', close: 'Close menu' },
   footer: {
-    title: 'Have a project in mind?',
-    lede: 'Tell me what you are building. I usually reply within a day.',
     pages: 'Pages',
     elsewhere: 'Elsewhere',
     backToTop: 'Back to top',
@@ -37,7 +43,7 @@ const en = {
     architecture: 'Architecture',
     nda: 'Under NDA',
     empty: 'No projects in this category yet.',
-    tabs: { ai: 'AI & ML', fullstack: 'Full stack' },
+    tabs: { all: 'All', ai: 'AI & ML', fullstack: 'Full stack' },
     lede: 'Production AI pipelines, research prototypes and full stack products.',
   },
   arch: {
@@ -52,6 +58,13 @@ const en = {
     view: 'View certificate',
     empty: 'No certifications in this category yet.',
     close: 'Close certificate',
+    prev: 'Previous certificate',
+    next: 'Next certificate',
+    of: 'of',
+    institutions: 'Institutions',
+    latest: 'Most recent',
+    highlightsLede: 'The ones I would point to first.',
+    count: (n: number) => (n === 1 ? '1 certificate' : `${n} certificates`),
   },
   experience: {
     current: 'Current',
@@ -62,6 +75,7 @@ const en = {
   },
   about: {
     toolkit: 'Toolkit',
+    toolkitTitle: 'What I build with.',
     basedIn: 'Based in',
   },
   contact: {
@@ -81,6 +95,10 @@ const en = {
     close: 'Close chat',
     send: 'Send message',
     thinking: 'Thinking…',
+  },
+  notFound: {
+    title: 'This page does not exist.',
+    lede: 'The link may be broken or the page may have moved.',
   },
   error: {
     title: 'Something went wrong',
@@ -107,16 +125,22 @@ const ar: UIStrings = {
   },
   sections: {
     whatIDo: 'ما أقدمه',
+    whatIDoTitle: 'أربعة تخصصات، منظومة واحدة.',
     whatIDoLede: 'من دفاتر البحث إلى أنظمة الإنتاج — المجالات الأربعة التي أعمل بها.',
     selectedWork: 'أعمال مختارة',
+    selectedWorkLede: 'مجموعة من الأنظمة التي أفخر بها، مع الأرقام المهمة.',
     experience: 'الخبرة',
+    credentials: 'الشهادات',
+    credentialsTitle: 'تعلّم مستمر، وتطبيق مستمر.',
+    credentialsLede: (n: number, k: number) =>
+      `${n} شهادة مهنية في الذكاء الاصطناعي والبيانات والويب، من ${k} جهة تعليمية.`,
+    highlights: 'أبرز الشهادات',
+    viewAllCerts: 'عرض كل الشهادات',
   },
   theme: { toLight: 'التبديل إلى الوضع الفاتح', toDark: 'التبديل إلى الوضع الداكن' },
   language: { label: 'EN', switchTo: 'Switch to English' },
   menu: { open: 'فتح القائمة', close: 'إغلاق القائمة' },
   footer: {
-    title: 'لديك مشروع في ذهنك؟',
-    lede: 'أخبرني بما تبنيه، وعادةً ما أرد خلال يوم.',
     pages: 'الصفحات',
     elsewhere: 'روابط',
     backToTop: 'العودة للأعلى',
@@ -128,7 +152,7 @@ const ar: UIStrings = {
     architecture: 'المعمارية',
     nda: 'محمي باتفاقية سرية',
     empty: 'لا توجد مشاريع في هذا التصنيف بعد.',
-    tabs: { ai: 'الذكاء الاصطناعي', fullstack: 'تطوير الويب' },
+    tabs: { all: 'الكل', ai: 'الذكاء الاصطناعي', fullstack: 'تطوير الويب' },
     lede: 'خطوط ذكاء اصطناعي إنتاجية، ونماذج بحثية، ومنتجات ويب متكاملة.',
   },
   arch: {
@@ -143,6 +167,13 @@ const ar: UIStrings = {
     view: 'عرض الشهادة',
     empty: 'لا توجد شهادات في هذا التصنيف بعد.',
     close: 'إغلاق الشهادة',
+    prev: 'الشهادة السابقة',
+    next: 'الشهادة التالية',
+    of: 'من',
+    institutions: 'جهة تعليمية',
+    latest: 'الأحدث',
+    highlightsLede: 'الشهادات التي أبدأ بها.',
+    count: (n: number) => (n === 1 ? 'شهادة واحدة' : n === 2 ? 'شهادتان' : n <= 10 ? `${n} شهادات` : `${n} شهادة`),
   },
   experience: {
     current: 'حالي',
@@ -153,6 +184,7 @@ const ar: UIStrings = {
   },
   about: {
     toolkit: 'الأدوات والمهارات',
+    toolkitTitle: 'الأدوات التي أبني بها.',
     basedIn: 'مقيم في',
   },
   contact: {
@@ -172,6 +204,10 @@ const ar: UIStrings = {
     close: 'إغلاق المحادثة',
     send: 'إرسال الرسالة',
     thinking: 'جارٍ التفكير…',
+  },
+  notFound: {
+    title: 'هذه الصفحة غير موجودة.',
+    lede: 'قد يكون الرابط غير صحيح أو تم نقل الصفحة.',
   },
   error: {
     title: 'حدث خطأ ما',

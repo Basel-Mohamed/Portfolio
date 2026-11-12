@@ -21,6 +21,8 @@ export interface Project {
   tech: string[];
   image: string;
   type?: 'ai' | 'fullstack';
+  /** Shown in the home page's Selected work section. */
+  featured?: boolean;
   nda?: boolean;
   github?: string;
   live?: string;
@@ -45,6 +47,8 @@ export interface CertificationItem {
   date: string;
   image: string;
   category: string;
+  /** Highlighted on the home page and at the top of Certifications. */
+  featured?: boolean;
 }
 
 export interface ChatMessage {

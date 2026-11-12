@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import { LuCheck } from 'react-icons/lu';
 import { useLanguage } from '../context/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
+import { CtaBand } from '../components/ui/CtaBand';
 import { useUI } from '../lib/ui-strings';
 import { PageHeader, Reveal, buttonClass, ArrowForward } from '../components/ui/primitives';
 
@@ -60,6 +61,7 @@ export function Services() {
           ))}
         </ol>
       </section>
+      <CtaBand />
     </>
   );
 }

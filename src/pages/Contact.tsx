@@ -44,7 +44,6 @@ export function Contact() {
   };
 
   const rows: Row[] = [
-    { Icon: LuMail, label: ui.contact.email, value: SITE.email, href: mailto },
     { Icon: LuPhone, label: ui.contact.phone, value: SITE.phoneDisplay, href: SITE.phoneHref },
     { Icon: FaLinkedin, label: 'LinkedIn', value: 'in/baselmohamed937', href: SITE.linkedin, external: true },
     { Icon: FaGithub, label: 'GitHub', value: 'Basel-Mohamed', href: SITE.github, external: true },
@@ -62,12 +61,12 @@ export function Contact() {
         )}
       </PageHeader>
 
-      <section className="shell grid gap-12 py-16 md:py-20 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-7">
+      <section className="shell grid grid-cols-1 gap-12 py-16 md:py-20 lg:grid-cols-12 lg:gap-16">
+        <div className="min-w-0 lg:col-span-7">
           <Reveal>
             <a
               href={mailto}
-              className="block font-display text-3xl leading-tight font-medium tracking-tight [overflow-wrap:anywhere] underline decoration-coral decoration-[3px] underline-offset-8 transition-colors hover:text-coral-ink sm:text-4xl"
+              className="block font-display text-[clamp(1.3rem,5.9vw,2.25rem)] leading-tight font-medium tracking-tight [overflow-wrap:anywhere] underline decoration-coral decoration-[3px] underline-offset-8 transition-colors hover:text-coral-ink"
             >
               {SITE.email}
             </a>
@@ -123,7 +122,7 @@ export function Contact() {
           </Reveal>
         </div>
 
-        <aside className="lg:col-span-5">
+        <aside className="min-w-0 lg:col-span-5">
           <Reveal delay={0.12} className="relative overflow-hidden rounded-[2rem] bg-inverse p-8 text-on-inverse sm:p-10 lg:sticky lg:top-28">
             <div aria-hidden="true" className="absolute -end-16 -bottom-16 size-48 rounded-full bg-coral" />
             <div className="relative">
@@ -142,7 +141,7 @@ export function Contact() {
               <a
                 href={SITE.cv}
                 download="Basel_Mohamed_CV.pdf"
-                className="mt-6 flex w-fit items-center gap-2 text-sm text-on-inverse underline decoration-cream/40 underline-offset-4 hover:decoration-cream"
+                className="mt-4 flex min-h-11 w-fit items-center gap-2 text-sm text-on-inverse underline decoration-cream/40 underline-offset-4 hover:decoration-cream"
               >
                 <LuDownload size={15} aria-hidden="true" />
                 {ui.downloadCv}

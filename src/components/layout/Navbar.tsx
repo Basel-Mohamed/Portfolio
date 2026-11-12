@@ -43,8 +43,13 @@ export function Navbar() {
   React.useEffect(() => {
     if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setIsOpen(false);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener('keydown', onKey);
+    };
   }, [isOpen]);
 
   const navLinks = [
@@ -138,7 +143,7 @@ export function Navbar() {
             </AnimatePresence>
           </button>
 
-          <Link to="/contact" className={buttonClass('primary', 'md', 'ms-2 hidden sm:inline-flex')}>
+          <Link to="/contact" className={buttonClass('primary', 'md', 'ms-1 px-4 sm:ms-2 sm:px-5')}>
             {ui.letsTalk}
             <ArrowForward />
           </Link>
@@ -165,7 +170,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8, transition: { duration: 0.15 } }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="border-t border-line bg-bg lg:hidden"
+            className="h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain border-t border-line bg-bg lg:hidden"
           >
             <ul className="shell flex flex-col py-4">
               {[...navLinks, { name: t.nav.contact, path: '/contact' }].map((link, i) => (

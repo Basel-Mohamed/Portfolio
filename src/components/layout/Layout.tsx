@@ -43,18 +43,19 @@ export function Layout() {
       </main>
 
       <footer className="mt-24 border-t border-line bg-surface-2">
-        <div className="shell py-16 md:py-20">
+        <div className="shell pt-14 pb-24 md:pt-16">
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-6">
-              <p className="font-display text-4xl leading-[1.05] font-medium tracking-tight sm:text-5xl">
-                {ui.footer.title}
-              </p>
-              <p className="mt-4 max-w-md text-ink-muted">{ui.footer.lede}</p>
+              <Link to="/" className="inline-flex items-center gap-3 rounded-lg">
+                <Monogram />
+                <span className="font-display text-xl font-semibold tracking-tight">{t.hero.name}</span>
+              </Link>
+              <p className="mt-5 max-w-sm text-ink-muted">{t.hero.tagline}</p>
               <a
                 href={`mailto:${SITE.email}`}
-                className="group mt-8 inline-flex max-w-full items-center gap-3 font-display text-xl break-all underline decoration-coral decoration-2 underline-offset-[6px] transition-colors hover:text-coral-ink sm:text-2xl"
+                className="mt-6 inline-flex max-w-full items-center gap-2.5 break-all text-ink underline decoration-coral decoration-2 underline-offset-[5px] transition-colors hover:text-coral-ink"
               >
-                <LuMail aria-hidden="true" className="shrink-0" size={22} />
+                <LuMail aria-hidden="true" className="shrink-0" size={18} />
                 {SITE.email}
               </a>
             </div>
@@ -103,9 +104,8 @@ export function Layout() {
             </div>
           </div>
 
-          <div className="mt-16 flex flex-col gap-4 border-t border-line pt-8 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-12 flex flex-col gap-4 border-t border-line pt-8 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
-              <Monogram className="size-7 text-[11px]" />
               <span>
                 © {new Date().getFullYear()} {t.hero.name}. {ui.footer.rights}
               </span>

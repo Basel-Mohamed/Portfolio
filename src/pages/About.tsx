@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import { LuBrain, LuSparkles, LuCode, LuCloud, LuAward, LuMapPin } from 'react-icons/lu';
 import { useLanguage } from '../context/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
+import { CtaBand } from '../components/ui/CtaBand';
 import { useUI } from '../lib/ui-strings';
 import { SITE } from '../lib/site';
 import { PageHeader, Reveal, SectionHeading, buttonClass, ArrowForward } from '../components/ui/primitives';
@@ -33,7 +34,7 @@ export function About() {
         </p>
       </PageHeader>
 
-      <section className="shell grid gap-12 py-20 md:py-28 lg:grid-cols-12 lg:gap-16">
+      <section className="shell grid grid-cols-1 gap-12 py-20 md:py-28 lg:grid-cols-12 lg:gap-16">
         <Reveal className="lg:col-span-4">
           <div className="relative mx-auto max-w-xs lg:mx-0">
             <div aria-hidden="true" className="absolute inset-0 -rotate-3 rounded-[2rem] bg-coral" />
@@ -48,7 +49,7 @@ export function About() {
           </div>
         </Reveal>
         <Reveal className="lg:col-span-8" delay={0.08}>
-          <p className="font-display text-2xl leading-[1.45] tracking-tight sm:text-3xl sm:leading-[1.4]">
+          <p className="font-display text-xl leading-[1.5] tracking-tight sm:text-3xl sm:leading-[1.4]">
             {t.about.summary}
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
@@ -65,7 +66,7 @@ export function About() {
 
       <section className="border-t border-line bg-surface-2/60 py-20 md:py-28">
         <div className="shell">
-          <SectionHeading index="01" eyebrow={ui.about.toolkit} title={ui.about.toolkit} />
+          <SectionHeading index="01" eyebrow={ui.about.toolkit} title={ui.about.toolkitTitle} />
           <div className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
             {toolkit.map(({ Icon, title, items }, i) => (
               <Reveal key={title} delay={i * 0.06} className="bg-bg p-8">
@@ -88,8 +89,8 @@ export function About() {
       </section>
 
       <section className="shell pt-20 md:pt-28">
-        <Reveal className="flex flex-col items-start gap-8 rounded-[2rem] border border-line bg-surface p-8 sm:p-12 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-start gap-6">
+        <Reveal className="flex flex-col items-start gap-8 rounded-[2rem] border border-line bg-surface p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col items-start gap-6 sm:flex-row">
             <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-coral text-on-coral">
               <LuAward size={26} aria-hidden="true" />
             </span>
@@ -104,6 +105,7 @@ export function About() {
           </Link>
         </Reveal>
       </section>
+      <CtaBand />
     </>
   );
 }
