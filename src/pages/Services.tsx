@@ -1,71 +1,65 @@
-import { motion } from 'motion/react';
+import { Link } from 'react-router';
+import { LuCheck } from 'react-icons/lu';
 import { useLanguage } from '../context/LanguageContext';
-import { FaArrowRight, FaCircleCheck } from 'react-icons/fa6';
-import { useNavigate } from 'react-router';
 import { useSEO } from '../hooks/useSEO';
+import { useUI } from '../lib/ui-strings';
+import { PageHeader, Reveal, buttonClass, ArrowForward } from '../components/ui/primitives';
 
 export function Services() {
-  const { t, dir } = useLanguage();
-  const navigate = useNavigate();
+  const { t } = useLanguage();
+  const ui = useUI();
 
   useSEO({
     title: 'Services - Basel Mohamed | AI Engineering & Development',
-    description: 'Freelance AI engineering and software development services by Basel Mohamed: NLP solutions, RAG pipelines, Generative AI integrations, and Full Stack web applications.',
+    description:
+      'Freelance AI engineering and software development services by Basel Mohamed: NLP solutions, RAG pipelines, Generative AI integrations, and Full Stack web applications.',
     url: '/services',
   });
 
-  const handleRequest = (serviceTitle: string) => {
-    navigate(`/contact?service=${encodeURIComponent(serviceTitle)}`);
-  };
-
   return (
-    <div className="py-20 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          {/* STANDARDIZED TITLE */}
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            {t.services.title}
-          </h1>
-        </motion.div>
+    <>
+      <PageHeader eyebrow={t.nav.services} title={t.services.title} lede={ui.services.lede} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {t.services.items.map((service: any, index: number) => (
-            <motion.div 
-              key={service.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white dark:bg-[#161b22] rounded-2xl p-8 border border-gray-200 dark:border-gray-800 shadow-sm hover:border-blue-500 dark:hover:border-blue-500 transition-colors flex flex-col"
+      <section className="shell py-16 md:py-20">
+        <ol className="grid gap-6 md:grid-cols-2 lg:gap-8">
+          {t.services.items.map((service, index) => (
+            <Reveal
+              as="li"
+              key={service.id ?? service.title}
+              delay={(index % 2) * 0.06}
+              className="group flex flex-col rounded-3xl border border-line bg-surface p-8 transition-colors duration-300 hover:border-line-strong sm:p-10"
             >
-              <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                {service.description}
-              </p>
-              
-              <ul className="space-y-4 mb-8 flex-grow">
-                {service.features.map((feature: string) => (
-                  <li key={feature} className="flex items-start gap-3 text-gray-700 dark:text-gray-300">
-                    <FaCircleCheck size={20} className="text-green-500 mt-0.5 shrink-0" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-sm text-coral-ink">{String(index + 1).padStart(2, '0')}</span>
+                <span aria-hidden="true" className="h-px flex-1 mx-4 bg-line" />
+              </div>
+              <h2 className="mt-6 font-display text-3xl font-medium tracking-tight">{service.title}</h2>
+              <p className="mt-4 leading-relaxed text-ink-muted">{service.description}</p>
 
-              <button
-                onClick={() => handleRequest(service.title)}
-                className="w-full py-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg font-medium hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-all flex items-center justify-center gap-2 group"
+              {service.features && service.features.length > 0 && (
+                <ul className="mt-8 flex-grow space-y-3">
+                  {service.features.map(feature => (
+                    <li key={feature} className="flex items-start gap-3">
+                      <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-coral text-on-coral">
+                        <LuCheck size={12} strokeWidth={3} aria-hidden="true" />
+                      </span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <Link
+                to={`/contact?service=${encodeURIComponent(service.title)}`}
+                className={buttonClass('secondary', 'md', 'mt-10 w-full sm:w-auto sm:self-start')}
               >
                 {t.services.cta}
-                <FaArrowRight size={16} className={`transition-transform group-hover:translate-x-1 ${dir === 'rtl' ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
-              </button>
-            </motion.div>
+                <ArrowForward />
+              </Link>
+            </Reveal>
           ))}
-        </div>
-      </div>
-    </div>
+        </ol>
+      </section>
+    </>
   );
 }

@@ -1,91 +1,56 @@
 import { useState } from 'react';
-import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { ProjectCard } from '../components/features/ProjectCard';
 import { Project } from '../types/portfolio';
 import { useSEO } from '../hooks/useSEO';
+import { useUI } from '../lib/ui-strings';
+import { PageHeader, FilterBar } from '../components/ui/primitives';
+
+type Category = 'ai' | 'fullstack';
 
 export function Projects() {
-  const { t, dir } = useLanguage();
-  const [activeCategory, setActiveCategory] = useState<'ai' | 'fullstack'>('ai');
+  const { t } = useLanguage();
+  const ui = useUI();
+  const [activeCategory, setActiveCategory] = useState<Category>('ai');
 
   useSEO({
     title: 'Projects - Basel Mohamed | AI & Full Stack Portfolio',
-    description: 'Explore AI and Full Stack projects by Basel Mohamed, including NLP systems, RAG pipelines, Generative AI applications, and modern web applications.',
+    description:
+      'Explore AI and Full Stack projects by Basel Mohamed, including NLP systems, RAG pipelines, Generative AI applications, and modern web applications.',
     url: '/projects',
   });
 
-  const tabLabels = {
-    ai: dir === 'rtl' ? 'مشاريع الذكاء الاصطناعي' : 'AI Projects',
-    fullstack: dir === 'rtl' ? 'مشاريع الواجهات' : 'Full Stack Projects',
-  };
-
-  const filteredProjects: Project[] = (t.projects?.items || []).filter(
-    (project: Project) => project.type === activeCategory
-  );
+  const items: Project[] = t.projects?.items || [];
+  const filtered = items.filter(p => p.type === activeCategory);
+  const count = (c: Category) => items.filter(p => p.type === c).length;
 
   return (
-    <div className="py-20 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-10"
-        >
-          {/* STANDARDIZED TITLE */}
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            {t.projects.title}
-          </h1>
-        </motion.div>
-
-        {/* --- CATEGORY TOGGLE --- */}
-        <div className="flex justify-center mb-12">
-          <div className="bg-gray-100 dark:bg-[#161b22] p-1 rounded-full inline-flex border border-gray-200 dark:border-gray-800">
-            <button
-              onClick={() => setActiveCategory('ai')}
-              className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
-                activeCategory === 'ai' 
-                  ? 'bg-blue-600 shadow-md text-white' 
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-              }`}
-            >
-              {tabLabels.ai}
-            </button>
-            <button
-              onClick={() => setActiveCategory('fullstack')}
-              className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
-                activeCategory === 'fullstack' 
-                  ? 'bg-blue-600 shadow-md text-white'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-              }`}
-            >
-              {tabLabels.fullstack}
-            </button>
-          </div>
+    <>
+      <PageHeader eyebrow={t.nav.projects} title={t.projects.title} lede={t.projects.subtitle || ui.project.lede}>
+        <div className="mt-10">
+          <FilterBar<Category>
+            label={t.projects.title}
+            value={activeCategory}
+            onChange={setActiveCategory}
+            options={[
+              { value: 'ai', label: ui.project.tabs.ai, count: count('ai') },
+              { value: 'fullstack', label: ui.project.tabs.fullstack, count: count('fullstack') },
+            ]}
+          />
         </div>
+      </PageHeader>
 
-        {/* --- PROJECTS GRID --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredProjects.map((project: Project, index: number) => {
-            const isLastOdd = index === filteredProjects.length - 1 && filteredProjects.length % 2 !== 0;
-
-            return (
-              <ProjectCard 
-                key={project.id} 
-                project={project} 
-                index={index} 
-                isLastOdd={isLastOdd} 
-              />
-            );
-          })}
-        </div>
-
-        {filteredProjects.length === 0 && (
-          <div className="text-center text-gray-500 py-12">
-            No projects found in this category yet.
+      <section className="shell py-16 md:py-20" aria-live="polite">
+        {filtered.length > 0 ? (
+          <div key={activeCategory} className="grid gap-6 md:grid-cols-2 lg:gap-8">
+            {filtered.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))}
           </div>
+        ) : (
+          <p className="rounded-3xl border border-dashed border-line-strong py-16 text-center text-ink-muted">{ui.project.empty}</p>
         )}
-      </div>
-    </div>
+      </section>
+    </>
   );
 }

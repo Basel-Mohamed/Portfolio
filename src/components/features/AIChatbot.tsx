@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { FaPaperPlane, FaXmark, FaRobot, FaCommentDots, FaUser, FaSpinner } from 'react-icons/fa6';
+import { LuSend, LuX, LuBot, LuMessageCircle, LuLoaderCircle } from 'react-icons/lu';
 import { useLanguage } from '../../context/LanguageContext';
 import { clsx } from 'clsx';
 import ReactMarkdown from 'react-markdown';
 import { ChatMessage } from '../../types/portfolio';
+import { useUI } from '../../lib/ui-strings';
+import { OPEN_CHAT_EVENT } from '../../lib/site';
 
 const MarkdownComponents: Record<string, React.FC<any>> = {
   h1: ({ ...props }: any) => <h1 className="font-bold mt-2 mb-1 text-lg" {...props} />,
@@ -15,7 +17,7 @@ const MarkdownComponents: Record<string, React.FC<any>> = {
   ol: ({ ...props }: any) => <ol className="list-decimal ms-5 space-y-1 my-2" {...props} />,
   a: ({ ...props }: any) => (
     <a
-      className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 underline"
+      className="font-medium text-coral-ink underline decoration-coral underline-offset-2"
       target="_blank"
       rel="noopener noreferrer"
       {...props}
@@ -24,13 +26,13 @@ const MarkdownComponents: Record<string, React.FC<any>> = {
   code: ({ className, children, ...props }: any) => {
     if (!className) {
       return (
-        <code className="bg-black/10 dark:bg-white/10 px-1.5 py-0.5 rounded font-mono text-xs" {...props}>
+        <code className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-xs" {...props}>
           {children}
         </code>
       );
     }
     return (
-      <pre dir="ltr" className="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto mt-2 mb-2 text-xs">
+      <pre dir="ltr" className="my-2 overflow-x-auto rounded-lg bg-navy p-3 text-xs text-cream">
         <code className="font-mono whitespace-pre" {...props}>{children}</code>
       </pre>
     );
@@ -39,7 +41,22 @@ const MarkdownComponents: Record<string, React.FC<any>> = {
 
 export function AIChatbot() {
   const { t, language } = useLanguage();
+  const ui = useUI();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Let other parts of the page (e.g. the Contact page) open the assistant.
+  useEffect(() => {
+    const open = () => setIsOpen(true);
+    window.addEventListener(OPEN_CHAT_EVENT, open);
+    return () => window.removeEventListener(OPEN_CHAT_EVENT, open);
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setIsOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen]);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
@@ -249,85 +266,77 @@ export function AIChatbot() {
 
   return (
     <>
-      {/* Floating Toggle Button */}
+      {/* Launcher */}
       <button
+        type="button"
         onClick={() => setIsOpen(true)}
         className={clsx(
-          'fixed bottom-6 right-6 z-40 p-4 rounded-full shadow-lg transition-transform hover:scale-110',
-          'bg-gradient-to-r from-blue-600 to-purple-600 text-white',
-          isOpen ? 'hidden' : 'flex items-center gap-2 shadow-blue-500/25'
+          'fixed end-4 bottom-4 z-40 h-13 items-center gap-2.5 rounded-full bg-ink ps-4 pe-5 text-bg shadow-xl shadow-navy/20 transition-transform duration-200 hover:-translate-y-0.5 sm:end-6 sm:bottom-6',
+          isOpen ? 'hidden' : 'inline-flex'
         )}
-        aria-label="Open AI Assistant"
+        aria-label={ui.chat.open}
+        aria-haspopup="dialog"
       >
-        <FaCommentDots size={24} />
-        <span className="font-semibold hidden sm:inline">{t.chatbot.title}</span>
+        <span className="relative flex">
+          <LuMessageCircle size={22} aria-hidden="true" />
+          <span className="absolute -end-0.5 -top-0.5 size-2.5 rounded-full border-2 border-ink bg-coral" />
+        </span>
+        <span className="hidden text-sm font-medium sm:inline">{t.chatbot.title}</span>
       </button>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            role="dialog"
+            aria-label={t.chatbot.title}
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-50 w-[92vw] sm:w-[420px] h-[600px] max-h-[82vh] bg-white dark:bg-[#161b22] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-200 dark:border-gray-700 font-sans"
+            exit={{ opacity: 0, y: 16, scale: 0.98, transition: { duration: 0.15 } }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-x-3 bottom-3 z-50 flex h-[min(620px,85dvh)] flex-col overflow-hidden rounded-3xl border border-line bg-bg text-ink shadow-2xl shadow-navy/25 sm:inset-x-auto sm:end-6 sm:bottom-6 sm:w-[420px]"
           >
             {/* Header */}
-            <div className="p-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-between text-white shrink-0 shadow-md">
+            <div className="flex shrink-0 items-center justify-between bg-inverse px-5 py-4 text-on-inverse">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 bg-white/20 rounded-2xl backdrop-blur-sm shadow-inner">
-                  <FaRobot size={22} />
-                </div>
+                <span className="flex size-10 items-center justify-center rounded-2xl bg-coral text-on-coral">
+                  <LuBot size={20} aria-hidden="true" />
+                </span>
                 <div>
-                  <h3 className="font-bold text-sm sm:text-base">{t.chatbot.title}</h3>
-                  <p className="text-xs text-blue-100 flex items-center gap-1.5">
-                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                    Online • Real-Time Stream
-                  </p>
+                  <h2 className="text-sm font-semibold sm:text-base">{t.chatbot.title}</h2>
+                  <p className="text-xs text-on-inverse-muted">{ui.chat.status}</p>
                 </div>
               </div>
               <button
+                type="button"
                 onClick={() => setIsOpen(false)}
-                className="p-2 hover:bg-white/20 rounded-full transition-colors"
-                aria-label="Close chat"
+                className="inline-flex size-11 items-center justify-center rounded-full transition-colors hover:bg-cream/10"
+                aria-label={ui.chat.close}
               >
-                <FaXmark size={18} />
+                <LuX size={20} aria-hidden="true" />
               </button>
             </div>
 
-            {/* Message Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-[#0D1117]" dir="ltr">
+            {/* Messages */}
+            <div className="flex-1 space-y-4 overflow-y-auto overscroll-contain bg-surface-2/50 p-4" dir="ltr" aria-live="polite">
               {messages.map((msg) => (
                 <motion.div
                   key={msg.id}
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={clsx(
-                    'flex gap-3 max-w-[88%]',
-                    msg.sender === 'user' ? 'ml-auto flex-row-reverse' : ''
-                  )}
+                  className={clsx('flex max-w-[88%] gap-2.5', msg.sender === 'user' ? 'ms-auto flex-row-reverse' : '')}
                 >
-                  <div
-                    className={clsx(
-                      'w-8 h-8 rounded-full flex items-center justify-center shrink-0 shadow-sm',
-                      msg.sender === 'user'
-                        ? 'bg-gray-200 dark:bg-gray-700'
-                        : 'bg-gradient-to-r from-blue-600 to-purple-600'
-                    )}
-                  >
-                    {msg.sender === 'user' ? (
-                      <FaUser size={14} className="text-gray-600 dark:text-gray-300" />
-                    ) : (
-                      <FaRobot size={14} className="text-white" />
-                    )}
-                  </div>
-
+                  {msg.sender === 'bot' && (
+                    <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-coral text-on-coral">
+                      <LuBot size={15} aria-hidden="true" />
+                    </span>
+                  )}
                   <div
                     dir="auto"
                     className={clsx(
-                      'p-3.5 rounded-2xl text-sm leading-relaxed shadow-sm flex-grow',
+                      'px-4 py-3 text-sm leading-relaxed',
                       msg.sender === 'user'
-                        ? 'bg-blue-600 text-white rounded-tr-none'
-                        : 'bg-white dark:bg-[#161b22] text-gray-800 dark:text-gray-200 rounded-tl-none border border-gray-100 dark:border-gray-800'
+                        ? 'rounded-2xl rounded-se-md bg-ink text-bg'
+                        : 'rounded-2xl rounded-ss-md border border-line bg-bg'
                     )}
                   >
                     {msg.sender === 'user' ? (
@@ -336,32 +345,32 @@ export function AIChatbot() {
                       <div>
                         <ReactMarkdown components={MarkdownComponents}>{msg.text}</ReactMarkdown>
                         {msg.isStreaming && (
-                          <span className="inline-block w-2 h-4 bg-blue-500 animate-pulse ms-1 align-middle" />
+                          <span aria-hidden="true" className="ms-1 inline-block h-4 w-1.5 animate-pulse rounded-sm bg-coral align-middle" />
                         )}
                       </div>
                     ) : (
-                      <div className="flex items-center gap-2 text-xs text-gray-400 py-1">
-                        <FaSpinner size={14} className="animate-spin text-blue-500" />
-                        <span>Generating response...</span>
+                      <div className="flex items-center gap-2 py-0.5 text-xs text-ink-muted">
+                        <LuLoaderCircle size={14} className="animate-spin text-coral-ink" aria-hidden="true" />
+                        <span>{ui.chat.thinking}</span>
                       </div>
                     )}
                   </div>
                 </motion.div>
               ))}
-
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input & Suggestions Area */}
-            <div className="p-4 bg-white dark:bg-[#161b22] border-t border-gray-100 dark:border-gray-800 shrink-0">
+            {/* Input + suggestions */}
+            <div className="shrink-0 border-t border-line bg-bg p-4">
               {messages.length < 3 && (
-                <div className="flex flex-wrap gap-2 mb-3 overflow-x-auto pb-1 scrollbar-hide">
+                <div className="mb-3 flex flex-wrap gap-2">
                   {t.chatbot.suggestions.map((suggestion: string, idx: number) => (
                     <button
+                      type="button"
                       key={idx}
                       onClick={() => handleSuggestionClick(suggestion)}
                       disabled={isTyping}
-                      className="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-full transition-colors whitespace-nowrap border border-transparent hover:border-blue-200 dark:hover:border-blue-800 disabled:opacity-50"
+                      className="rounded-full border border-line-strong px-3 py-1.5 text-xs text-ink-muted transition-colors hover:border-ink hover:text-ink disabled:opacity-50"
                     >
                       {suggestion}
                     </button>
@@ -369,26 +378,36 @@ export function AIChatbot() {
                 </div>
               )}
 
-              <div className="relative flex items-center gap-2">
+              <form
+                className="flex items-center gap-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSend();
+                }}
+              >
+                <label htmlFor="chat-input" className="sr-only">
+                  {t.chatbot.placeholder}
+                </label>
                 <input
+                  id="chat-input"
                   ref={inputRef}
                   type="text"
+                  autoComplete="off"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder={t.chatbot.placeholder}
                   disabled={isTyping}
-                  className="flex-1 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-full px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow disabled:opacity-50"
+                  className="h-12 min-w-0 flex-1 rounded-full border border-line-strong bg-surface px-4 text-base text-ink placeholder:text-ink-muted focus:border-ink focus:outline-none disabled:opacity-60 sm:text-sm"
                 />
                 <button
-                  onClick={handleSend}
+                  type="submit"
                   disabled={!inputValue.trim() || isTyping}
-                  className="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-blue-500/20"
-                  aria-label="Send message"
+                  className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-coral text-on-coral transition-colors hover:bg-ink hover:text-bg disabled:cursor-not-allowed disabled:opacity-50"
+                  aria-label={ui.chat.send}
                 >
-                  <FaPaperPlane size={16} />
+                  <LuSend size={18} aria-hidden="true" className="rtl:-scale-x-100" />
                 </button>
-              </div>
+              </form>
             </div>
           </motion.div>
         )}

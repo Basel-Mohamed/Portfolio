@@ -1,71 +1,73 @@
-import { useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { FaXmark } from "react-icons/fa6";
-import { Certificate } from "./Certifications";
+import { useId } from 'react';
+import { createPortal } from 'react-dom';
+import { motion, AnimatePresence } from 'motion/react';
+import { LuX } from 'react-icons/lu';
+import { CertificationItem } from '../../types/portfolio';
+import { useUI } from '../../lib/ui-strings';
+import { useDialog } from '../../hooks/useDialog';
 
 interface CertificateModalProps {
-  cert: Certificate | null;
+  cert: CertificationItem | null;
   onClose: () => void;
 }
 
 export function CertificateModal({ cert, onClose }: CertificateModalProps) {
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
-
+  const ui = useUI();
+  const titleId = useId();
+  const dialogRef = useDialog<HTMLDivElement>(!!cert, onClose);
   const isPdf = cert?.image?.toLowerCase().endsWith('.pdf');
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {cert && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm"
-          onClick={onClose}
-        >
+        <div className="fixed inset-0 z-[90] flex items-center justify-center p-4 sm:p-8">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            aria-hidden="true"
+            className="absolute inset-0 bg-scrim backdrop-blur-sm"
+          />
+          <motion.div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            tabIndex={-1}
+            initial={{ opacity: 0, scale: 0.97, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.2 }}
-            className="relative w-full max-w-5xl overflow-hidden bg-white dark:bg-[#161b22] border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+            exit={{ opacity: 0, scale: 0.98, transition: { duration: 0.15 } }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-full max-w-5xl overflow-hidden rounded-3xl border border-line bg-bg text-ink shadow-2xl outline-none"
           >
-            {/* Header Bar */}
-            <div className="flex items-center justify-between p-4 px-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#0D1117]">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white truncate pr-4">
-                {cert.title}
-              </h3>
-              
+            <div className="flex items-center justify-between gap-4 border-b border-line px-5 py-4 sm:px-6">
+              <div className="min-w-0">
+                <p className="eyebrow text-coral-ink">{cert.category}</p>
+                <h2 id={titleId} className="mt-1 truncate font-display text-lg font-medium sm:text-xl" title={cert.title}>
+                  {cert.title}
+                </h2>
+              </div>
               <button
+                type="button"
                 onClick={onClose}
-                className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-800 rounded-lg transition-colors duration-200 shrink-0"
-                aria-label="Close modal"
+                className="inline-flex size-11 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-surface-2"
+                aria-label={ui.certs.close}
               >
-                <FaXmark className="w-5 h-5" />
+                <LuX size={20} aria-hidden="true" />
               </button>
             </div>
-
-            {/* Content Area */}
-            <div className="p-4 sm:p-6 bg-gray-100 dark:bg-[#090c10] flex justify-center items-center">
+            <div className="flex items-center justify-center bg-surface-2 p-4 sm:p-6">
               {isPdf ? (
-                <iframe
-                  src={`${cert.image}#toolbar=0`} 
-                  title={cert.title}
-                  className="w-full h-[80vh] rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 bg-white"
-                />
+                <iframe src={`${cert.image}#toolbar=0`} title={cert.title} className="h-[75dvh] w-full rounded-xl bg-white" />
               ) : (
-                <img
-                  src={cert.image}
-                  alt={cert.title}
-                  className="max-w-full w-auto h-auto max-h-[80vh] object-contain rounded-lg shadow-lg"
-                />
+                <img src={cert.image} alt={cert.title} className="h-auto max-h-[75dvh] w-auto max-w-full rounded-xl object-contain shadow-lg" />
               )}
             </div>
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }

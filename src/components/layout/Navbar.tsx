@@ -1,58 +1,51 @@
 import React from 'react';
-import { NavLink } from 'react-router';
-import { FaLanguage, FaBars, FaXmark, FaMoon, FaSun } from 'react-icons/fa6';
-import { useLanguage } from '../../context/LanguageContext';
-import { useTheme } from '../../context/ThemeContext';
+import { NavLink, Link, useLocation } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { clsx } from 'clsx';
+import { LuMenu, LuX, LuMoon, LuSun } from 'react-icons/lu';
+import { useLanguage } from '../../context/LanguageContext';
+import { useTheme } from '../../context/ThemeContext';
+import { useUI } from '../../lib/ui-strings';
+import { buttonClass, ArrowForward } from '../ui/primitives';
 
-// Compact Animated Theme Toggle Component
-const ThemeToggle = ({ theme, toggleTheme }: { theme: string, toggleTheme: () => void }) => {
-  const isDark = theme === 'dark';
-
+export function Monogram({ className }: { className?: string }) {
   return (
-    <button
-      onClick={toggleTheme}
-      className="relative flex items-center justify-center p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none w-10 h-10"
-      aria-label="Toggle Theme"
+    <span
+      aria-hidden="true"
+      className={clsx(
+        'relative inline-flex size-9 items-center justify-center rounded-[10px] bg-ink font-display text-[15px] font-semibold text-bg',
+        className,
+      )}
     >
-      <AnimatePresence mode="wait" initial={false}>
-        {isDark ? (
-          <motion.div
-            key="moon"
-            initial={{ opacity: 0, rotate: -90, scale: 0 }}
-            animate={{ opacity: 1, rotate: 0, scale: 1 }}
-            exit={{ opacity: 0, rotate: 90, scale: 0 }}
-            transition={{ duration: 0.2 }}
-            className="absolute"
-          >
-            <FaMoon size={20} className="text-blue-400" />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="sun"
-            initial={{ opacity: 0, rotate: -90, scale: 0 }}
-            animate={{ opacity: 1, rotate: 0, scale: 1 }}
-            exit={{ opacity: 0, rotate: 90, scale: 0 }}
-            transition={{ duration: 0.2 }}
-            className="absolute"
-          >
-            <FaSun size={20} className="text-orange-500" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </button>
+      BM
+      <span className="absolute -end-1 -bottom-1 size-3 rounded-full border-2 border-bg bg-coral" />
+    </span>
   );
-};
+}
 
 export function Navbar() {
   const { t, language, setLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const ui = useUI();
   const [isOpen, setIsOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
+  const location = useLocation();
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'ar' : 'en');
-  };
+  React.useEffect(() => setIsOpen(false), [location.pathname]);
+
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setIsOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen]);
 
   const navLinks = [
     { name: t.nav.home, path: '/' },
@@ -61,105 +54,144 @@ export function Navbar() {
     { name: t.nav.projects, path: '/projects' },
     { name: t.nav.certifications, path: '/certifications' },
     { name: t.nav.services, path: '/services' },
-    { name: t.nav.contact, path: '/contact' },
   ];
 
+  const isDark = theme === 'dark';
+  const iconBtn =
+    'inline-flex size-11 items-center justify-center rounded-full text-ink transition-colors duration-200 hover:bg-surface-2';
+
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-[#0D1117]/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex-shrink-0 flex items-center">
-            {/* Logo */}
-            <NavLink to="/" className="text-2xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500 drop-shadow-sm">
-              <span className="font-extrabold">Basel</span> <span className="font-medium">Mohamed</span>
-            </NavLink>
-          </div>
-          
-          {/* Desktop Menu */}
-          <div className="hidden md:block">
-            <div className="flex items-center space-x-4 rtl:space-x-reverse">
-              {navLinks.map((link) => (
-                <NavLink
-                  key={link.path}
-                  to={link.path}
-                  className={({ isActive }) =>
-                    clsx(
-                      "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200",
-                      isActive
-                        ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20"
-                        : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-                    )
-                  }
-                >
-                  {link.name}
-                </NavLink>
-              ))}
-            </div>
-          </div>
+    <nav
+      aria-label="Primary"
+      className={clsx(
+        'fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300',
+        scrolled || isOpen ? 'border-b border-line bg-bg/90 backdrop-blur-md' : 'border-b border-transparent bg-bg/0',
+      )}
+    >
+      <div className="shell flex h-18 items-center justify-between gap-4">
+        <Link to="/" className="flex items-center gap-3 rounded-lg" aria-label={`${t.hero.name} — ${t.nav.home}`}>
+          <Monogram />
+          <span className="hidden font-display text-lg font-semibold tracking-tight sm:inline">
+            {language === 'ar' ? 'باسل محمد' : 'Basel Mohamed'}
+          </span>
+        </Link>
 
-          <div className="hidden md:flex items-center space-x-3 rtl:space-x-reverse">
-            {/* Compact Animated Theme Toggle */}
-            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+        {/* Desktop links */}
+        <ul className="hidden items-center gap-1 lg:flex">
+          {navLinks.map(link => (
+            <li key={link.path}>
+              <NavLink
+                to={link.path}
+                end={link.path === '/'}
+                className={({ isActive }) =>
+                  clsx(
+                    'relative inline-flex h-11 items-center px-3 text-sm font-medium transition-colors duration-200',
+                    isActive ? 'text-ink' : 'text-ink-muted hover:text-ink',
+                  )
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    {link.name}
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-active"
+                        className="absolute inset-x-3 bottom-1.5 h-0.5 rounded-full bg-coral"
+                        transition={{ type: 'spring', stiffness: 500, damping: 40 }}
+                      />
+                    )}
+                  </>
+                )}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
 
-            <button
-              onClick={toggleLanguage}
-              className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center gap-1 font-medium text-sm"
-              aria-label="Toggle Language"
-            >
-              <FaLanguage size={20} />
-              <span>{language === 'en' ? 'AR' : 'EN'}</span>
-            </button>
-          </div>
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
+            className={clsx(iconBtn, 'w-auto px-3 text-sm font-medium')}
+            aria-label={ui.language.switchTo}
+            lang={language === 'en' ? 'ar' : 'en'}
+          >
+            {ui.language.label}
+          </button>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center gap-3">
-            {/* Compact Animated Theme Toggle */}
-            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-            
-            <button
-              onClick={toggleLanguage}
-              className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-bold text-sm"
-            >
-              {language === 'en' ? 'AR' : 'EN'}
-            </button>
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none"
-            >
-              {isOpen ? <FaXmark size={24} /> : <FaBars size={24} />}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className={iconBtn}
+            aria-label={isDark ? ui.theme.toLight : ui.theme.toDark}
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={theme}
+                initial={{ opacity: 0, rotate: -60 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: 60 }}
+                transition={{ duration: 0.18 }}
+                className="inline-flex"
+              >
+                {isDark ? <LuSun size={19} aria-hidden="true" /> : <LuMoon size={19} aria-hidden="true" />}
+              </motion.span>
+            </AnimatePresence>
+          </button>
+
+          <Link to="/contact" className={buttonClass('primary', 'md', 'ms-2 hidden sm:inline-flex')}>
+            {ui.letsTalk}
+            <ArrowForward />
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => setIsOpen(o => !o)}
+            className={clsx(iconBtn, 'lg:hidden')}
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
+            aria-label={isOpen ? ui.menu.close : ui.menu.open}
+          >
+            {isOpen ? <LuX size={22} aria-hidden="true" /> : <LuMenu size={22} aria-hidden="true" />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white dark:bg-[#0D1117] border-b border-gray-200 dark:border-gray-800 overflow-hidden"
+            id="mobile-menu"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8, transition: { duration: 0.15 } }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="border-t border-line bg-bg lg:hidden"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navLinks.map((link) => (
-                <NavLink
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className={({ isActive }) =>
-                    clsx(
-                      "block px-3 py-2 rounded-md text-base font-medium",
-                      isActive
-                        ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20"
-                        : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-                    )
-                  }
-                >
-                  {link.name}
-                </NavLink>
+            <ul className="shell flex flex-col py-4">
+              {[...navLinks, { name: t.nav.contact, path: '/contact' }].map((link, i) => (
+                <li key={link.path}>
+                  <NavLink
+                    to={link.path}
+                    end={link.path === '/'}
+                    className={({ isActive }) =>
+                      clsx(
+                        'flex min-h-13 items-center justify-between border-b border-line py-3 font-display text-2xl tracking-tight',
+                        isActive ? 'text-ink' : 'text-ink-muted',
+                      )
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span>{link.name}</span>
+                        <span className={clsx('font-mono text-xs', isActive ? 'text-coral-ink' : 'text-ink-muted')}>
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                      </>
+                    )}
+                  </NavLink>
+                </li>
               ))}
-            </div>
+            </ul>
           </motion.div>
         )}
       </AnimatePresence>
