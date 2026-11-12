@@ -6,6 +6,7 @@ import { Project } from '../../types/portfolio';
 import { ArchitectureModal } from './ArchitectureModal';
 import { useUI } from '../../lib/ui-strings';
 import { Chip, Reveal } from '../ui/primitives';
+import { Tilt } from '../motion/Effects';
 
 interface ProjectCardProps {
   project: Project;
@@ -24,6 +25,7 @@ export function ProjectCard({ project, index, featured = false }: ProjectCardPro
 
   return (
     <>
+      <Tilt max={featured ? 2.5 : 5}>
       <Reveal
         as="article"
         delay={Math.min(index, 3) * 0.06}
@@ -109,6 +111,7 @@ export function ProjectCard({ project, index, featured = false }: ProjectCardPro
           </div>
         </div>
       </Reveal>
+      </Tilt>
 
       <ArchitectureModal project={project} isOpen={isArchOpen} onClose={() => setIsArchOpen(false)} />
     </>

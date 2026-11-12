@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { clsx } from 'clsx';
 import { LuArrowRight, LuArrowUpRight } from 'react-icons/lu';
+import { SplitReveal } from '../motion/SplitReveal';
 
 /* ---------- Buttons ---------- */
 
@@ -81,12 +82,15 @@ export function SectionHeading({
   index,
   eyebrow,
   title,
+  id,
   lede,
   action,
 }: {
   index?: string;
   eyebrow: string;
-  title: React.ReactNode;
+  title: string;
+  /** id on the h2, for aria-labelledby on the surrounding section. */
+  id?: string;
   lede?: string;
   action?: React.ReactNode;
 }) {
@@ -94,7 +98,12 @@ export function SectionHeading({
     <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
       <div className="max-w-2xl">
         <Eyebrow index={index}>{eyebrow}</Eyebrow>
-        <h2 className="mt-5 font-display text-4xl leading-[1.05] font-medium tracking-tight sm:text-5xl">{title}</h2>
+        <SplitReveal
+          as="h2"
+          id={id}
+          text={title}
+          className="mt-5 font-display text-4xl leading-[1.05] font-medium tracking-tight sm:text-5xl"
+        />
         {lede && <p className="mt-5 text-lg text-ink-muted">{lede}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
@@ -110,7 +119,7 @@ export function PageHeader({
   children,
 }: {
   eyebrow: string;
-  title: React.ReactNode;
+  title: string;
   lede?: React.ReactNode;
   children?: React.ReactNode;
 }) {
@@ -123,9 +132,13 @@ export function PageHeader({
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h1 className="mt-6 max-w-4xl font-display text-5xl leading-[1] font-medium tracking-tight sm:text-6xl lg:text-7xl">
-            {title}
-          </h1>
+          <SplitReveal
+            as="h1"
+            text={title}
+            trigger="load"
+            delay={0.1}
+            className="mt-6 max-w-4xl font-display text-5xl leading-[1] font-medium tracking-tight sm:text-6xl lg:text-7xl"
+          />
           {lede && <p className="mt-6 max-w-2xl text-lg text-ink-muted sm:text-xl">{lede}</p>}
           {children}
         </motion.div>

@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { LuMaximize2 } from 'react-icons/lu';
 import { CertView } from '../../lib/certs';
 import { useUI } from '../../lib/ui-strings';
+import { Tilt } from '../motion/Effects';
 
 interface CertCardProps {
   cert: CertView;
@@ -14,6 +15,7 @@ export function CertCard({ cert, onOpen, large = false }: CertCardProps) {
   const ui = useUI();
 
   return (
+    <Tilt max={7}>
     <button
       type="button"
       onClick={onOpen}
@@ -42,5 +44,6 @@ export function CertCard({ cert, onOpen, large = false }: CertCardProps) {
         </span>
       </span>
     </button>
+    </Tilt>
   );
 }

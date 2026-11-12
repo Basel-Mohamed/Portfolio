@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { lazy, Suspense, useMemo, useRef, useState } from 'react';
 import { motion, type Variants } from 'motion/react';
 import { Link } from 'react-router';
 import { FaGithub, FaLinkedin } from 'react-icons/fa6';
@@ -13,13 +13,86 @@ import { SITE } from '../lib/site';
 import { toCertView, uniqueIssuers } from '../lib/certs';
 import { buttonClass, ArrowForward, Reveal, SectionHeading, Chip, Eyebrow } from '../components/ui/primitives';
 import { CtaBand } from '../components/ui/CtaBand';
+import { SplitReveal } from '../components/motion/SplitReveal';
+import { CountUp, Magnet, SpotlightLayer } from '../components/motion/Effects';
+import { VelocityMarquee } from '../components/motion/VelocityMarquee';
+import { gsap, SplitText, useGSAP, prefersReducedMotion } from '../lib/motion';
+
+// three.js is loaded on demand so it never blocks the first paint.
+const NeuralOrb = lazy(() => import('../components/three/NeuralOrb'));
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+/** Hero name: letters flip up in 3D, then the coral underline draws in. */
+function HeroName({ name }: { name: string }) {
+  const { dir } = useLanguage();
+  const ref = useRef<HTMLSpanElement>(null);
+  const [first, ...rest] = name.split(' ');
+
+  useGSAP(
+    () => {
+      const el = ref.current;
+      if (!el || prefersReducedMotion()) return;
+      const split = SplitText.create(el.querySelectorAll('[data-split]'), {
+        type: dir === 'rtl' ? 'words' : 'words,chars',
+        tag: 'span',
+        aria: 'none',
+      });
+      const pieces = dir === 'rtl' ? split.words : split.chars;
+      gsap
+        .timeline({ delay: 0.15 })
+        .from(pieces, {
+          yPercent: 115,
+          rotateX: -85,
+          opacity: 0,
+          transformPerspective: 800,
+          transformOrigin: '50% 100%',
+          duration: 1,
+          ease: 'expo.out',
+          stagger: 0.03,
+        })
+        .from(
+          el.querySelector('[data-underline]'),
+          { scaleX: 0, transformOrigin: dir === 'rtl' ? '100% 50%' : '0% 50%', duration: 0.9, ease: 'expo.inOut' },
+          '-=0.6',
+        );
+    },
+    { scope: ref, dependencies: [name, dir] },
+  );
+
+  return (
+    <h1 key={name} className="mt-8 font-display text-[clamp(3rem,9vw,6.5rem)] leading-[0.95] font-medium tracking-[-0.03em]">
+      <span className="sr-only">{name}</span>
+      <span ref={ref} aria-hidden="true">
+        <span className="relative inline-block">
+          <span data-split>{first}</span>
+          <span data-underline className="absolute inset-x-0 -bottom-[0.04em] h-[0.1em] rounded-full bg-coral" />
+        </span>{' '}
+        <span data-split className="text-ink-muted italic rtl:not-italic">
+          {rest.join(' ')}
+        </span>
+      </span>
+    </h1>
+  );
+}
 
 export function Home() {
   const { t } = useLanguage();
   const ui = useUI();
   const [openCert, setOpenCert] = useState<number | null>(null);
+  const heroRef = useRef<HTMLElement>(null);
+
+  // Scroll parallax: portrait, coral shadow and badge drift at different speeds.
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) return;
+      const st = { trigger: heroRef.current, start: 'top top', end: 'bottom top', scrub: 0.6 };
+      gsap.to('[data-parallax="photo"]', { yPercent: -10, ease: 'none', scrollTrigger: st });
+      gsap.to('[data-parallax="shadow"]', { yPercent: 6, ease: 'none', scrollTrigger: st });
+      gsap.to('[data-parallax="badge"]', { yPercent: -40, ease: 'none', scrollTrigger: st });
+    },
+    { scope: heroRef },
+  );
 
   useSEO({
     title: 'Basel Mohamed | Full Stack AI Engineer',
@@ -66,12 +139,14 @@ export function Home() {
     show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
   };
 
-  const [firstName, ...restName] = t.hero.name.split(' ');
+  // Tech words for the scroll-velocity strip, taken from the skills data.
+  const techWords = capabilities.flatMap(c => c.desc.split(',').map(w => w.trim()));
+  const half = Math.ceil(techWords.length / 2);
 
   return (
     <div className="overflow-x-clip">
       {/* ───────────────────────── Hero ───────────────────────── */}
-      <section className="relative">
+      <section ref={heroRef} className="relative">
         <div aria-hidden="true" className="paper-grid pointer-events-none absolute inset-0 -top-18" />
 
         <div className="shell relative grid items-center gap-14 pt-12 pb-16 md:pt-20 lg:grid-cols-12 lg:gap-10 lg:pb-24">
@@ -87,30 +162,28 @@ export function Home() {
               {ui.openToWork}
             </motion.p>
 
-            <motion.h1
-              variants={item}
-              className="mt-8 font-display text-[clamp(3rem,9vw,6.5rem)] leading-[0.95] font-medium tracking-[-0.03em]"
-            >
-              <span className="relative inline-block">
-                {firstName}
-                <span aria-hidden="true" className="absolute inset-x-0 -bottom-[0.04em] h-[0.1em] rounded-full bg-coral" />
-              </span>{' '}
-              <span className="text-ink-muted italic rtl:not-italic">{restName.join(' ')}</span>
-            </motion.h1>
+            <HeroName name={t.hero.name} />
 
             <motion.p variants={item} className="mt-8 font-mono text-sm tracking-wide text-coral-ink uppercase">
               {t.hero.title}
             </motion.p>
 
-            <motion.p variants={item} className="mt-4 max-w-xl text-lg leading-relaxed text-ink-muted sm:text-xl">
-              {t.hero.tagline}
-            </motion.p>
+            <SplitReveal
+              as="p"
+              text={t.hero.tagline}
+              trigger="load"
+              variant="blur"
+              delay={0.55}
+              className="mt-4 max-w-xl text-lg leading-relaxed text-ink-muted sm:text-xl"
+            />
 
             <motion.div variants={item} className="mt-10 flex flex-wrap items-center gap-3">
-              <Link to="/projects" className={buttonClass('primary', 'lg')}>
-                {t.hero.buttons.projects}
-                <ArrowForward />
-              </Link>
+              <Magnet>
+                <Link to="/projects" className={buttonClass('primary', 'lg')}>
+                  {t.hero.buttons.projects}
+                  <ArrowForward />
+                </Link>
+              </Magnet>
               <Link to="/contact" className={buttonClass('secondary', 'lg')}>
                 {t.hero.buttons.contact}
               </Link>
@@ -152,11 +225,17 @@ export function Home() {
             className="mx-auto w-full max-w-sm md:max-w-xs lg:col-span-5 lg:max-w-none"
           >
             <div className="relative ms-auto w-[86%] lg:w-[88%]">
+              {/* 3D neural orb behind the portrait */}
+              <Suspense fallback={null}>
+                <NeuralOrb className="pointer-events-none absolute top-1/2 left-1/2 aspect-square w-[220%] -translate-x-1/2 -translate-y-1/2" />
+              </Suspense>
+              <div data-parallax="shadow" aria-hidden="true" className="absolute inset-0">
+                <div className="size-full translate-x-4 translate-y-4 rounded-t-full rounded-b-[2rem] bg-coral rtl:-translate-x-4" />
+              </div>
               <div
-                aria-hidden="true"
-                className="absolute inset-0 translate-x-4 translate-y-4 rounded-t-full rounded-b-[2rem] bg-coral rtl:-translate-x-4"
-              />
-              <div className="relative aspect-[4/5] overflow-hidden rounded-t-full rounded-b-[2rem] border border-line bg-surface-2">
+                data-parallax="photo"
+                className="relative aspect-[4/5] overflow-hidden rounded-t-full rounded-b-[2rem] border border-line bg-surface-2"
+              >
                 <img
                   src={t.hero.image || '/profile_pic.png'}
                   alt={t.hero.name}
@@ -168,7 +247,7 @@ export function Home() {
               </div>
 
               {currentRole && (
-                <div className="absolute -start-8 bottom-8 max-w-[15rem] rounded-2xl border border-line bg-bg/95 p-4 shadow-xl shadow-navy/10 backdrop-blur-sm sm:-start-12">
+                <div data-parallax="badge" className="absolute -start-8 bottom-8 max-w-[15rem] rounded-2xl border border-line bg-bg/95 p-4 shadow-xl shadow-navy/10 backdrop-blur-sm sm:-start-12">
                   <p className="eyebrow text-coral-ink">{ui.currently}</p>
                   <p className="mt-1.5 text-sm leading-snug font-semibold">{currentRole.title}</p>
                   <p className="text-sm text-ink-muted">{currentRole.company}</p>
@@ -184,11 +263,15 @@ export function Home() {
             {stats.map(s => (
               <div key={s.label} className="flex flex-col px-2 py-6 text-center sm:px-6 sm:py-8 sm:text-start">
                 <dt className="order-2 mt-1 text-xs text-ink-muted sm:text-sm">{s.label}</dt>
-                <dd className="order-1 font-display text-3xl font-medium tabular-nums sm:text-5xl">{s.value}</dd>
+                <dd className="order-1 font-display text-3xl font-medium sm:text-5xl">
+                  <CountUp value={s.value} />
+                </dd>
               </div>
             ))}
           </dl>
         </div>
+        {/* Scroll-velocity strip of the stack */}
+        <VelocityMarquee rows={[techWords.slice(0, half), techWords.slice(half)]} />
       </section>
 
       {/* ───────────────────────── 01 Selected work ───────────────────────── */}
@@ -196,7 +279,8 @@ export function Home() {
         <SectionHeading
           index="01"
           eyebrow={ui.sections.selectedWork}
-          title={<span id="selected-work">{t.projects.title}</span>}
+          id="selected-work"
+          title={t.projects.title}
           lede={ui.sections.selectedWorkLede}
           action={
             <Link to="/projects" className={buttonClass('secondary')}>
@@ -220,7 +304,8 @@ export function Home() {
           <SectionHeading
             index="02"
             eyebrow={ui.sections.whatIDo}
-            title={<span id="what-i-do">{ui.sections.whatIDoTitle}</span>}
+            id="what-i-do"
+            title={ui.sections.whatIDoTitle}
             lede={ui.sections.whatIDoLede}
           />
           <ul className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2">
@@ -229,8 +314,9 @@ export function Home() {
                 as="li"
                 key={title}
                 delay={i * 0.06}
-                className="group relative bg-bg p-8 transition-colors duration-300 hover:bg-surface sm:p-10"
+                className="group relative overflow-hidden bg-bg p-8 transition-colors duration-300 hover:bg-surface sm:p-10"
               >
+                <SpotlightLayer />
                 <span
                   aria-hidden="true"
                   className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-coral transition-transform duration-500 ease-out-soft group-hover:scale-x-100 rtl:origin-right"
@@ -260,7 +346,8 @@ export function Home() {
         <SectionHeading
           index="03"
           eyebrow={ui.sections.experience}
-          title={<span id="experience-snapshot">{t.experience.title}</span>}
+          id="experience-snapshot"
+          title={t.experience.title}
           action={
             <Link to="/experience" className={buttonClass('secondary')}>
               {ui.fullExperience}
@@ -291,9 +378,12 @@ export function Home() {
         <div className="shell grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4">
             <Eyebrow index="04">{ui.sections.credentials}</Eyebrow>
-            <h2 id="credentials" className="mt-5 font-display text-4xl leading-[1.05] font-medium tracking-tight sm:text-5xl">
-              {ui.sections.credentialsTitle}
-            </h2>
+            <SplitReveal
+              as="h2"
+              id="credentials"
+              text={ui.sections.credentialsTitle}
+              className="mt-5 font-display text-4xl leading-[1.05] font-medium tracking-tight sm:text-5xl"
+            />
             <p className="mt-5 text-lg text-ink-muted">{ui.sections.credentialsLede(certs.length, issuers.length)}</p>
             <ul className="mt-8 flex flex-wrap gap-2">
               {issuers.map(name => (

@@ -76,9 +76,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
+          if (!id.includes('node_modules')) return;
+          // three.js stays in its own chunk so it only downloads with the lazy hero orb.
+          if (id.includes('node_modules/three/')) return 'three';
+          if (id.includes('node_modules/gsap/') || id.includes('node_modules/@gsap/')) return 'gsap';
+          return 'vendor';
         }
       }
     }
