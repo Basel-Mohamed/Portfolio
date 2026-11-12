@@ -11,7 +11,6 @@
  *   COHERE_API_KEY        server-only secret, never prefix with VITE_
  * Optional:
  *   COHERE_MODEL          defaults to command-r7b-12-2024
- *   VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY   to load the admin-edited prompt
  */
 // Explicit .js extension is required: package.json is "type": "module", so Vercel
 // runs this as native Node ESM, which does not resolve extensionless imports.
@@ -34,26 +33,6 @@ function json(status: number, body: Record<string, unknown>): Response {
     status,
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
   });
-}
-
-/** Admin-editable prompt lives in Supabase (public-read RLS); fall back to the bundled one. */
-async function loadSystemPrompt(): Promise<string> {
-  const url = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-  const key = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
-  if (!url || !key) return CHATBOT_PROMPT;
-
-  try {
-    const res = await fetch(`${url}/rest/v1/site_settings?select=ai_prompt&id=eq.1`, {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
-      signal: AbortSignal.timeout(3000),
-    });
-    if (!res.ok) return CHATBOT_PROMPT;
-    const rows = (await res.json()) as Array<{ ai_prompt?: string }>;
-    const prompt = rows[0]?.ai_prompt?.trim();
-    return prompt || CHATBOT_PROMPT;
-  } catch {
-    return CHATBOT_PROMPT;
-  }
 }
 
 function sanitizeHistory(raw: unknown): CohereMessage[] {
@@ -94,7 +73,7 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   const messages: CohereMessage[] = [
-    { role: 'system', content: await loadSystemPrompt() },
+    { role: 'system', content: CHATBOT_PROMPT },
     ...sanitizeHistory(body.chat_history),
     { role: 'user', content: message },
   ];

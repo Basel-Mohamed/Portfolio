@@ -1,6 +1,6 @@
 # Basel Mohamed — Full Stack AI Engineer Portfolio
 
-A modern, high-performance, bilingual (English/Arabic) AI Engineer portfolio featuring real-time Server-Sent Events (SSE) AI chat streaming, interactive AI system architecture visualizations, dynamic Supabase CMS integration, and strict TypeScript types.
+A modern, high-performance, bilingual (English/Arabic) AI Engineer portfolio featuring real-time Server-Sent Events (SSE) AI chat streaming, interactive AI system architecture visualizations, and strict TypeScript types.
 
 ---
 
@@ -10,7 +10,7 @@ Everything ships as a single Vercel project:
 
 - **Frontend**: React 18, Vite 6, Tailwind CSS v4, Framer Motion, React Router 7, TypeScript.
 - **AI Chat API (`api/chat.ts`)**: Vercel Serverless Function that streams Cohere (v2 Chat) tokens to the browser via Server-Sent Events. The API key and system prompt stay server-side; input size and history are capped.
-- **Dynamic Content & CMS**: Supabase PostgreSQL for live content sync, theme overrides, and system prompt management (the chat API reads `site_settings.ai_prompt`, falling back to `src/lib/chatbotPrompt.ts`).
+- **Content**: All portfolio content (EN/AR) lives statically in `src/lib/data.ts`; the chatbot system prompt lives in `src/lib/chatbotPrompt.ts`. Edit those files and redeploy to update the site.
 
 ---
 
@@ -18,7 +18,7 @@ Everything ships as a single Vercel project:
 
 ```bash
 npm install
-cp .env.example .env   # fill in Supabase + COHERE_API_KEY
+cp .env.example .env   # fill in COHERE_API_KEY
 npm run dev            # Vite dev server; also serves /api/chat locally
 ```
 
@@ -28,8 +28,6 @@ Set these in **Project → Settings → Environment Variables**, then deploy:
 
 | Variable | Scope | Notes |
 | --- | --- | --- |
-| `VITE_SUPABASE_URL` | client + server | Supabase project URL |
-| `VITE_SUPABASE_ANON_KEY` | client + server | Supabase anon key |
 | `COHERE_API_KEY` | server only | **Never** prefix with `VITE_` |
 | `COHERE_MODEL` | server only | Optional, defaults to `command-r7b-12-2024` |
 

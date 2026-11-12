@@ -38,18 +38,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "/admin/login",
-    lazy: () => import("../pages/admin/Login").then(m => ({ Component: m.Login })),
-  },
-  {
-    path: "/admin",
-    lazy: () => import("../components/auth/ProtectedRoute").then(m => ({ Component: m.ProtectedRoute })),
-    children: [
-      {
-        index: true,
-        lazy: () => import("../pages/admin/Dashboard").then(m => ({ Component: m.Dashboard })),
-      }
-    ]
-  }
 ]);
