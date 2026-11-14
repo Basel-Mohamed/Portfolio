@@ -14,7 +14,7 @@
  */
 // Explicit .js extension is required: package.json is "type": "module", so Vercel
 // runs this as native Node ESM, which does not resolve extensionless imports.
-import { CHATBOT_PROMPT } from '../src/lib/chatbotPrompt.js';
+import { CHATBOT_PROMPT, CHATBOT_REMINDER } from '../src/lib/chatbotPrompt.js';
 
 const COHERE_URL = 'https://api.cohere.com/v2/chat';
 const DEFAULT_MODEL = 'command-r7b-12-2024';
@@ -75,6 +75,8 @@ export async function POST(request: Request): Promise<Response> {
   const messages: CohereMessage[] = [
     { role: 'system', content: CHATBOT_PROMPT },
     ...sanitizeHistory(body.chat_history),
+    // Restate the scope rules next to the question; see CHATBOT_REMINDER.
+    { role: 'system', content: CHATBOT_REMINDER },
     { role: 'user', content: message },
   ];
 

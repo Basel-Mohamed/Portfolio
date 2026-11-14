@@ -66,7 +66,7 @@ export function Contact() {
           <Reveal>
             <a
               href={mailto}
-              className="block font-display text-[clamp(1.3rem,5.9vw,2.25rem)] leading-tight font-medium tracking-tight [overflow-wrap:anywhere] underline decoration-coral decoration-[3px] underline-offset-8 transition-colors hover:text-coral-ink"
+              className="block font-display text-[clamp(1.3rem,5.9vw,2.25rem)] leading-tight font-semibold tracking-tight [overflow-wrap:anywhere] underline decoration-line-strong decoration-2 underline-offset-8 transition-colors hover:text-accent-text"
             >
               {SITE.email}
             </a>
@@ -90,7 +90,7 @@ export function Contact() {
               {rows.map(({ Icon, label, value, href, external }) => {
                 const inner = (
                   <>
-                    <span className="flex size-11 shrink-0 items-center justify-center rounded-full border border-line-strong text-ink transition-colors group-hover:border-coral group-hover:bg-coral group-hover:text-on-coral">
+                    <span className="flex size-11 shrink-0 items-center justify-center rounded-full border border-line-strong text-ink transition-colors group-hover:border-ink group-hover:bg-ink group-hover:text-bg">
                       <Icon size={18} aria-hidden="true" />
                     </span>
                     <span className="min-w-0 flex-1">
@@ -123,25 +123,24 @@ export function Contact() {
         </div>
 
         <aside className="min-w-0 lg:col-span-5">
-          <Reveal delay={0.12} className="relative overflow-hidden rounded-[2rem] bg-inverse p-8 text-on-inverse sm:p-10 lg:sticky lg:top-28">
-            <div aria-hidden="true" className="absolute -end-16 -bottom-16 size-48 rounded-full bg-coral" />
+          <Reveal delay={0.12} className="relative overflow-hidden rounded-3xl bg-inverse p-8 text-on-inverse sm:p-10 lg:sticky lg:top-28">
             <div className="relative">
-              <span className="flex size-12 items-center justify-center rounded-2xl bg-cream text-navy">
+              <span className="flex size-12 items-center justify-center rounded-2xl bg-on-inverse text-inverse">
                 <LuBot size={22} aria-hidden="true" />
               </span>
-              <h2 className="mt-8 font-display text-3xl font-medium tracking-tight">{ui.contact.chatTitle}</h2>
+              <h2 className="mt-8 font-display text-3xl font-semibold tracking-tight">{ui.contact.chatTitle}</h2>
               <p className="mt-3 max-w-[22rem] text-on-inverse-muted">{ui.contact.chatDesc}</p>
               <button
                 type="button"
                 onClick={() => window.dispatchEvent(new Event(OPEN_CHAT_EVENT))}
-                className={buttonClass('inverse', 'md', 'mt-8')}
+                className={buttonClass('secondary', 'md', 'mt-8')}
               >
                 {ui.contact.chatCta}
               </button>
               <a
                 href={SITE.cv}
                 download="Basel_Mohamed_CV.pdf"
-                className="mt-4 flex min-h-11 w-fit items-center gap-2 text-sm text-on-inverse underline decoration-cream/40 underline-offset-4 hover:decoration-cream"
+                className="mt-4 flex min-h-11 w-fit items-center gap-2 text-sm text-on-inverse underline decoration-on-inverse/40 underline-offset-4 hover:decoration-on-inverse"
               >
                 <LuDownload size={15} aria-hidden="true" />
                 {ui.downloadCv}

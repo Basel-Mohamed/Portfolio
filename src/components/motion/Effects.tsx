@@ -128,7 +128,7 @@ export function Tilt({ children, max = 6, className }: { children: React.ReactNo
 /* ───────────── Spotlight ───────────── */
 
 /**
- * Pointer-tracking coral glow. Drop inside any `relative group` element; it
+ * Pointer-tracking accent glow. Drop inside any `relative group` element; it
  * listens on its parent and only writes CSS variables (no React re-renders).
  */
 export function SpotlightLayer() {
@@ -152,7 +152,7 @@ export function SpotlightLayer() {
       ref={ref}
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-      style={{ background: 'radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--coral) 16%, transparent), transparent 65%)' }}
+      style={{ background: 'radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 16%, transparent), transparent 65%)' }}
     />
   );
 }

@@ -1,4 +1,5 @@
-import { useSearchParams } from 'react-router';
+import { useEffect } from 'react';
+import { useLocation, useSearchParams } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';
 import { ProjectCard } from '../components/features/ProjectCard';
 import { Project } from '../types/portfolio';
@@ -6,6 +7,7 @@ import { useSEO } from '../hooks/useSEO';
 import { useUI } from '../lib/ui-strings';
 import { PageHeader, FilterBar, Eyebrow } from '../components/ui/primitives';
 import { CtaBand } from '../components/ui/CtaBand';
+import { settleAt } from '../lib/smoothScroll';
 
 type Filter = 'all' | 'ai' | 'fullstack';
 const CATEGORIES: Exclude<Filter, 'all'>[] = ['ai', 'fullstack'];
@@ -32,6 +34,24 @@ export function Projects() {
   const { t } = useLanguage();
   const ui = useUI();
   const [params, setParams] = useSearchParams();
+  const { hash } = useLocation();
+
+  // Arriving from the home page ring (/projects#project-<id>): open the page already
+  // on that project's card, just below the navigation, and outline it for a moment.
+  useEffect(() => {
+    if (!hash.startsWith('#project-')) return;
+    const id = decodeURIComponent(hash.slice(1));
+    const stop = settleAt(() => {
+      const card = document.getElementById(id);
+      if (!card) return null;
+      card.classList.add('project-flash');
+      return card.getBoundingClientRect().top + window.scrollY - 112;
+    });
+    return () => {
+      stop();
+      document.getElementById(id)?.classList.remove('project-flash');
+    };
+  }, [hash]);
 
   useSEO({
     title: 'Projects - Basel Mohamed | AI & Full Stack Portfolio',
@@ -78,7 +98,7 @@ export function Projects() {
                 <div className="mb-10 flex items-end justify-between gap-4">
                   <div>
                     <Eyebrow index={String(i + 1).padStart(2, '0')}>{t.nav.projects}</Eyebrow>
-                    <h2 id={`group-${cat}`} className="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl">
+                    <h2 id={`group-${cat}`} className="mt-4 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
                       {ui.project.tabs[cat]}
                     </h2>
                   </div>

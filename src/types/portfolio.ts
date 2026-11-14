@@ -1,11 +1,3 @@
-export interface ArchitectureStep {
-  step: number;
-  title: string;
-  description: string;
-  technologies: string[];
-  keyHighlight?: string;
-}
-
 export interface ProjectMetric {
   label: string;
   value: string;
@@ -19,7 +11,8 @@ export interface Project {
   title: string;
   description: string;
   tech: string[];
-  image: string;
+  /** Optional: projects without a visual render as text-only cards. */
+  image?: string;
   type?: 'ai' | 'fullstack';
   /** Shown in the home page's Selected work section. */
   featured?: boolean;
@@ -27,11 +20,6 @@ export interface Project {
   github?: string;
   live?: string;
   metrics?: ProjectMetric[];
-  architecture?: {
-    overview: string;
-    diagramTitle?: string;
-    pipeline: ArchitectureStep[];
-  };
 }
 
 export interface ExperienceItem {

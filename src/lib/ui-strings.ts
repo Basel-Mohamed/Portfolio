@@ -26,6 +26,9 @@ const en = {
     credentialsLede: (n: number, k: number) =>
       `${n} professional certifications across AI, data and the web, from ${k} institutions.`,
     highlights: 'Highlights',
+    proof: 'Results',
+    proofTitle: 'Measured, not claimed.',
+    ringHint: 'Drag or swipe to explore.',
     viewAllCerts: 'View all certifications',
   },
   theme: { toLight: 'Switch to light theme', toDark: 'Switch to dark theme' },
@@ -40,18 +43,12 @@ const en = {
   project: {
     code: 'Code',
     live: 'Live demo',
-    architecture: 'Architecture',
     nda: 'Under NDA',
+    prev: 'Previous project',
+    next: 'Next project',
     empty: 'No projects in this category yet.',
     tabs: { all: 'All', ai: 'AI & ML', fullstack: 'Full stack' },
     lede: 'Production AI pipelines, research prototypes and full stack products.',
-  },
-  arch: {
-    title: 'System architecture',
-    subtitle: 'End-to-end pipeline and data flow',
-    overview: 'Overview',
-    steps: 'Pipeline steps',
-    close: 'Close',
   },
   certs: {
     all: 'All',
@@ -135,6 +132,9 @@ const ar: UIStrings = {
     credentialsLede: (n: number, k: number) =>
       `${n} شهادة مهنية في الذكاء الاصطناعي والبيانات والويب، من ${k} جهة تعليمية.`,
     highlights: 'أبرز الشهادات',
+    proof: 'النتائج',
+    proofTitle: 'أرقام حقيقية، لا ادعاءات.',
+    ringHint: 'اسحب للاستكشاف.',
     viewAllCerts: 'عرض كل الشهادات',
   },
   theme: { toLight: 'التبديل إلى الوضع الفاتح', toDark: 'التبديل إلى الوضع الداكن' },
@@ -149,18 +149,12 @@ const ar: UIStrings = {
   project: {
     code: 'الكود',
     live: 'عرض مباشر',
-    architecture: 'المعمارية',
     nda: 'محمي باتفاقية سرية',
+    prev: 'المشروع السابق',
+    next: 'المشروع التالي',
     empty: 'لا توجد مشاريع في هذا التصنيف بعد.',
     tabs: { all: 'الكل', ai: 'الذكاء الاصطناعي', fullstack: 'تطوير الويب' },
     lede: 'خطوط ذكاء اصطناعي إنتاجية، ونماذج بحثية، ومنتجات ويب متكاملة.',
-  },
-  arch: {
-    title: 'مخطط المعمارية',
-    subtitle: 'مسار المعالجة وتدفق البيانات من البداية للنهاية',
-    overview: 'نظرة عامة',
-    steps: 'خطوات المعالجة',
-    close: 'إغلاق',
   },
   certs: {
     all: 'الكل',

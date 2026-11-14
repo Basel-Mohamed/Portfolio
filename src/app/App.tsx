@@ -7,7 +7,7 @@ import { Loader } from '../components/features/Loader';
 import { useAssetLoader } from '../hooks/useAssetLoader';
 
 // Critical assets that must load before the app is shown.
-const CRITICAL_ASSETS = ['/profile_pic.png'];
+const CRITICAL_ASSETS = ['/profile_pic.jpg'];
 
 function App() {
   const { isLoaded, progress } = useAssetLoader(CRITICAL_ASSETS);

@@ -10,10 +10,10 @@ export function ErrorBoundary() {
   return (
     <div className="flex min-h-dvh items-center justify-center bg-bg p-6 text-ink">
       <div className="w-full max-w-md text-center">
-        <div className="mx-auto mb-8 flex size-16 items-center justify-center rounded-2xl bg-coral text-on-coral">
+        <div className="mx-auto mb-8 flex size-16 items-center justify-center rounded-2xl bg-surface-2 text-ink">
           <LuTriangleAlert size={28} aria-hidden="true" />
         </div>
-        <h1 className="font-display text-4xl font-medium tracking-tight">{ui.error.title}</h1>
+        <h1 className="font-display text-4xl font-semibold tracking-tight">{ui.error.title}</h1>
         <p className="mt-4 text-ink-muted">{error?.message || ui.error.fallback}</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <button type="button" onClick={() => window.location.reload()} className={buttonClass('primary')}>

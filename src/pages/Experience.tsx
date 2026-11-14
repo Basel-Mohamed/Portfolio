@@ -21,8 +21,8 @@ function Timeline({ index, title, items, Icon }: { index: string; title: string;
             <span className="flex size-12 items-center justify-center rounded-2xl bg-ink text-bg">
               <Icon size={22} aria-hidden="true" />
             </span>
-            <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl">
-              <span className="me-3 align-top font-mono text-sm text-coral-ink">{index}</span>
+            <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+              <span className="me-3 align-top font-mono text-sm text-accent-text">{index}</span>
               {title}
             </h2>
           </div>
@@ -39,18 +39,18 @@ function Timeline({ index, title, items, Icon }: { index: string; title: string;
                 aria-hidden="true"
                 className={
                   current
-                    ? 'absolute start-0 top-1.5 size-[15px] rounded-full border-[3px] border-bg bg-coral ring-1 ring-coral'
+                    ? 'absolute start-0 top-1.5 size-[15px] rounded-full border-[3px] border-bg bg-accent ring-1 ring-accent'
                     : 'absolute start-0 top-1.5 size-[15px] rounded-full border-[3px] border-bg bg-ink-muted ring-1 ring-line-strong'
                 }
               />
               <div className="flex flex-wrap items-center gap-3">
                 <span className="font-mono text-sm text-ink-muted">{role.period}</span>
                 {current && (
-                  <span className="rounded-full bg-coral px-2.5 py-0.5 text-xs font-medium text-on-coral">{ui.experience.current}</span>
+                  <span className="rounded-full bg-ink px-2.5 py-0.5 text-xs font-medium text-bg">{ui.experience.current}</span>
                 )}
               </div>
-              <h3 className="mt-3 font-display text-2xl font-medium tracking-tight sm:text-3xl">{role.title}</h3>
-              <p className="mt-1 font-medium text-coral-ink">{role.company}</p>
+              <h3 className="mt-3 font-display text-2xl font-semibold tracking-tight sm:text-3xl">{role.title}</h3>
+              <p className="mt-1 font-medium text-accent-text">{role.company}</p>
               <p className="mt-4 max-w-2xl leading-relaxed text-ink-muted">{role.description}</p>
             </Reveal>
           );

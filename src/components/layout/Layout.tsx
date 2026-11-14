@@ -38,22 +38,22 @@ export function Layout() {
       <ScrollToTop />
       <Navbar />
 
-      <main id="main" tabIndex={-1} className="flex-grow pt-18 outline-none">
+      <main id="main" tabIndex={-1} className="flex-grow outline-none">
         <Outlet />
       </main>
 
-      <footer className="mt-24 border-t border-line bg-surface-2">
+      <footer className="border-t border-line bg-surface-2">
         <div className="shell pt-14 pb-24 md:pt-16">
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-6">
               <Link to="/" className="inline-flex items-center gap-3 rounded-lg">
                 <Monogram />
-                <span className="font-display text-xl font-semibold tracking-tight">{t.hero.name}</span>
+                <span className="text-lg font-semibold tracking-tight">{t.hero.name}</span>
               </Link>
               <p className="mt-5 max-w-sm text-ink-muted">{t.hero.tagline}</p>
               <a
                 href={`mailto:${SITE.email}`}
-                className="mt-6 inline-flex max-w-full items-center gap-2.5 break-all text-ink underline decoration-coral decoration-2 underline-offset-[5px] transition-colors hover:text-coral-ink"
+                className="mt-4 inline-flex min-h-11 max-w-full items-center gap-2.5 break-all text-ink underline decoration-line-strong underline-offset-[5px] transition-colors hover:text-accent-text"
               >
                 <LuMail aria-hidden="true" className="shrink-0" size={18} />
                 {SITE.email}
@@ -66,7 +66,7 @@ export function Layout() {
                 <ul className="mt-5 space-y-1">
                   {pages.map(p => (
                     <li key={p.path}>
-                      <Link to={p.path} className="inline-flex min-h-9 items-center text-ink transition-colors hover:text-coral-ink">
+                      <Link to={p.path} className="inline-flex min-h-11 items-center text-ink transition-colors hover:text-accent-text">
                         {p.name}
                       </Link>
                     </li>
@@ -82,7 +82,7 @@ export function Layout() {
                         href={href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex min-h-9 items-center gap-2 text-ink transition-colors hover:text-coral-ink"
+                        className="inline-flex min-h-11 items-center gap-2 text-ink transition-colors hover:text-accent-text"
                       >
                         <Icon aria-hidden="true" size={16} />
                         {name}
@@ -93,7 +93,7 @@ export function Layout() {
                   <li>
                     <a
                       href={SITE.cv}
-                      className="inline-flex min-h-9 items-center gap-2 text-ink transition-colors hover:text-coral-ink"
+                      className="inline-flex min-h-11 items-center gap-2 text-ink transition-colors hover:text-accent-text"
                     >
                       {ui.downloadCv}
                       <ArrowOut size={14} className="text-ink-muted" />
@@ -110,7 +110,7 @@ export function Layout() {
                 © {new Date().getFullYear()} {t.hero.name}. {ui.footer.rights}
               </span>
             </div>
-            <a href="#main" className="inline-flex min-h-9 items-center gap-2 transition-colors hover:text-ink">
+            <a href="#main" className="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-ink">
               {ui.footer.backToTop}
               <LuArrowUp aria-hidden="true" size={15} />
             </a>

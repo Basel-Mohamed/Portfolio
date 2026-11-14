@@ -17,7 +17,7 @@ const MarkdownComponents: Record<string, React.FC<any>> = {
   ol: ({ ...props }: any) => <ol className="list-decimal ms-5 space-y-1 my-2" {...props} />,
   a: ({ ...props }: any) => (
     <a
-      className="font-medium text-coral-ink underline decoration-coral underline-offset-2"
+      className="font-medium text-accent-text underline decoration-accent underline-offset-2"
       target="_blank"
       rel="noopener noreferrer"
       {...props}
@@ -32,7 +32,7 @@ const MarkdownComponents: Record<string, React.FC<any>> = {
       );
     }
     return (
-      <pre dir="ltr" className="my-2 overflow-x-auto rounded-lg bg-navy p-3 text-xs text-cream">
+      <pre dir="ltr" className="my-2 overflow-x-auto rounded-lg bg-inverse p-3 text-xs text-on-inverse">
         <code className="font-mono whitespace-pre" {...props}>{children}</code>
       </pre>
     );
@@ -271,7 +271,7 @@ export function AIChatbot() {
         type="button"
         onClick={() => setIsOpen(true)}
         className={clsx(
-          'fixed end-4 bottom-4 z-40 h-13 items-center gap-2.5 rounded-full bg-ink ps-4 pe-5 text-bg shadow-xl shadow-navy/20 transition-transform duration-200 hover:-translate-y-0.5 sm:end-6 sm:bottom-6',
+          'fixed end-4 bottom-4 z-40 h-13 items-center gap-2.5 rounded-full bg-ink ps-4 pe-5 text-bg shadow-xl shadow-inverse/20 transition-transform duration-200 hover:-translate-y-0.5 sm:end-6 sm:bottom-6',
           isOpen ? 'hidden' : 'inline-flex'
         )}
         aria-label={ui.chat.open}
@@ -279,7 +279,7 @@ export function AIChatbot() {
       >
         <span className="relative flex">
           <LuMessageCircle size={22} aria-hidden="true" />
-          <span className="absolute -end-0.5 -top-0.5 size-2.5 rounded-full border-2 border-ink bg-coral" />
+          <span className="absolute -end-0.5 -top-0.5 size-2.5 rounded-full border-2 border-ink bg-accent" />
         </span>
         <span className="hidden text-sm font-medium sm:inline">{t.chatbot.title}</span>
       </button>
@@ -289,16 +289,17 @@ export function AIChatbot() {
           <motion.div
             role="dialog"
             aria-label={t.chatbot.title}
+            data-lenis-prevent
             initial={{ opacity: 0, y: 24, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.98, transition: { duration: 0.15 } }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-3 bottom-3 z-50 flex h-[min(620px,85dvh)] flex-col overflow-hidden rounded-3xl border border-line bg-bg text-ink shadow-2xl shadow-navy/25 sm:inset-x-auto sm:end-6 sm:bottom-6 sm:w-[420px]"
+            className="fixed inset-x-3 bottom-3 z-50 flex h-[min(620px,85dvh)] flex-col overflow-hidden rounded-3xl short:h-[calc(100dvh-3rem)] border border-line bg-bg text-ink shadow-2xl shadow-inverse/25 sm:inset-x-auto sm:end-6 sm:bottom-6 sm:w-[420px]"
           >
             {/* Header */}
-            <div className="flex shrink-0 items-center justify-between bg-inverse px-5 py-4 text-on-inverse">
+            <div className="flex shrink-0 items-center justify-between bg-inverse px-5 py-4 text-on-inverse short:py-1.5">
               <div className="flex items-center gap-3">
-                <span className="flex size-10 items-center justify-center rounded-2xl bg-coral text-on-coral">
+                <span className="flex size-10 items-center justify-center rounded-2xl bg-surface-2 text-ink">
                   <LuBot size={20} aria-hidden="true" />
                 </span>
                 <div>
@@ -309,7 +310,7 @@ export function AIChatbot() {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="inline-flex size-11 items-center justify-center rounded-full transition-colors hover:bg-cream/10"
+                className="inline-flex size-11 items-center justify-center rounded-full transition-colors hover:bg-on-inverse/10"
                 aria-label={ui.chat.close}
               >
                 <LuX size={20} aria-hidden="true" />
@@ -317,7 +318,7 @@ export function AIChatbot() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 space-y-4 overflow-y-auto overscroll-contain bg-surface-2/50 p-4" dir="ltr" aria-live="polite">
+            <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain bg-surface-2/50 p-4" dir="ltr" aria-live="polite">
               {messages.map((msg) => (
                 <motion.div
                   key={msg.id}
@@ -326,7 +327,7 @@ export function AIChatbot() {
                   className={clsx('flex max-w-[88%] gap-2.5', msg.sender === 'user' ? 'ms-auto flex-row-reverse' : '')}
                 >
                   {msg.sender === 'bot' && (
-                    <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-coral text-on-coral">
+                    <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-ink text-bg">
                       <LuBot size={15} aria-hidden="true" />
                     </span>
                   )}
@@ -345,12 +346,12 @@ export function AIChatbot() {
                       <div>
                         <ReactMarkdown components={MarkdownComponents}>{msg.text}</ReactMarkdown>
                         {msg.isStreaming && (
-                          <span aria-hidden="true" className="ms-1 inline-block h-4 w-1.5 animate-pulse rounded-sm bg-coral align-middle" />
+                          <span aria-hidden="true" className="ms-1 inline-block h-4 w-1.5 animate-pulse rounded-sm bg-accent align-middle" />
                         )}
                       </div>
                     ) : (
                       <div className="flex items-center gap-2 py-0.5 text-xs text-ink-muted">
-                        <LuLoaderCircle size={14} className="animate-spin text-coral-ink" aria-hidden="true" />
+                        <LuLoaderCircle size={14} className="animate-spin text-accent-text" aria-hidden="true" />
                         <span>{ui.chat.thinking}</span>
                       </div>
                     )}
@@ -361,16 +362,16 @@ export function AIChatbot() {
             </div>
 
             {/* Input + suggestions */}
-            <div className="shrink-0 border-t border-line bg-bg p-4">
+            <div className="shrink-0 border-t border-line bg-bg p-4 short:p-2.5">
               {messages.length < 3 && (
-                <div className="mb-3 flex flex-wrap gap-2">
+                <div className="mb-3 flex flex-wrap gap-2 short:mb-2 short:flex-nowrap short:overflow-x-auto">
                   {t.chatbot.suggestions.map((suggestion: string, idx: number) => (
                     <button
                       type="button"
                       key={idx}
                       onClick={() => handleSuggestionClick(suggestion)}
                       disabled={isTyping}
-                      className="rounded-full border border-line-strong px-3 py-1.5 text-xs text-ink-muted transition-colors hover:border-ink hover:text-ink disabled:opacity-50"
+                      className="shrink-0 rounded-full border border-line-strong px-3 py-1.5 text-xs whitespace-nowrap text-ink-muted transition-colors hover:border-ink hover:text-ink disabled:opacity-50"
                     >
                       {suggestion}
                     </button>
@@ -397,12 +398,12 @@ export function AIChatbot() {
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder={t.chatbot.placeholder}
                   disabled={isTyping}
-                  className="h-12 min-w-0 flex-1 rounded-full border border-line-strong bg-surface px-4 text-base text-ink placeholder:text-ink-muted focus:border-ink focus:outline-none disabled:opacity-60 sm:text-sm"
+                  className="h-12 min-w-0 flex-1 rounded-full border border-line-strong bg-surface px-4 text-base text-ink placeholder:text-ink-muted focus:border-ink focus:outline-none disabled:opacity-60"
                 />
                 <button
                   type="submit"
                   disabled={!inputValue.trim() || isTyping}
-                  className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-coral text-on-coral transition-colors hover:bg-ink hover:text-bg disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-accent text-on-accent transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
                   aria-label={ui.chat.send}
                 >
                   <LuSend size={18} aria-hidden="true" className="rtl:-scale-x-100" />

@@ -31,17 +31,17 @@ export function Services() {
               className="group flex flex-col rounded-3xl border border-line bg-surface p-8 transition-colors duration-300 hover:border-line-strong sm:p-10"
             >
               <div className="flex items-center justify-between">
-                <span className="font-mono text-sm text-coral-ink">{String(index + 1).padStart(2, '0')}</span>
+                <span className="font-mono text-sm text-accent-text">{String(index + 1).padStart(2, '0')}</span>
                 <span aria-hidden="true" className="h-px flex-1 mx-4 bg-line" />
               </div>
-              <h2 className="mt-6 font-display text-3xl font-medium tracking-tight">{service.title}</h2>
+              <h2 className="mt-6 font-display text-3xl font-semibold tracking-tight">{service.title}</h2>
               <p className="mt-4 leading-relaxed text-ink-muted">{service.description}</p>
 
               {service.features && service.features.length > 0 && (
                 <ul className="mt-8 flex-grow space-y-3">
                   {service.features.map(feature => (
                     <li key={feature} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-coral text-on-coral">
+                      <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-ink text-bg">
                         <LuCheck size={12} strokeWidth={3} aria-hidden="true" />
                       </span>
                       <span>{feature}</span>

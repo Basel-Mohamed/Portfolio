@@ -14,22 +14,22 @@ export function About() {
   useSEO({
     title: 'About - Basel Mohamed | AI Engineer',
     description:
-      'Learn about Basel Mohamed, an Associate AI Engineer based in Cairo, Egypt, specializing in NLP, Generative AI, RAG systems, and Full Stack Development.',
+      'Learn about Basel Mohamed, an AI Engineer and Gen AI Specialist based in Cairo, Egypt, building RAG systems, multi-agent orchestration, and LLM serving.',
     url: '/about',
   });
 
   const toolkit = [
-    { Icon: LuBrain, title: t.about.skills.ai_ml, items: ['Machine Learning', 'Deep Learning', 'Neural Networks', 'Predictive Analytics'] },
-    { Icon: LuSparkles, title: t.about.skills.techniques, items: ['RAG Systems', 'RLHF', 'OCR', 'Prompt Engineering'] },
-    { Icon: LuCode, title: t.about.skills.frameworks, items: ['PyTorch', 'LangChain', 'FastAPI', 'Qdrant / ChromaDB'] },
-    { Icon: LuCloud, title: t.about.skills.cloud, items: ['Oracle OCI', 'Docker', 'Git / GitHub', 'Linux / Bash'] },
+    { Icon: LuBrain, title: t.about.skills.ai_ml, items: ['RAG & Agentic AI', 'Multi-Agent Systems', 'Fine-tuning', 'Prompt Engineering & RLHF'] },
+    { Icon: LuSparkles, title: t.about.skills.techniques, items: ['vLLM', 'SGLang', 'llama.cpp', 'Ollama'] },
+    { Icon: LuCode, title: t.about.skills.frameworks, items: ['LangChain / LangGraph', 'PyTorch', 'Hugging Face Transformers', 'Qdrant'] },
+    { Icon: LuCloud, title: t.about.skills.cloud, items: ['Python / FastAPI', 'Docker', 'Oracle EBS / OCI', 'Logging & Observability'] },
   ];
 
   return (
     <>
       <PageHeader eyebrow={t.nav.about} title={t.about.title}>
         <p className="mt-6 inline-flex items-center gap-2 text-ink-muted">
-          <LuMapPin size={16} aria-hidden="true" className="text-coral-ink" />
+          <LuMapPin size={16} aria-hidden="true" className="text-accent-text" />
           {ui.about.basedIn} {t.about.location}
         </p>
       </PageHeader>
@@ -37,14 +37,13 @@ export function About() {
       <section className="shell grid grid-cols-1 gap-12 py-20 md:py-28 lg:grid-cols-12 lg:gap-16">
         <Reveal className="lg:col-span-4">
           <div className="relative mx-auto max-w-xs lg:mx-0">
-            <div aria-hidden="true" className="absolute inset-0 -rotate-3 rounded-[2rem] bg-coral" />
             <img
-              src={t.hero.image || '/profile_pic.png'}
+              src={t.hero.image || '/profile_pic.jpg'}
               alt={t.hero.name}
               width={1024}
               height={1024}
               loading="lazy"
-              className="relative aspect-square w-full rounded-[2rem] border border-line object-cover"
+              className="relative aspect-square w-full rounded-3xl border border-line object-cover"
             />
           </div>
         </Reveal>
@@ -76,9 +75,9 @@ export function About() {
                 <h3 className="mt-6 text-lg font-semibold">{title}</h3>
                 <ul className="mt-4 space-y-2.5">
                   {items.map(it => (
-                    <li key={it} className="flex items-center gap-2.5 text-ink-muted" dir="ltr">
-                      <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-coral" />
-                      {it}
+                    <li key={it} className="flex items-center gap-2.5 text-ink-muted">
+                      <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-accent" />
+                      <bdi>{it}</bdi>
                     </li>
                   ))}
                 </ul>
@@ -89,13 +88,13 @@ export function About() {
       </section>
 
       <section className="shell pt-20 md:pt-28">
-        <Reveal className="flex flex-col items-start gap-8 rounded-[2rem] border border-line bg-surface p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
+        <Reveal className="flex flex-col items-start gap-8 rounded-3xl border border-line bg-surface p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-col items-start gap-6 sm:flex-row">
-            <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-coral text-on-coral">
+            <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-surface-2 text-ink">
               <LuAward size={26} aria-hidden="true" />
             </span>
             <div>
-              <h2 className="font-display text-3xl font-medium tracking-tight">{t.about.learning.title}</h2>
+              <h2 className="font-display text-3xl font-semibold tracking-tight">{t.about.learning.title}</h2>
               <p className="mt-2 max-w-xl text-ink-muted">{t.about.learning.desc}</p>
             </div>
           </div>

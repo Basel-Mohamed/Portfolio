@@ -47,7 +47,7 @@ export function CertificateModal({ certs, index, onClose, onNavigate }: Certific
   return createPortal(
     <AnimatePresence>
       {cert && (
-        <div className="fixed inset-0 z-[90] flex items-center justify-center p-3 sm:p-8">
+        <div className="fixed inset-0 z-[90] flex items-center justify-center p-3 sm:p-8 short:p-2">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -68,12 +68,12 @@ export function CertificateModal({ certs, index, onClose, onNavigate }: Certific
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex max-h-[94dvh] w-full max-w-5xl flex-col overflow-hidden rounded-3xl border border-line bg-bg text-ink shadow-2xl outline-none"
           >
-            <div className="flex items-center justify-between gap-4 border-b border-line px-5 py-4 sm:px-6">
+            <div className="flex items-center justify-between gap-4 border-b border-line px-5 py-4 sm:px-6 short:py-1.5">
               <div className="min-w-0">
-                <p className="eyebrow truncate text-coral-ink">
+                <p className="eyebrow truncate text-accent-text">
                   {[cert.issuer, cert.date].filter(Boolean).join(' · ')}
                 </p>
-                <h2 id={titleId} className="mt-1 truncate font-display text-lg font-medium sm:text-xl" title={cert.title}>
+                <h2 id={titleId} className="mt-1 truncate font-display text-lg font-semibold sm:text-xl" title={cert.title}>
                   {cert.name}
                 </h2>
               </div>
@@ -87,7 +87,7 @@ export function CertificateModal({ certs, index, onClose, onNavigate }: Certific
               </button>
             </div>
 
-            <div className="flex min-h-0 flex-1 items-center justify-center bg-surface-2 p-3 sm:p-6">
+            <div className="flex min-h-0 flex-1 items-center justify-center bg-surface-2 p-3 sm:p-6 short:p-2">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={cert.title}
@@ -98,12 +98,12 @@ export function CertificateModal({ certs, index, onClose, onNavigate }: Certific
                   className="flex size-full items-center justify-center"
                 >
                   {isPdf ? (
-                    <iframe src={`${cert.image}#toolbar=0`} title={cert.title} className="h-[70dvh] w-full rounded-xl bg-white" />
+                    <iframe src={`${cert.image}#toolbar=0`} title={cert.title} className="h-[70dvh] w-full rounded-xl bg-white short:h-[calc(100dvh-10.5rem)]" />
                   ) : (
                     <img
                       src={cert.image}
                       alt={cert.title}
-                      className="h-auto max-h-[70dvh] w-auto max-w-full rounded-xl object-contain shadow-lg"
+                      className="h-auto max-h-[70dvh] w-auto max-w-full rounded-xl object-contain shadow-lg short:max-h-[calc(100dvh-10.5rem)]"
                     />
                   )}
                 </motion.div>
@@ -111,7 +111,7 @@ export function CertificateModal({ certs, index, onClose, onNavigate }: Certific
             </div>
 
             {hasNav && index !== null && (
-              <div className="flex items-center justify-between gap-4 border-t border-line px-5 py-3 sm:px-6">
+              <div className="flex items-center justify-between gap-4 border-t border-line px-5 py-3 sm:px-6 short:py-1.5">
                 <button type="button" onClick={() => go(-1)} className={navBtn} aria-label={ui.certs.prev}>
                   <LuChevronLeft size={20} aria-hidden="true" className="rtl:-scale-x-100" />
                 </button>

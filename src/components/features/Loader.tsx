@@ -12,15 +12,14 @@ export function Loader({ progress }: LoaderProps) {
       <div className="flex items-center gap-4">
         <span className="relative inline-flex size-14 items-center justify-center rounded-2xl bg-ink font-display text-xl font-semibold text-bg">
           BM
-          <span className="absolute -end-1.5 -bottom-1.5 size-4 rounded-full border-[3px] border-bg bg-coral" />
         </span>
-        <span className="font-display text-3xl font-medium tracking-tight">Basel Mohamed</span>
+        <span className="font-display text-3xl font-semibold tracking-tight">Basel Mohamed</span>
       </div>
 
       <div className="mt-10 w-56">
         <div className="h-[3px] w-full overflow-hidden rounded-full bg-line">
           <div
-            className="h-full rounded-full bg-coral transition-[width] duration-300 ease-out"
+            className="h-full rounded-full bg-accent transition-[width] duration-300 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>

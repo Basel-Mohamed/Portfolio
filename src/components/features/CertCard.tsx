@@ -36,10 +36,10 @@ export function CertCard({ cert, onOpen, large = false }: CertCardProps) {
       </span>
       <span className={clsx('flex flex-grow flex-col', large ? 'p-6 sm:p-7' : 'p-5')}>
         <span className="flex items-start justify-between gap-3">
-          <span className="eyebrow min-w-0 text-coral-ink">{cert.issuer || cert.category}</span>
+          <span className="eyebrow min-w-0 text-accent-text">{cert.issuer || cert.category}</span>
           <span className="shrink-0 font-mono text-xs text-ink-muted">{cert.date}</span>
         </span>
-        <span className={clsx('mt-3 line-clamp-3 leading-snug font-semibold', large ? 'font-display text-xl font-medium md:text-lg lg:text-2xl' : 'text-base')}>
+        <span className={clsx('mt-3 line-clamp-3 leading-snug font-semibold', large ? 'font-display text-xl font-semibold md:text-lg lg:text-2xl' : 'text-base')}>
           {cert.name}
         </span>
       </span>

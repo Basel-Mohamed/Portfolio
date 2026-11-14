@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { lockScroll, unlockScroll } from '../lib/smoothScroll';
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), textarea, input, select, iframe, [tabindex]:not([tabindex="-1"])';
@@ -17,6 +18,7 @@ export function useDialog<T extends HTMLElement>(isOpen: boolean, onClose: () =>
     const previouslyFocused = document.activeElement as HTMLElement | null;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    lockScroll();
 
     const focusFirst = window.setTimeout(() => {
       const node = ref.current;
@@ -50,6 +52,7 @@ export function useDialog<T extends HTMLElement>(isOpen: boolean, onClose: () =>
       window.clearTimeout(focusFirst);
       window.removeEventListener('keydown', onKey);
       document.body.style.overflow = prevOverflow;
+      unlockScroll();
       previouslyFocused?.focus?.();
     };
   }, [isOpen]);

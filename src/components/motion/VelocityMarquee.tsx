@@ -57,13 +57,13 @@ export function VelocityMarquee({ rows }: { rows: string[][] }) {
                     <span key={`${copy}-${j}`} className="flex items-center">
                       <span
                         className={clsx(
-                          'px-5 font-display text-5xl leading-[1.15] font-medium tracking-tight md:px-8 md:text-7xl',
+                          'px-5 font-display text-5xl leading-[1.15] font-semibold tracking-tight md:px-8 md:text-7xl',
                           i % 2 === 1 && 'text-transparent [-webkit-text-stroke:1.2px_var(--ink)]',
                         )}
                       >
                         {word}
                       </span>
-                      <span className="size-2.5 shrink-0 rounded-full bg-coral md:size-3.5" />
+                      <span className="size-2.5 shrink-0 rounded-full bg-accent md:size-3.5" />
                     </span>
                   ))}
                 </div>

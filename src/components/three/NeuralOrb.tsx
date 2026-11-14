@@ -3,7 +3,7 @@ import * as THREE from 'three';
 
 /**
  * A rotating "neural network" sphere: nodes on a Fibonacci sphere joined to
- * their nearest neighbours, a few coral "active" nodes that pulse, and a tilted
+ * their nearest neighbours, a few accent "active" nodes that pulse, and a tilted
  * orbit ring with a travelling satellite. Follows the pointer, reacts to scroll,
  * pauses off-screen, and renders a single still frame for reduced motion.
  * Colours come from the theme tokens, so it re-tints in light / dark mode.
@@ -48,8 +48,8 @@ export default function NeuralOrb({ className }: { className?: string }) {
       nodes.push(new THREE.Vector3(Math.cos(golden * i) * r * j, y * j, Math.sin(golden * i) * r * j));
     }
     const inkPos: number[] = [];
-    const coralPos: number[] = [];
-    nodes.forEach(p => (Math.random() < 0.09 ? coralPos : inkPos).push(p.x, p.y, p.z));
+    const accentPos: number[] = [];
+    nodes.forEach(p => (Math.random() < 0.09 ? accentPos : inkPos).push(p.x, p.y, p.z));
 
     // ── Edges: up to 3 nearest neighbours within reach ──
     const reach = Math.sqrt((4 * Math.PI) / N) * 1.45;
@@ -83,14 +83,14 @@ export default function NeuralOrb({ className }: { className?: string }) {
     };
 
     const inkGeo = geoOf(inkPos);
-    const coralGeo = geoOf(coralPos);
+    const accentGeo = geoOf(accentPos);
     const edgeGeo = geoOf(edgePos);
     const inkMat = new THREE.PointsMaterial({ size: small ? 0.05 : 0.042, map: sprite, transparent: true, depthWrite: false, alphaTest: 0.05 });
-    const coralMat = new THREE.PointsMaterial({ size: small ? 0.1 : 0.09, map: sprite, transparent: true, depthWrite: false, alphaTest: 0.05 });
+    const accentMat = new THREE.PointsMaterial({ size: small ? 0.1 : 0.09, map: sprite, transparent: true, depthWrite: false, alphaTest: 0.05 });
     const edgeMat = new THREE.LineBasicMaterial({ transparent: true, opacity: 0.24, depthWrite: false });
     group.add(new THREE.LineSegments(edgeGeo, edgeMat));
     group.add(new THREE.Points(inkGeo, inkMat));
-    group.add(new THREE.Points(coralGeo, coralMat));
+    group.add(new THREE.Points(accentGeo, accentMat));
 
     // ── Orbit ring + satellite ──
     const ringPts = new THREE.EllipseCurve(0, 0, 1.38, 1.38, 0, Math.PI * 2).getPoints(160);
@@ -110,13 +110,13 @@ export default function NeuralOrb({ className }: { className?: string }) {
     const applyTheme = () => {
       const css = getComputedStyle(document.documentElement);
       const ink = new THREE.Color(css.getPropertyValue('--ink').trim() || '#14213d');
-      const coral = new THREE.Color(css.getPropertyValue('--coral').trim() || '#ff6b5b');
+      const accent = new THREE.Color(css.getPropertyValue('--accent').trim() || '#ff6b5b');
       const bg = new THREE.Color(css.getPropertyValue('--bg').trim() || '#f4ede0');
       inkMat.color = ink;
       edgeMat.color = ink;
-      coralMat.color = coral;
-      ringMat.color = coral;
-      satMat.color = coral;
+      accentMat.color = accent;
+      ringMat.color = accent;
+      satMat.color = accent;
       scene.fog = new THREE.Fog(bg, 4.4, 6.9); // back of the sphere fades into the page
     };
     applyTheme();
@@ -168,7 +168,7 @@ export default function NeuralOrb({ className }: { className?: string }) {
       orbit.rotation.z = t * 0.05;
       const a = t * 0.6;
       sat.position.set(Math.cos(a) * 1.38, Math.sin(a) * 1.38, 0);
-      coralMat.opacity = 0.7 + Math.sin(t * 2.2) * 0.3;
+      accentMat.opacity = 0.7 + Math.sin(t * 2.2) * 0.3;
       renderer.render(scene, camera);
     };
 
@@ -204,8 +204,8 @@ export default function NeuralOrb({ className }: { className?: string }) {
       ro.disconnect();
       io.disconnect();
       themeObserver.disconnect();
-      [inkGeo, coralGeo, edgeGeo, ringGeo, satGeo].forEach(x => x.dispose());
-      [inkMat, coralMat, edgeMat, ringMat, satMat].forEach(x => x.dispose());
+      [inkGeo, accentGeo, edgeGeo, ringGeo, satGeo].forEach(x => x.dispose());
+      [inkMat, accentMat, edgeMat, ringMat, satMat].forEach(x => x.dispose());
       sprite.dispose();
       renderer.dispose();
       canvas.remove();

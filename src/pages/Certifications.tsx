@@ -65,11 +65,11 @@ export function Certifications() {
   return (
     <>
       <PageHeader eyebrow={t.nav.certifications} title={t.nav.certifications} lede={t.about.certifications_subtitle}>
-        <dl className="mt-10 flex flex-wrap gap-x-12 gap-y-4">
+        <dl className="mt-10 flex flex-wrap justify-center gap-x-12 gap-y-4">
           {facts.map(f => (
             <div key={f.label} className="flex flex-col">
               <dt className="order-2 text-sm text-ink-muted">{f.label}</dt>
-              <dd className="order-1 font-display text-4xl font-medium tabular-nums">{f.value}</dd>
+              <dd className="order-1 font-display text-4xl font-semibold tabular-nums">{f.value}</dd>
             </div>
           ))}
         </dl>
@@ -82,7 +82,7 @@ export function Certifications() {
         {highlights.length > 0 && (
           <section className="border-b border-line py-16 md:py-20" aria-labelledby="cert-highlights">
             <Eyebrow>{ui.sections.highlights}</Eyebrow>
-            <h2 id="cert-highlights" className="mt-5 font-display text-3xl font-medium tracking-tight sm:text-4xl">
+            <h2 id="cert-highlights" className="mt-5 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
               {ui.certs.highlightsLede}
             </h2>
             <ul className="mt-10 grid gap-6 md:grid-cols-3">
@@ -104,7 +104,7 @@ export function Certifications() {
             >
               <div className="lg:col-span-3">
                 <div className="lg:sticky lg:top-28">
-                  <h2 id={`year-${year}`} className="font-display text-5xl font-medium tabular-nums tracking-tight sm:text-6xl">
+                  <h2 id={`year-${year}`} className="font-display text-5xl font-semibold tabular-nums tracking-tight sm:text-6xl">
                     {year || '—'}
                   </h2>
                   <p className="mt-2 font-mono text-sm text-ink-muted">

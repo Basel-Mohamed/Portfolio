@@ -1,121 +1,52 @@
-import { lazy, Suspense, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { motion, type Variants } from 'motion/react';
 import { Link } from 'react-router';
 import { FaGithub, FaLinkedin } from 'react-icons/fa6';
 import { LuBrain, LuCpu, LuServer, LuCode, LuDownload } from 'react-icons/lu';
 import { useLanguage } from '../context/LanguageContext';
-import { ProjectCard } from '../components/features/ProjectCard';
+import { ProjectStage } from '../components/features/ProjectStage';
+import { ProofBento } from '../components/features/ProofBento';
+import { ProjectRing } from '../components/features/ProjectRing';
 import { CertCard } from '../components/features/CertCard';
 import { CertificateModal } from '../components/layout/CertificateModal';
 import { useSEO } from '../hooks/useSEO';
 import { useUI } from '../lib/ui-strings';
 import { SITE } from '../lib/site';
 import { toCertView, uniqueIssuers } from '../lib/certs';
-import { buttonClass, ArrowForward, Reveal, SectionHeading, Chip, Eyebrow } from '../components/ui/primitives';
+import { buttonClass, linkClass, Chevron, Reveal, SectionHeading, Chip, Eyebrow } from '../components/ui/primitives';
 import { CtaBand } from '../components/ui/CtaBand';
 import { SplitReveal } from '../components/motion/SplitReveal';
-import { CountUp, Magnet, SpotlightLayer } from '../components/motion/Effects';
-import { VelocityMarquee } from '../components/motion/VelocityMarquee';
-import { gsap, SplitText, useGSAP, prefersReducedMotion } from '../lib/motion';
+import { Magnet, SpotlightLayer } from '../components/motion/Effects';
 
-// three.js is loaded on demand so it never blocks the first paint.
-const NeuralOrb = lazy(() => import('../components/three/NeuralOrb'));
-
-const ease = [0.22, 1, 0.36, 1] as const;
-
-/** Hero name: letters flip up in 3D, then the coral underline draws in. */
-function HeroName({ name }: { name: string }) {
-  const { dir } = useLanguage();
-  const ref = useRef<HTMLSpanElement>(null);
-  const [first, ...rest] = name.split(' ');
-
-  useGSAP(
-    () => {
-      const el = ref.current;
-      if (!el || prefersReducedMotion()) return;
-      const split = SplitText.create(el.querySelectorAll('[data-split]'), {
-        type: dir === 'rtl' ? 'words' : 'words,chars',
-        tag: 'span',
-        aria: 'none',
-      });
-      const pieces = dir === 'rtl' ? split.words : split.chars;
-      gsap
-        .timeline({ delay: 0.15 })
-        .from(pieces, {
-          yPercent: 115,
-          rotateX: -85,
-          opacity: 0,
-          transformPerspective: 800,
-          transformOrigin: '50% 100%',
-          duration: 1,
-          ease: 'expo.out',
-          stagger: 0.03,
-        })
-        .from(
-          el.querySelector('[data-underline]'),
-          { scaleX: 0, transformOrigin: dir === 'rtl' ? '100% 50%' : '0% 50%', duration: 0.9, ease: 'expo.inOut' },
-          '-=0.6',
-        );
-    },
-    { scope: ref, dependencies: [name, dir] },
-  );
-
-  return (
-    <h1 key={name} className="mt-8 font-display text-[clamp(3rem,9vw,6.5rem)] leading-[0.95] font-medium tracking-[-0.03em]">
-      <span className="sr-only">{name}</span>
-      <span ref={ref} aria-hidden="true">
-        <span className="relative inline-block">
-          <span data-split>{first}</span>
-          <span data-underline className="absolute inset-x-0 -bottom-[0.04em] h-[0.1em] rounded-full bg-coral" />
-        </span>{' '}
-        <span data-split className="text-ink-muted italic rtl:not-italic">
-          {rest.join(' ')}
-        </span>
-      </span>
-    </h1>
-  );
-}
+const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Home() {
   const { t } = useLanguage();
   const ui = useUI();
   const [openCert, setOpenCert] = useState<number | null>(null);
-  const heroRef = useRef<HTMLElement>(null);
-
-  // Scroll parallax: portrait, coral shadow and badge drift at different speeds.
-  useGSAP(
-    () => {
-      if (prefersReducedMotion()) return;
-      const st = { trigger: heroRef.current, start: 'top top', end: 'bottom top', scrub: 0.6 };
-      gsap.to('[data-parallax="photo"]', { yPercent: -10, ease: 'none', scrollTrigger: st });
-      gsap.to('[data-parallax="shadow"]', { yPercent: 6, ease: 'none', scrollTrigger: st });
-      gsap.to('[data-parallax="badge"]', { yPercent: -40, ease: 'none', scrollTrigger: st });
-    },
-    { scope: heroRef },
-  );
 
   useSEO({
-    title: 'Basel Mohamed | Full Stack AI Engineer',
+    title: 'Basel Mohamed | AI Engineer & Gen AI Specialist',
     description:
-      'Portfolio of Basel Mohamed, an Associate AI Engineer specializing in NLP, Generative AI, RAG systems, and Full Stack Development based in Cairo, Egypt.',
+      'Portfolio of Basel Mohamed, an AI Engineer and Gen AI Specialist building RAG systems, multi-agent orchestration, and LLM serving, based in Cairo, Egypt.',
     url: '/',
   });
 
   const roles = t.experience.professional || t.experience.items || [];
-  const currentRole = roles[0];
   const certs = useMemo(() => t.about.certifications.map(toCertView), [t.about.certifications]);
   const issuers = useMemo(() => uniqueIssuers(certs), [certs]);
 
-  // Derived, not hard-coded: stays correct as data.ts changes.
-  const stats = useMemo(() => {
-    const years = roles.map(r => Number((r.period.match(/\d{4}/) || [])[0])).filter(Boolean);
-    const since = years.length ? Math.min(...years) : new Date().getFullYear();
-    return [
-      { value: `${new Date().getFullYear() - since}+`, label: ui.stats.years },
-      { value: String(t.projects.items.length), label: ui.stats.projects },
-      { value: String(certs.length), label: ui.stats.certs },
-    ];
-  }, [roles, t.projects.items.length, certs.length, ui]);
+  const years = SITE.yearsInAi;
+
+  // Proof tiles: the headline metric of each project that has numbers.
+  // The lead tile is the first one with a measured improvement.
+  const proof = useMemo(() => {
+    const tiles = t.projects.items
+      .filter(p => p.metrics && p.metrics.length > 0)
+      .map(p => ({ metric: p.metrics![0], project: p.title }));
+    const leadIndex = Math.max(0, tiles.findIndex(x => x.metric.change));
+    return { lead: tiles[leadIndex], rest: tiles.filter((_, i) => i !== leadIndex).slice(0, 3) };
+  }, [t.projects.items]);
 
   const capabilities = [
     { Icon: LuBrain, ...t.home.skills.genAi },
@@ -127,6 +58,13 @@ export function Home() {
   // Flagged in data.ts (`featured: true`); falls back to the first three.
   const flagged = t.projects.items.filter(p => p.featured);
   const featured = (flagged.length ? flagged : t.projects.items).slice(0, 3);
+  // The stage shows the first featured project; the rest are cards.
+  const staged = featured[0];
+  // The ring shows the other projects that have a visual: featured ones first, eight at most.
+  const ringProjects = useMemo(() => {
+    const rest = t.projects.items.filter(p => p !== staged && p.image);
+    return [...rest.filter(p => p.featured), ...rest.filter(p => !p.featured)].slice(0, 8);
+  }, [t.projects.items, staged]);
   const flaggedCerts = certs.filter(c => c.featured);
   const highlightCerts = (flaggedCerts.length ? flaggedCerts : certs).slice(0, 3);
 
@@ -135,271 +73,192 @@ export function Home() {
     show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
   };
   const item: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
+    hidden: { opacity: 0, y: 24 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
   };
-
-  // Tech words for the scroll-velocity strip, taken from the skills data.
-  const techWords = capabilities.flatMap(c => c.desc.split(',').map(w => w.trim()));
-  const half = Math.ceil(techWords.length / 2);
 
   return (
     <div className="overflow-x-clip">
-      {/* ───────────────────────── Hero ───────────────────────── */}
-      <section ref={heroRef} className="relative">
-        <div aria-hidden="true" className="paper-grid pointer-events-none absolute inset-0 -top-18" />
+      {/* ───────────── Hero (follows the theme, fills the first screen) ───────────── */}
+      <section className="flex min-h-dvh flex-col justify-center bg-bg text-ink">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="shell flex flex-col items-center py-28 text-center md:py-32 short:pt-24! short:pb-12!"
+        >
+          <motion.img
+            variants={item}
+            src={t.hero.image || '/profile_pic.jpg'}
+            alt={t.hero.name}
+            width={192}
+            height={192}
+            className="size-24 rounded-full border border-line object-cover grayscale short:size-16"
+          />
 
-        <div className="shell relative grid items-center gap-14 pt-12 pb-16 md:pt-20 lg:grid-cols-12 lg:gap-10 lg:pb-24">
-          <motion.div variants={container} initial="hidden" animate="show" className="lg:col-span-7">
-            <motion.p
-              variants={item}
-              className="inline-flex items-center gap-2.5 rounded-full border border-line-strong bg-surface px-3.5 py-1.5 text-sm"
-            >
-              <span className="relative flex size-2.5" aria-hidden="true">
-                <span className="animate-status-pulse absolute inset-0 rounded-full bg-coral" />
-                <span className="relative size-2.5 rounded-full bg-coral" />
+          <motion.p variants={item} className="eyebrow mt-8 text-ink-muted">
+            {t.hero.title}
+          </motion.p>
+
+          <SplitReveal as="h1" text={t.hero.name} trigger="load" delay={0.2} className="mt-4 max-w-5xl text-display-xl" />
+
+          <motion.p variants={item} className="mt-6 max-w-[52ch] text-body-l text-ink-muted">
+            {t.hero.tagline}
+          </motion.p>
+
+          <motion.div variants={item} className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+            <Magnet>
+              <Link to="/projects" className={buttonClass('primary', 'lg')}>
+                {t.hero.buttons.projects}
+              </Link>
+            </Magnet>
+            <Link to="/contact" className={linkClass()}>
+              {t.hero.buttons.contact}
+              <Chevron />
+            </Link>
+          </motion.div>
+
+          <motion.div variants={item} className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-ink-muted">
+            <span className="inline-flex items-center gap-2.5">
+              <span className="relative flex size-2" aria-hidden="true">
+                <span className="animate-status-pulse absolute inset-0 rounded-full bg-positive" />
+                <span className="relative size-2 rounded-full bg-positive" />
               </span>
               {ui.openToWork}
-            </motion.p>
-
-            <HeroName name={t.hero.name} />
-
-            <motion.p variants={item} className="mt-8 font-mono text-sm tracking-wide text-coral-ink uppercase">
-              {t.hero.title}
-            </motion.p>
-
-            <SplitReveal
-              as="p"
-              text={t.hero.tagline}
-              trigger="load"
-              variant="blur"
-              delay={0.55}
-              className="mt-4 max-w-xl text-lg leading-relaxed text-ink-muted sm:text-xl"
-            />
-
-            <motion.div variants={item} className="mt-10 flex flex-wrap items-center gap-3">
-              <Magnet>
-                <Link to="/projects" className={buttonClass('primary', 'lg')}>
-                  {t.hero.buttons.projects}
-                  <ArrowForward />
-                </Link>
-              </Magnet>
-              <Link to="/contact" className={buttonClass('secondary', 'lg')}>
-                {t.hero.buttons.contact}
-              </Link>
-            </motion.div>
-
-            <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-2">
-              {[
-                { href: SITE.github, label: 'GitHub', Icon: FaGithub },
-                { href: SITE.linkedin, label: 'LinkedIn', Icon: FaLinkedin },
-              ].map(({ href, label, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="inline-flex size-11 items-center justify-center rounded-full border border-line-strong text-ink transition-colors hover:border-ink hover:bg-ink hover:text-bg"
-                >
-                  <Icon size={18} aria-hidden="true" />
-                </a>
-              ))}
-              <span aria-hidden="true" className="mx-2 h-6 w-px bg-line-strong" />
+            </span>
+            {[
+              { href: SITE.github, label: 'GitHub', Icon: FaGithub },
+              { href: SITE.linkedin, label: 'LinkedIn', Icon: FaLinkedin },
+            ].map(({ href, label, Icon }) => (
               <a
-                href={SITE.cv}
-                download="Basel_Mohamed_CV.pdf"
-                className="inline-flex h-11 items-center gap-2 rounded-full px-3 text-sm font-medium text-ink underline decoration-coral decoration-2 underline-offset-4 transition-colors hover:text-coral-ink"
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-ink"
               >
-                <LuDownload size={16} aria-hidden="true" />
-                {ui.downloadCv}
+                <Icon size={16} aria-hidden="true" />
+                {label}
               </a>
-            </motion.div>
-          </motion.div>
-
-          {/* Portrait */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease }}
-            className="mx-auto w-full max-w-sm md:max-w-xs lg:col-span-5 lg:max-w-none"
-          >
-            <div className="relative ms-auto w-[86%] lg:w-[88%]">
-              {/* 3D neural orb behind the portrait */}
-              <Suspense fallback={null}>
-                <NeuralOrb className="pointer-events-none absolute top-1/2 left-1/2 aspect-square w-[220%] -translate-x-1/2 -translate-y-1/2" />
-              </Suspense>
-              <div data-parallax="shadow" aria-hidden="true" className="absolute inset-0">
-                <div className="size-full translate-x-4 translate-y-4 rounded-t-full rounded-b-[2rem] bg-coral rtl:-translate-x-4" />
-              </div>
-              <div
-                data-parallax="photo"
-                className="relative aspect-[4/5] overflow-hidden rounded-t-full rounded-b-[2rem] border border-line bg-surface-2"
-              >
-                <img
-                  src={t.hero.image || '/profile_pic.png'}
-                  alt={t.hero.name}
-                  width={1024}
-                  height={1024}
-                  fetchPriority="high"
-                  className="size-full object-cover"
-                />
-              </div>
-
-              {currentRole && (
-                <div data-parallax="badge" className="absolute -start-8 bottom-8 max-w-[15rem] rounded-2xl border border-line bg-bg/95 p-4 shadow-xl shadow-navy/10 backdrop-blur-sm sm:-start-12">
-                  <p className="eyebrow text-coral-ink">{ui.currently}</p>
-                  <p className="mt-1.5 text-sm leading-snug font-semibold">{currentRole.title}</p>
-                  <p className="text-sm text-ink-muted">{currentRole.company}</p>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Stats strip */}
-        <div className="border-y border-line bg-surface">
-          <dl className="shell grid grid-cols-3 divide-x divide-line rtl:divide-x-reverse">
-            {stats.map(s => (
-              <div key={s.label} className="flex flex-col px-2 py-6 text-center sm:px-6 sm:py-8 sm:text-start">
-                <dt className="order-2 mt-1 text-xs text-ink-muted sm:text-sm">{s.label}</dt>
-                <dd className="order-1 font-display text-3xl font-medium sm:text-5xl">
-                  <CountUp value={s.value} />
-                </dd>
-              </div>
             ))}
-          </dl>
-        </div>
-        {/* Scroll-velocity strip of the stack */}
-        <VelocityMarquee rows={[techWords.slice(0, half), techWords.slice(half)]} />
+            <a
+              href={SITE.cv}
+              download="Basel_Mohamed_CV.pdf"
+              className="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-ink"
+            >
+              <LuDownload size={16} aria-hidden="true" />
+              {ui.downloadCv}
+            </a>
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* ───────────────────────── 01 Selected work ───────────────────────── */}
-      <section className="shell py-24 md:py-32" aria-labelledby="selected-work">
-        <SectionHeading
-          index="01"
-          eyebrow={ui.sections.selectedWork}
-          id="selected-work"
-          title={t.projects.title}
-          lede={ui.sections.selectedWorkLede}
-          action={
-            <Link to="/projects" className={buttonClass('secondary')}>
-              {ui.viewAllProjects}
-              <span className="font-mono text-xs text-ink-muted">{t.projects.items.length}</span>
-            </Link>
-          }
-        />
-        <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
-          {featured.map((project, index) => (
-            <div key={project.id} className={index === 0 ? 'md:col-span-2' : undefined}>
-              <ProjectCard project={project} index={index} featured={index === 0} />
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* ───────────── Proof bento (alt) ───────────── */}
+      {proof.lead && (
+        <section className="bg-surface-2 section-y" aria-labelledby="proof">
+          <div className="shell">
+            <SectionHeading eyebrow={ui.sections.proof} id="proof" title={ui.sections.proofTitle} lede={ui.sections.selectedWorkLede} />
+            <ProofBento
+              lead={proof.lead}
+              rest={proof.rest}
+              years={years}
+              yearsEyebrow={ui.sections.experience}
+              yearsLabel={ui.stats.years}
+            />
+          </div>
+        </section>
+      )}
 
-      {/* ───────────────────────── 02 Capabilities ───────────────────────── */}
-      <section className="border-y border-line bg-surface-2/60 py-24 md:py-32" aria-labelledby="what-i-do">
+      {/* ───────────── Featured project (stage) ───────────── */}
+      {staged && <ProjectStage project={staged} />}
+
+      {/* ───────────── More work (page) ───────────── */}
+      {ringProjects.length > 0 && (
+        <section className="section-y" aria-labelledby="selected-work">
+          <div className="shell">
+            <SectionHeading eyebrow={ui.sections.selectedWork} id="selected-work" title={t.projects.title} lede={ui.sections.ringHint} />
+          </div>
+          <Reveal className="shell">
+            <ProjectRing projects={ringProjects} />
+          </Reveal>
+        </section>
+      )}
+
+      {/* ───────────── Capabilities bento (alt) ───────────── */}
+      <section className="bg-surface-2 section-y" aria-labelledby="what-i-do">
         <div className="shell">
-          <SectionHeading
-            index="02"
-            eyebrow={ui.sections.whatIDo}
-            id="what-i-do"
-            title={ui.sections.whatIDoTitle}
-            lede={ui.sections.whatIDoLede}
-          />
-          <ul className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2">
+          <SectionHeading eyebrow={ui.sections.whatIDo} id="what-i-do" title={ui.sections.whatIDoTitle} lede={ui.sections.whatIDoLede} />
+          <ul className="grid gap-4 sm:grid-cols-2">
             {capabilities.map(({ Icon, title, desc }, i) => (
-              <Reveal
-                as="li"
-                key={title}
-                delay={i * 0.06}
-                className="group relative overflow-hidden bg-bg p-8 transition-colors duration-300 hover:bg-surface sm:p-10"
-              >
+              <Reveal as="li" key={title} delay={i * 0.08} className="group relative overflow-hidden rounded-3xl bg-surface p-8 lg:p-10">
                 <SpotlightLayer />
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-coral transition-transform duration-500 ease-out-soft group-hover:scale-x-100 rtl:origin-right"
-                />
-                <div className="flex items-start justify-between">
-                  <span className="flex size-12 items-center justify-center rounded-2xl bg-ink text-bg transition-colors duration-300 group-hover:bg-coral group-hover:text-on-coral">
-                    <Icon size={22} aria-hidden="true" />
-                  </span>
-                  <span className="font-mono text-sm text-ink-muted">{String(i + 1).padStart(2, '0')}</span>
+                <div className="relative">
+                  <Icon size={24} aria-hidden="true" className="text-ink-muted" />
+                  <h3 className="mt-8 text-2xl font-semibold tracking-tight sm:text-[1.75rem]">{title}</h3>
+                  <ul className="mt-5 flex flex-wrap gap-2" dir="ltr">
+                    {desc.split(',').map(s => (
+                      <li key={s}>
+                        <Chip>{s.trim()}</Chip>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h3 className="mt-8 font-display text-2xl font-medium tracking-tight sm:text-3xl">{title}</h3>
-                <ul className="mt-5 flex flex-wrap gap-2" dir="ltr">
-                  {desc.split(',').map(s => (
-                    <li key={s}>
-                      <Chip>{s.trim()}</Chip>
-                    </li>
-                  ))}
-                </ul>
               </Reveal>
             ))}
           </ul>
         </div>
       </section>
 
-      {/* ───────────────────────── 03 Experience ───────────────────────── */}
-      <section className="shell py-24 md:py-32" aria-labelledby="experience-snapshot">
+      {/* ───────────── Experience (page) ───────────── */}
+      <section className="shell section-y" aria-labelledby="experience-snapshot">
         <SectionHeading
-          index="03"
           eyebrow={ui.sections.experience}
           id="experience-snapshot"
           title={t.experience.title}
           action={
-            <Link to="/experience" className={buttonClass('secondary')}>
+            <Link to="/experience" className={linkClass()}>
               {ui.fullExperience}
-              <ArrowForward />
+              <Chevron />
             </Link>
           }
         />
-        <ol className="border-t border-line">
+        <ol className="mx-auto max-w-4xl border-t border-line">
           {roles.map((role, i) => (
             <Reveal as="li" key={role.id} delay={i * 0.05} className="border-b border-line">
-              <Link to="/experience" className="group grid gap-2 py-6 sm:py-8 lg:grid-cols-12 lg:items-baseline lg:gap-6">
+              <Link to="/experience" className="group grid gap-1 py-6 sm:py-7 lg:grid-cols-12 lg:items-baseline lg:gap-6">
                 <span className="font-mono text-sm text-ink-muted lg:col-span-3">{role.period}</span>
-                <span className="font-display text-2xl font-medium tracking-tight transition-colors group-hover:text-coral-ink sm:text-3xl lg:col-span-6">
+                <span className="text-xl font-semibold tracking-tight transition-colors group-hover:text-accent-text sm:text-2xl lg:col-span-6">
                   {role.title}
                 </span>
-                <span className="flex items-center justify-between gap-4 text-ink-muted lg:col-span-3 lg:justify-end">
-                  {role.company}
-                  <ArrowForward className="text-ink opacity-0 transition-opacity group-hover:opacity-100" />
-                </span>
+                <span className="text-ink-muted lg:col-span-3 lg:text-end">{role.company}</span>
               </Link>
             </Reveal>
           ))}
         </ol>
       </section>
 
-      {/* ───────────────────────── 04 Credentials ───────────────────────── */}
-      <section className="border-t border-line bg-surface-2/60 py-24 md:py-32" aria-labelledby="credentials">
+      {/* ───────────── Credentials (alt) ───────────── */}
+      <section className="bg-surface-2 section-y" aria-labelledby="credentials">
         <div className="shell grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4">
-            <Eyebrow index="04">{ui.sections.credentials}</Eyebrow>
-            <SplitReveal
-              as="h2"
-              id="credentials"
-              text={ui.sections.credentialsTitle}
-              className="mt-5 font-display text-4xl leading-[1.05] font-medium tracking-tight sm:text-5xl"
-            />
-            <p className="mt-5 text-lg text-ink-muted">{ui.sections.credentialsLede(certs.length, issuers.length)}</p>
+            <Eyebrow>{ui.sections.credentials}</Eyebrow>
+            <SplitReveal as="h2" id="credentials" text={ui.sections.credentialsTitle} className="mt-4 text-display-m" />
+            <p className="mt-5 text-ink-muted">{ui.sections.credentialsLede(certs.length, issuers.length)}</p>
             <ul className="mt-8 flex flex-wrap gap-2">
               {issuers.map(name => (
                 <li key={name}>
-                  <Chip className="border-line-strong text-ink">{name}</Chip>
+                  <Chip>{name}</Chip>
                 </li>
               ))}
             </ul>
-            <Link to="/certifications" className={buttonClass('secondary', 'md', 'mt-10')}>
+            <Link to="/certifications" className={linkClass('mt-8')}>
               {ui.sections.viewAllCerts}
-              <ArrowForward />
+              <Chevron />
             </Link>
           </div>
-          <ul className="grid content-start gap-5 sm:grid-cols-3 lg:col-span-8">
+          <ul className="grid content-start gap-4 sm:grid-cols-3 lg:col-span-8">
             {highlightCerts.map((c, i) => (
-              <Reveal as="li" key={c.title} delay={i * 0.06}>
+              <Reveal as="li" key={c.title} delay={i * 0.08}>
                 <CertCard cert={c} onOpen={() => setOpenCert(i)} />
               </Reveal>
             ))}
@@ -407,7 +266,7 @@ export function Home() {
         </div>
       </section>
 
-      <CtaBand index="05" />
+      <CtaBand flush fullScreen />
 
       <CertificateModal certs={highlightCerts} index={openCert} onClose={() => setOpenCert(null)} onNavigate={setOpenCert} />
     </div>
