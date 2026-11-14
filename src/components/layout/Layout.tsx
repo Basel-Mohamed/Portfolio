@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Outlet, Link } from 'react-router';
 import { FaGithub, FaLinkedin } from 'react-icons/fa6';
 import { LuArrowUp, LuMail } from 'react-icons/lu';
@@ -8,10 +9,14 @@ import { SITE } from '../../lib/site';
 import { AIChatbot } from '../features/AIChatbot';
 import { ScrollToTop } from './ScrollToTop';
 import { ArrowOut } from '../ui/primitives';
+import { hideSplash } from '../../lib/splash';
 
 export function Layout() {
   const { t } = useLanguage();
   const ui = useUI();
+
+  // The first page is on screen: fade out the loading splash from index.html.
+  useEffect(() => hideSplash(), []);
 
   const pages = [
     { name: t.nav.about, path: '/about' },

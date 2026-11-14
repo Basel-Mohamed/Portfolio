@@ -1,11 +1,16 @@
+import { useEffect } from 'react';
 import { useRouteError, Link } from 'react-router';
 import { LuTriangleAlert, LuRefreshCw } from 'react-icons/lu';
 import { useUI } from '../../lib/ui-strings';
 import { buttonClass } from '../ui/primitives';
+import { hideSplash } from '../../lib/splash';
 
 export function ErrorBoundary() {
   const error = useRouteError() as { message?: string } | undefined;
   const ui = useUI();
+
+  // An error screen must never sit behind the loading splash.
+  useEffect(() => hideSplash(), []);
 
   return (
     <div className="flex min-h-dvh items-center justify-center bg-bg p-6 text-ink">

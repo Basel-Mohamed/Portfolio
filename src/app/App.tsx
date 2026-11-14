@@ -3,27 +3,18 @@ import { MotionConfig } from 'motion/react';
 import { router } from './routes';
 import { ThemeProvider } from '../context/ThemeContext';
 import { LanguageProvider } from '../context/LanguageContext';
-import { Loader } from '../components/features/Loader';
-import { useAssetLoader } from '../hooks/useAssetLoader';
 
-// Critical assets that must load before the app is shown.
-const CRITICAL_ASSETS = ['/profile_pic.jpg'];
-
+/**
+ * The loading splash lives in index.html so it shows before any script runs.
+ * Layout fades it out once the first page has mounted.
+ */
 function App() {
-  const { isLoaded, progress } = useAssetLoader(CRITICAL_ASSETS);
-
   return (
     <ThemeProvider>
       <LanguageProvider>
         {/* Honour the OS "reduce motion" setting for every motion component */}
         <MotionConfig reducedMotion="user">
-          {!isLoaded ? (
-            <Loader progress={progress} />
-          ) : (
-            <div className="animate-in fade-in duration-500">
-              <RouterProvider router={router} />
-            </div>
-          )}
+          <RouterProvider router={router} />
         </MotionConfig>
       </LanguageProvider>
     </ThemeProvider>
