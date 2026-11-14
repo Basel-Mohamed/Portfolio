@@ -36,20 +36,10 @@ export const router = createBrowserRouter([
         path: "contact",
         lazy: () => import("../pages/Contact").then(m => ({ Component: m.Contact })),
       },
+      {
+        path: "*",
+        lazy: () => import("../pages/NotFound").then(m => ({ Component: m.NotFound })),
+      },
     ],
   },
-  {
-    path: "/admin/login",
-    lazy: () => import("../pages/admin/Login").then(m => ({ Component: m.Login })),
-  },
-  {
-    path: "/admin",
-    lazy: () => import("../components/auth/ProtectedRoute").then(m => ({ Component: m.ProtectedRoute })),
-    children: [
-      {
-        index: true,
-        lazy: () => import("../pages/admin/Dashboard").then(m => ({ Component: m.Dashboard })),
-      }
-    ]
-  }
 ]);

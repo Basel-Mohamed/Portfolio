@@ -1,60 +1,123 @@
-import { Navbar } from './Navbar';
-import { Outlet } from 'react-router';
+import { Outlet, Link } from 'react-router';
 import { FaGithub, FaLinkedin } from 'react-icons/fa6';
+import { LuArrowUp, LuMail } from 'react-icons/lu';
+import { Navbar, Monogram } from './Navbar';
 import { useLanguage } from '../../context/LanguageContext';
+import { useUI } from '../../lib/ui-strings';
+import { SITE } from '../../lib/site';
 import { AIChatbot } from '../features/AIChatbot';
 import { ScrollToTop } from './ScrollToTop';
+import { ArrowOut } from '../ui/primitives';
 
 export function Layout() {
   const { t } = useLanguage();
-  
+  const ui = useUI();
+
+  const pages = [
+    { name: t.nav.about, path: '/about' },
+    { name: t.nav.experience, path: '/experience' },
+    { name: t.nav.projects, path: '/projects' },
+    { name: t.nav.certifications, path: '/certifications' },
+    { name: t.nav.services, path: '/services' },
+    { name: t.nav.contact, path: '/contact' },
+  ];
+
+  const socials = [
+    { name: 'GitHub', href: SITE.github, Icon: FaGithub },
+    { name: 'LinkedIn', href: SITE.linkedin, Icon: FaLinkedin },
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0D1117] text-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-300">
+    <div className="flex min-h-dvh flex-col bg-bg text-ink">
+      <a
+        href="#main"
+        className="fixed start-4 top-3 z-[100] -translate-y-20 rounded-full bg-ink px-4 py-2 text-sm font-medium text-bg transition-transform focus:translate-y-0"
+      >
+        {ui.skipToContent}
+      </a>
       <ScrollToTop />
       <Navbar />
-      
-      <main className="flex-grow pt-16">
+
+      <main id="main" tabIndex={-1} className="flex-grow outline-none">
         <Outlet />
       </main>
 
-      <footer className="bg-white dark:bg-[#161b22] border-t border-gray-200 dark:border-gray-800 py-12 mt-auto transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              {/* Updated Logo Styling */}
-              <h3 className="text-2xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500 mb-4 drop-shadow-sm">
-                <span className="font-extrabold">Basel</span> <span className="font-medium">Mohamed</span>
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm max-w-xs leading-relaxed">
-                {t.hero.tagline}
-              </p>
-            </div>
-            
-            <div className="md:text-center">
-              <h4 className="font-semibold mb-4 text-gray-900 dark:text-white">{t.nav.contact}</h4>
-              <div className="space-y-2 text-gray-600 dark:text-gray-400 text-sm">
-                <a href="mailto:baselmohamed937@gmail.com" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">baselmohamed937@gmail.com</a>
-              </div>
+      <footer className="border-t border-line bg-surface-2">
+        <div className="shell pt-14 pb-24 md:pt-16">
+          <div className="grid gap-12 lg:grid-cols-12">
+            <div className="lg:col-span-6">
+              <Link to="/" className="inline-flex items-center gap-3 rounded-lg">
+                <Monogram />
+                <span className="text-lg font-semibold tracking-tight">{t.hero.name}</span>
+              </Link>
+              <p className="mt-5 max-w-sm text-ink-muted">{t.hero.tagline}</p>
+              <a
+                href={`mailto:${SITE.email}`}
+                className="mt-4 inline-flex min-h-11 max-w-full items-center gap-2.5 break-all text-ink underline decoration-line-strong underline-offset-[5px] transition-colors hover:text-accent-text"
+              >
+                <LuMail aria-hidden="true" className="shrink-0" size={18} />
+                {SITE.email}
+              </a>
             </div>
 
-            <div className="flex flex-col md:items-end">
-              <div className="flex space-x-4 rtl:space-x-reverse mb-4">
-                <a href="https://github.com/Basel-Mohamed" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                  <FaGithub size={20} />
-                </a>
-                <a href="https://linkedin.com/in/basel-mohamed-94972a334" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
-                  <FaLinkedin size={20} />
-                </a>
+            <div className="grid grid-cols-2 gap-8 lg:col-span-6 lg:justify-items-end">
+              <div>
+                <p className="eyebrow text-ink-muted">{ui.footer.pages}</p>
+                <ul className="mt-5 space-y-1">
+                  {pages.map(p => (
+                    <li key={p.path}>
+                      <Link to={p.path} className="inline-flex min-h-11 items-center text-ink transition-colors hover:text-accent-text">
+                        {p.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="eyebrow text-ink-muted">{ui.footer.elsewhere}</p>
+                <ul className="mt-5 space-y-1">
+                  {socials.map(({ name, href, Icon }) => (
+                    <li key={name}>
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex min-h-11 items-center gap-2 text-ink transition-colors hover:text-accent-text"
+                      >
+                        <Icon aria-hidden="true" size={16} />
+                        {name}
+                        <ArrowOut size={14} className="text-ink-muted" />
+                      </a>
+                    </li>
+                  ))}
+                  <li>
+                    <a
+                      href={SITE.cv}
+                      className="inline-flex min-h-11 items-center gap-2 text-ink transition-colors hover:text-accent-text"
+                    >
+                      {ui.downloadCv}
+                      <ArrowOut size={14} className="text-ink-muted" />
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
-          
-          <div className="border-t border-gray-200 dark:border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 dark:text-gray-500">
-            <p>© 2026 Basel Mohamed Ahmed. All rights reserved.</p>
+
+          <div className="mt-12 flex flex-col gap-4 border-t border-line pt-8 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <span>
+                © {new Date().getFullYear()} {t.hero.name}. {ui.footer.rights}
+              </span>
+            </div>
+            <a href="#main" className="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-ink">
+              {ui.footer.backToTop}
+              <LuArrowUp aria-hidden="true" size={15} />
+            </a>
           </div>
         </div>
       </footer>
-      
+
       <AIChatbot />
     </div>
   );

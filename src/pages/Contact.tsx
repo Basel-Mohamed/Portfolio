@@ -1,135 +1,154 @@
-import { motion } from 'motion/react';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router';
+import { FaGithub, FaLinkedin } from 'react-icons/fa6';
+import { LuMail, LuPhone, LuMapPin, LuCopy, LuCheck, LuBot, LuDownload } from 'react-icons/lu';
+import type { IconType } from 'react-icons';
 import { useLanguage } from '../context/LanguageContext';
-import { FaEnvelope, FaPhone, FaLinkedin } from 'react-icons/fa6';
-import { clsx } from 'clsx';
 import { useSEO } from '../hooks/useSEO';
+import { useUI } from '../lib/ui-strings';
+import { SITE, OPEN_CHAT_EVENT } from '../lib/site';
+import { PageHeader, Reveal, buttonClass, ArrowOut } from '../components/ui/primitives';
 
-const contactCards = [
-  {
-    icon: FaEnvelope,
-    label: 'Email',
-    value: 'baselmohamed937@gmail.com',
-    href: 'mailto:baselmohamed937@gmail.com',
-    color: 'blue',
-    bg: 'bg-blue-50 dark:bg-blue-950/30',
-    border: 'border-blue-200 dark:border-blue-800',
-    iconBg: 'bg-blue-100 dark:bg-blue-900/40',
-    iconColor: 'text-blue-600 dark:text-blue-400',
-    hover: 'hover:border-blue-400 dark:hover:border-blue-500',
-    glow: 'hover:shadow-blue-100 dark:hover:shadow-blue-900/30',
-  },
-  {
-    icon: FaPhone,
-    label: 'Phone',
-    value: '+20 100 733 7686',
-    href: 'tel:+201007337686',
-    color: 'purple',
-    bg: 'bg-purple-50 dark:bg-purple-950/30',
-    border: 'border-purple-200 dark:border-purple-800',
-    iconBg: 'bg-purple-100 dark:bg-purple-900/40',
-    iconColor: 'text-purple-600 dark:text-purple-400',
-    hover: 'hover:border-purple-400 dark:hover:border-purple-500',
-    glow: 'hover:shadow-purple-100 dark:hover:shadow-purple-900/30',
-  },
-  {
-    icon: FaLinkedin,
-    label: 'LinkedIn',
-    value: 'Basel Mohamed',
-    href: 'https://www.linkedin.com/in/baselmohamed937',
-    color: 'emerald',
-    bg: 'bg-emerald-50 dark:bg-emerald-950/30',
-    border: 'border-emerald-200 dark:border-emerald-800',
-    iconBg: 'bg-emerald-100 dark:bg-emerald-900/40',
-    iconColor: 'text-emerald-600 dark:text-emerald-400',
-    hover: 'hover:border-emerald-400 dark:hover:border-emerald-500',
-    glow: 'hover:shadow-emerald-100 dark:hover:shadow-emerald-900/30',
-  },
-];
+interface Row {
+  Icon: IconType;
+  label: string;
+  value: string;
+  href?: string;
+  external?: boolean;
+}
 
 export function Contact() {
   const { t } = useLanguage();
+  const ui = useUI();
+  const [params] = useSearchParams();
+  const service = params.get('service');
+  const [copied, setCopied] = useState(false);
 
   useSEO({
     title: 'Contact - Basel Mohamed | Get In Touch',
-    description: 'Get in touch with Basel Mohamed for AI engineering collaborations, freelance projects, or any inquiries. Available via email, phone, and LinkedIn.',
+    description:
+      'Get in touch with Basel Mohamed for AI engineering collaborations, freelance projects, or any inquiries. Available via email, phone, and LinkedIn.',
     url: '/contact',
   });
 
+  const mailto = `mailto:${SITE.email}${service ? `?subject=${encodeURIComponent(service)}` : ''}`;
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(SITE.email);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2500);
+    } catch {
+      window.location.href = mailto;
+    }
+  };
+
+  const rows: Row[] = [
+    { Icon: LuPhone, label: ui.contact.phone, value: SITE.phoneDisplay, href: SITE.phoneHref },
+    { Icon: FaLinkedin, label: 'LinkedIn', value: 'in/baselmohamed937', href: SITE.linkedin, external: true },
+    { Icon: FaGithub, label: 'GitHub', value: 'Basel-Mohamed', href: SITE.github, external: true },
+    { Icon: LuMapPin, label: ui.contact.location, value: t.about.location },
+  ];
+
   return (
-    <div className="py-20 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          {/* STANDARDIZED TITLE */}
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            {t.contact.title}
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">{t.contact.subtitle}</p>
-        </motion.div>
+    <>
+      <PageHeader eyebrow={t.nav.contact} title={t.contact.title} lede={t.contact.subtitle}>
+        {service && (
+          <p className="mt-8 inline-flex flex-wrap items-center gap-2 rounded-full border border-line-strong bg-surface px-4 py-2 text-sm">
+            <span className="text-ink-muted">{ui.contact.regarding}:</span>
+            <span className="font-semibold">{service}</span>
+          </p>
+        )}
+      </PageHeader>
 
-        {/* 3 Centered Contact Cards */}
-        <div className="flex flex-col sm:flex-row items-stretch justify-center gap-6 max-w-4xl mx-auto">
-          {contactCards.map((card, i) => {
-            const Icon = card.icon;
-            const content = (
-              <motion.div
-                key={card.label}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * (i + 1), duration: 0.5, type: 'tween', ease: 'easeOut' }}
-                whileHover={{ y: -6, scale: 1.03, transition: { duration: 0.2, ease: 'easeOut' } }}
-                whileTap={{ scale: 0.98 }}
-                style={{ willChange: 'transform' }}
-                className={clsx(
-                  'group flex flex-col items-center text-center p-8 rounded-2xl border w-full sm:w-98 h-52',
-                  'shadow-md cursor-pointer',
-                  card.bg,
-                  card.border,
-                  card.hover,
-                  card.glow,
-                  'hover:shadow-xl'
-                )}
-              >
-                {/* Icon Circle */}
-                <div className={clsx(
-                  'w-16 h-16 rounded-full flex items-center justify-center mb-5',
-                  'transition-transform duration-300 group-hover:scale-110',
-                  card.iconBg
-                )}>
-                  <Icon size={28} className={card.iconColor} />
-                </div>
-
-                {/* Label */}
-                <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
-                  {card.label}
-                </p>
-
-                {/* Value - Forced LTR for numbers like +20 to render properly */}
-                <p 
-                  dir="ltr"
-                  className="text-lg font-medium text-gray-800 dark:text-gray-200 leading-relaxed w-full overflow-hidden text-ellipsis" 
-                  style={{ wordBreak: 'break-word' }}
-                >
-                  {card.value}
-                </p>
-              </motion.div>
-            );
-
-            return card.href ? (
-              <a key={card.label} href={card.href} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto no-underline">
-                {content}
+      <section className="shell grid grid-cols-1 gap-12 py-16 md:py-20 lg:grid-cols-12 lg:gap-16">
+        <div className="min-w-0 lg:col-span-7">
+          <Reveal>
+            <a
+              href={mailto}
+              className="block font-display text-[clamp(1.3rem,5.9vw,2.25rem)] leading-tight font-semibold tracking-tight [overflow-wrap:anywhere] underline decoration-line-strong decoration-2 underline-offset-8 transition-colors hover:text-accent-text"
+            >
+              {SITE.email}
+            </a>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href={mailto} className={buttonClass('primary', 'lg')}>
+                <LuMail size={18} aria-hidden="true" />
+                {t.hero.buttons.contact}
               </a>
-            ) : (
-              <div key={card.label} className="w-full sm:w-auto">
-                {content}
-              </div>
-            );
-          })}
+              <button type="button" onClick={copyEmail} className={buttonClass('secondary', 'lg')}>
+                {copied ? <LuCheck size={18} aria-hidden="true" /> : <LuCopy size={18} aria-hidden="true" />}
+                {copied ? ui.contact.copied : ui.contact.copy}
+              </button>
+              <span className="sr-only" role="status" aria-live="polite">
+                {copied ? ui.contact.copied : ''}
+              </span>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <ul className="mt-14 border-t border-line">
+              {rows.map(({ Icon, label, value, href, external }) => {
+                const inner = (
+                  <>
+                    <span className="flex size-11 shrink-0 items-center justify-center rounded-full border border-line-strong text-ink transition-colors group-hover:border-ink group-hover:bg-ink group-hover:text-bg">
+                      <Icon size={18} aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="eyebrow block text-ink-muted">{label}</span>
+                      <span className="mt-1 block truncate text-lg" dir="ltr">
+                        {value}
+                      </span>
+                    </span>
+                    {href && <ArrowOut size={18} className="text-ink-muted transition-colors group-hover:text-ink" />}
+                  </>
+                );
+                return (
+                  <li key={label} className="border-b border-line">
+                    {href ? (
+                      <a
+                        href={href}
+                        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                        className="group flex items-center gap-5 py-5"
+                      >
+                        {inner}
+                      </a>
+                    ) : (
+                      <div className="group flex items-center gap-5 py-5">{inner}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </Reveal>
         </div>
-      </div>
-    </div>
+
+        <aside className="min-w-0 lg:col-span-5">
+          <Reveal delay={0.12} className="relative overflow-hidden rounded-3xl bg-inverse p-8 text-on-inverse sm:p-10 lg:sticky lg:top-28">
+            <div className="relative">
+              <span className="flex size-12 items-center justify-center rounded-2xl bg-on-inverse text-inverse">
+                <LuBot size={22} aria-hidden="true" />
+              </span>
+              <h2 className="mt-8 font-display text-3xl font-semibold tracking-tight">{ui.contact.chatTitle}</h2>
+              <p className="mt-3 max-w-[22rem] text-on-inverse-muted">{ui.contact.chatDesc}</p>
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new Event(OPEN_CHAT_EVENT))}
+                className={buttonClass('secondary', 'md', 'mt-8')}
+              >
+                {ui.contact.chatCta}
+              </button>
+              <a
+                href={SITE.cv}
+                download="Basel_Mohamed_CV.pdf"
+                className="mt-4 flex min-h-11 w-fit items-center gap-2 text-sm text-on-inverse underline decoration-on-inverse/40 underline-offset-4 hover:decoration-on-inverse"
+              >
+                <LuDownload size={15} aria-hidden="true" />
+                {ui.downloadCv}
+              </a>
+            </div>
+          </Reveal>
+        </aside>
+      </section>
+    </>
   );
 }

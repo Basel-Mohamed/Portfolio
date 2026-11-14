@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 const SITE_URL = 'https://baselmohamed.com';
-const DEFAULT_IMAGE = `${SITE_URL}/profile_pic.png`;
+const DEFAULT_IMAGE = `${SITE_URL}/profile_pic.jpg`;
 
 interface SEOProps {
   title: string;

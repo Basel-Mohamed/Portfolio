@@ -1,138 +1,136 @@
 import { useState, useMemo } from 'react';
-import { motion } from 'motion/react';
+import { useSearchParams } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';
-import { FaRegCalendarAlt, FaExternalLinkAlt } from 'react-icons/fa';
 import { CertificateModal } from '../components/layout/CertificateModal';
+import { CertCard } from '../components/features/CertCard';
 import { useSEO } from '../hooks/useSEO';
-import { CertificationItem } from '../types/portfolio';
+import { useUI } from '../lib/ui-strings';
+import { toCertView, uniqueIssuers, CertView } from '../lib/certs';
+import { PageHeader, FilterBar, Reveal, Eyebrow } from '../components/ui/primitives';
+import { CtaBand } from '../components/ui/CtaBand';
+
+const ALL = 'all';
 
 export function Certifications() {
   const { t } = useLanguage();
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-  const [selectedCert, setSelectedCert] = useState<CertificationItem | null>(null);
+  const ui = useUI();
+  const [params, setParams] = useSearchParams();
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   useSEO({
     title: 'Certifications - Basel Mohamed | AI & Cloud Learning',
-    description: 'Professional certifications earned by Basel Mohamed in Artificial Intelligence, Machine Learning, Cloud Computing, and Full Stack Development.',
+    description:
+      'Professional certifications earned by Basel Mohamed in Artificial Intelligence, Machine Learning, Cloud Computing, and Full Stack Development.',
     url: '/certifications',
   });
 
-  const categories = useMemo(() => {
-    const allCategories = t.about.certifications.map((cert: CertificationItem) => cert.category || "Other");
-    return ["All", ...Array.from(new Set(allCategories))];
-  }, [t.about.certifications]);
+  const certs = useMemo(() => t.about.certifications.map(toCertView), [t.about.certifications]);
+  const categories = useMemo(() => Array.from(new Set(certs.map(c => c.category || 'Other'))), [certs]);
 
-  const filteredCertifications = useMemo(() => {
-    if (activeCategory === "All") return t.about.certifications;
-    return t.about.certifications.filter((cert: CertificationItem) => (cert.category || "Other") === activeCategory);
-  }, [activeCategory, t.about.certifications]);
+  // Filter lives in the URL so it can be shared and survives Back.
+  const requested = params.get('category');
+  const active = requested && categories.includes(requested) ? requested : ALL;
+  const setActive = (v: string) => {
+    setParams(v === ALL ? {} : { category: v }, { replace: true, preventScrollReset: true });
+    setOpenIndex(null);
+  };
+
+  const options = [
+    { value: ALL, label: ui.certs.all, count: certs.length },
+    ...categories.map(c => ({ value: c, label: c, count: certs.filter(x => (x.category || 'Other') === c).length })),
+  ];
+
+  // Highlights only on the unfiltered view; the rest grouped by year.
+  const { highlights, groups, ordered } = useMemo(() => {
+    const filtered = active === ALL ? certs : certs.filter(c => (c.category || 'Other') === active);
+    const highlights = active === ALL ? filtered.filter(c => c.featured) : [];
+    const rest = filtered.filter(c => !highlights.includes(c));
+    const byYear = new Map<number, CertView[]>();
+    rest.forEach(c => byYear.set(c.year, [...(byYear.get(c.year) || []), c]));
+    const groups = Array.from(byYear).sort((a, b) => b[0] - a[0]);
+    const ordered = [...highlights, ...groups.flatMap(([, list]) => list)];
+    return { highlights, groups, ordered };
+  }, [certs, active]);
+
+  const open = (c: CertView) => setOpenIndex(ordered.indexOf(c));
+  const issuers = uniqueIssuers(certs);
+  const latestYear = Math.max(...certs.map(c => c.year));
+
+  const facts = [
+    { value: certs.length, label: t.nav.certifications },
+    { value: issuers.length, label: ui.certs.institutions },
+    { value: latestYear, label: ui.certs.latest },
+  ];
 
   return (
-    <div className="py-20 min-h-screen bg-gray-50 dark:bg-[#0D1117]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          {/* STANDARDIZED TITLE */}
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            {t.nav.certifications}
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            {t.about.certifications_subtitle || "A comprehensive overview of my continuous learning journey across AI, Full Stack Development, and Cloud Technologies."}
-          </p>
-        </motion.div>
-
-        {/* --- RESPONSIVE CATEGORY TOGGLE (Projects Style) --- */}
-        <div className="flex md:justify-center mb-12 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 pb-2 sm:pb-0">
-          <div className="bg-gray-100 dark:bg-[#161b22] p-1 rounded-full inline-flex border border-gray-200 dark:border-gray-800 w-max">
-            {categories.map((category: any) => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`whitespace-nowrap px-6 md:px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
-                  activeCategory === category
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* --- GRID --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCertifications.map((cert: CertificationItem, index: number) => (
-            <motion.div
-              key={`${cert.title}-${activeCategory}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.3 }}
-              className="bg-white dark:bg-[#161b22] rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer flex flex-col"
-              onClick={() => setSelectedCert(cert)}
-            >
-              {/* Image Container */}
-              <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-800">
-                <img 
-                  loading="lazy"
-                  src={cert.image} 
-                  alt={cert.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                
-                {/* Desktop Hover Overlay */}
-                <div className="hidden md:flex absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors items-center justify-center">
-                  <FaExternalLinkAlt className="text-white opacity-0 group-hover:opacity-100 transition-opacity scale-50 group-hover:scale-100 duration-300" size={32} />
-                </div>
-                
-                <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-medium">
-                  {cert.category || "Other"}
-                </div>
-              </div>
-
-              {/* Content Container */}
-              <div className="p-5 flex flex-col flex-grow">
-                <h3 className="font-bold text-gray-900 dark:text-white line-clamp-2 mb-3 min-h-[3rem] group-hover:text-blue-500 transition-colors">
-                  {cert.title}
-                </h3>
-                
-                <div className="mt-auto flex items-center justify-between border-t border-gray-100 dark:border-gray-800/50 pt-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    <FaRegCalendarAlt size={14} />
-                    <span>{cert.date}</span>
-                  </div>
-                  
-                  {/* Mobile Tap Indicator */}
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                    <span>View</span>
-                    <FaExternalLinkAlt size={10} />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+    <>
+      <PageHeader eyebrow={t.nav.certifications} title={t.nav.certifications} lede={t.about.certifications_subtitle}>
+        <dl className="mt-10 flex flex-wrap justify-center gap-x-12 gap-y-4">
+          {facts.map(f => (
+            <div key={f.label} className="flex flex-col">
+              <dt className="order-2 text-sm text-ink-muted">{f.label}</dt>
+              <dd className="order-1 font-display text-4xl font-semibold tabular-nums">{f.value}</dd>
+            </div>
           ))}
+        </dl>
+        <div className="mt-10">
+          <FilterBar label={t.nav.certifications} value={active} onChange={setActive} options={options} />
         </div>
+      </PageHeader>
 
-        {filteredCertifications.length === 0 && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center text-gray-500 py-12"
-          >
-            No certifications found in this category yet.
-          </motion.div>
+      <div className="shell">
+        {highlights.length > 0 && (
+          <section className="border-b border-line py-16 md:py-20" aria-labelledby="cert-highlights">
+            <Eyebrow>{ui.sections.highlights}</Eyebrow>
+            <h2 id="cert-highlights" className="mt-5 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+              {ui.certs.highlightsLede}
+            </h2>
+            <ul className="mt-10 grid gap-6 md:grid-cols-3">
+              {highlights.map((c, i) => (
+                <Reveal as="li" key={c.title} delay={i * 0.06}>
+                  <CertCard cert={c} large onOpen={() => open(c)} />
+                </Reveal>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {groups.length > 0 ? (
+          groups.map(([year, list]) => (
+            <section
+              key={`${active}-${year}`}
+              className="grid gap-8 border-b border-line py-14 last:border-b-0 md:py-16 lg:grid-cols-12"
+              aria-labelledby={`year-${year}`}
+            >
+              <div className="lg:col-span-3">
+                <div className="lg:sticky lg:top-28">
+                  <h2 id={`year-${year}`} className="font-display text-5xl font-semibold tabular-nums tracking-tight sm:text-6xl">
+                    {year || '—'}
+                  </h2>
+                  <p className="mt-2 font-mono text-sm text-ink-muted">
+                    {ui.certs.count(list.length)}
+                  </p>
+                </div>
+              </div>
+              <ul className="grid gap-5 sm:grid-cols-2 lg:col-span-9 xl:grid-cols-3">
+                {list.map((c, i) => (
+                  <Reveal as="li" key={c.title} delay={Math.min(i, 5) * 0.04}>
+                    <CertCard cert={c} onOpen={() => open(c)} />
+                  </Reveal>
+                ))}
+              </ul>
+            </section>
+          ))
+        ) : (
+          highlights.length === 0 && (
+            <p className="my-16 rounded-3xl border border-dashed border-line-strong py-16 text-center text-ink-muted">{ui.certs.empty}</p>
+          )
         )}
       </div>
 
-      <CertificateModal 
-        cert={selectedCert} 
-        onClose={() => setSelectedCert(null)} 
-      />
-    </div>
+      <CtaBand />
+
+      <CertificateModal certs={ordered} index={openIndex} onClose={() => setOpenIndex(null)} onNavigate={setOpenIndex} />
+    </>
   );
 }

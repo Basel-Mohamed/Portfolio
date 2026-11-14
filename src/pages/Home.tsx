@@ -1,321 +1,274 @@
+import { useMemo, useState } from 'react';
 import { motion, type Variants } from 'motion/react';
-import { 
-  FaArrowRight, FaDownload, FaGithub, FaLinkedin, FaTerminal, 
-  FaBrain, FaServer, FaMicrochip, FaDatabase, FaCode, FaGlobe, FaWandMagicSparkles 
-} from 'react-icons/fa6';
 import { Link } from 'react-router';
+import { FaGithub, FaLinkedin } from 'react-icons/fa6';
+import { LuBrain, LuCpu, LuServer, LuCode, LuDownload } from 'react-icons/lu';
 import { useLanguage } from '../context/LanguageContext';
-import { ProjectCard } from '../components/features/ProjectCard';
-import { Project } from '../types/portfolio';
+import { ProjectStage } from '../components/features/ProjectStage';
+import { ProofBento } from '../components/features/ProofBento';
+import { ProjectRing } from '../components/features/ProjectRing';
+import { CertCard } from '../components/features/CertCard';
+import { CertificateModal } from '../components/layout/CertificateModal';
 import { useSEO } from '../hooks/useSEO';
+import { useUI } from '../lib/ui-strings';
+import { SITE } from '../lib/site';
+import { toCertView, uniqueIssuers } from '../lib/certs';
+import { buttonClass, linkClass, Chevron, Reveal, SectionHeading, Chip, Eyebrow } from '../components/ui/primitives';
+import { CtaBand } from '../components/ui/CtaBand';
+import { SplitReveal } from '../components/motion/SplitReveal';
+import { Magnet, SpotlightLayer } from '../components/motion/Effects';
+
+const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Home() {
-  const { t, dir } = useLanguage();
+  const { t } = useLanguage();
+  const ui = useUI();
+  const [openCert, setOpenCert] = useState<number | null>(null);
 
   useSEO({
-    title: 'Basel Mohamed | Full Stack AI Engineer',
-    description: 'Portfolio of Basel Mohamed, an Associate AI Engineer specializing in NLP, Generative AI, RAG systems, and Full Stack Development based in Cairo, Egypt.',
+    title: 'Basel Mohamed | AI Engineer & Gen AI Specialist',
+    description:
+      'Portfolio of Basel Mohamed, an AI Engineer and Gen AI Specialist building RAG systems, multi-agent orchestration, and LLM serving, based in Cairo, Egypt.',
     url: '/',
   });
 
-  const container: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1
-      }
-    }
-  };
+  const roles = t.experience.professional || t.experience.items || [];
+  const certs = useMemo(() => t.about.certifications.map(toCertView), [t.about.certifications]);
+  const issuers = useMemo(() => uniqueIssuers(certs), [certs]);
 
-  const item: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    show: { 
-      opacity: 1, 
-      y: 0,
-      transition: { type: "spring", stiffness: 50, damping: 15 }
-    }
-  };
+  const years = SITE.yearsInAi;
 
-  // Flying AI Icons — rendered only on md+ via `hidden md:block`.
-  // Each gets a pure-CSS animation class so zero framer-motion overhead on mobile.
-  const floatingIcons = [
-    { Icon: FaBrain,             top: '15%', left: '10%',   color: 'text-purple-500/30 dark:text-purple-400/20', animClass: 'animate-icon-float-0', size: 64 },
-    { Icon: FaMicrochip,         top: '20%', right: '12%',  color: 'text-blue-500/30 dark:text-blue-400/20',     animClass: 'animate-icon-float-1', size: 56 },
-    { Icon: FaDatabase,          bottom: '20%', left: '15%',color: 'text-green-500/30 dark:text-green-400/20',   animClass: 'animate-icon-float-2', size: 48 },
-    { Icon: FaCode,              bottom: '25%', right: '15%',color: 'text-orange-500/30 dark:text-orange-400/20',animClass: 'animate-icon-float-3', size: 52 },
-    { Icon: FaWandMagicSparkles, top: '45%', left: '5%',    color: 'text-yellow-500/30 dark:text-yellow-400/20', animClass: 'animate-icon-float-4', size: 40 },
-    { Icon: FaGlobe,             top: '50%', right: '8%',   color: 'text-indigo-500/30 dark:text-indigo-400/20', animClass: 'animate-icon-float-5', size: 60 },
+  // Proof tiles: the headline metric of each project that has numbers.
+  // The lead tile is the first one with a measured improvement.
+  const proof = useMemo(() => {
+    const tiles = t.projects.items
+      .filter(p => p.metrics && p.metrics.length > 0)
+      .map(p => ({ metric: p.metrics![0], project: p.title }));
+    const leadIndex = Math.max(0, tiles.findIndex(x => x.metric.change));
+    return { lead: tiles[leadIndex], rest: tiles.filter((_, i) => i !== leadIndex).slice(0, 3) };
+  }, [t.projects.items]);
+
+  const capabilities = [
+    { Icon: LuBrain, ...t.home.skills.genAi },
+    { Icon: LuCpu, ...t.home.skills.ml },
+    { Icon: LuServer, ...t.home.skills.deploy },
+    { Icon: LuCode, ...t.home.skills.dev },
   ];
 
+  // Flagged in data.ts (`featured: true`); falls back to the first three.
+  const flagged = t.projects.items.filter(p => p.featured);
+  const featured = (flagged.length ? flagged : t.projects.items).slice(0, 3);
+  // The stage shows the first featured project; the rest are cards.
+  const staged = featured[0];
+  // The ring shows the other projects that have a visual: featured ones first, eight at most.
+  const ringProjects = useMemo(() => {
+    const rest = t.projects.items.filter(p => p !== staged && p.image);
+    return [...rest.filter(p => p.featured), ...rest.filter(p => !p.featured)].slice(0, 8);
+  }, [t.projects.items, staged]);
+  const flaggedCerts = certs.filter(c => c.featured);
+  const highlightCerts = (flaggedCerts.length ? flaggedCerts : certs).slice(0, 3);
+
+  const container: Variants = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+  };
+  const item: Variants = {
+    hidden: { opacity: 0, y: 24 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
+  };
+
   return (
-    <div className="overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative min-h-[95vh] flex items-center justify-center bg-gray-50 dark:bg-[#0D1117] overflow-hidden">
-        
-        {/*
-          Background blobs: previously driven by framer-motion animate (JS rAF loop).
-          Now pure-CSS animations — identical visual result, zero JS cost on mobile.
-          On mobile the blur is reduced from 120px → 80px to avoid GPU overload.
-        */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-          <div className="animate-blob-1 absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[80px] md:blur-[120px]" />
-          <div className="animate-blob-2 absolute bottom-[10%] right-[-5%] w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[80px] md:blur-[120px]" />
-        </div>
+    <div className="overflow-x-clip">
+      {/* ───────────── Hero (follows the theme, fills the first screen) ───────────── */}
+      <section className="flex min-h-dvh flex-col justify-center bg-bg text-ink">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="shell flex flex-col items-center py-28 text-center md:py-32 short:pt-24! short:pb-12!"
+        >
+          <motion.img
+            variants={item}
+            src={t.hero.image || '/profile_pic.jpg'}
+            alt={t.hero.name}
+            width={192}
+            height={192}
+            className="size-24 rounded-full border border-line object-cover grayscale short:size-16"
+          />
 
-        {/*
-          Floating icons: hidden on mobile entirely (they're clipped behind content anyway).
-          On desktop they use pure-CSS keyframe classes — no framer-motion instances.
-        */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          {floatingIcons.map((iconData, index) => (
-            <div
-              key={index}
-              className={`absolute hidden md:block ${iconData.color} ${iconData.animClass}`}
-              style={{ 
-                top: iconData.top, 
-                left: iconData.left, 
-                right: iconData.right, 
-                bottom: iconData.bottom 
-              }}
-            >
-              <iconData.Icon size={iconData.size} />
-            </div>
-          ))}
-        </div>
+          <motion.p variants={item} className="eyebrow mt-8 text-ink-muted">
+            {t.hero.title}
+          </motion.p>
 
-        {/* Hero Content Grid */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-24 pb-16">
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
-            
-            {/* Left Content (Text & Buttons) */}
-            <motion.div 
-              variants={container}
-              initial="hidden"
-              animate="show"
-              className="flex-1 text-center lg:text-start w-full"
-            >
-              <motion.h1 variants={item} className="text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight mb-6">
-                <span className="block text-gray-900 dark:text-white mb-2">{t.hero.name}</span>
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 animate-gradient bg-300%">
-                  {t.hero.title}
-                </span>
-              </motion.h1>
-              
-              <motion.p variants={item} className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                {t.hero.tagline}
-              </motion.p>
-              
-              {/* Action Buttons */}
-              <motion.div variants={item} className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 flex-wrap">
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
-                  <Link 
-                    to="/contact"
-                    className="w-full px-8 py-3.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
-                  >
-                    {t.hero.buttons.contact} <FaArrowRight size={18} className={dir === 'rtl' ? 'rotate-180' : ''} />
-                  </Link>
-                </motion.div>
-                
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
-                  <a
-                    href="https://drive.usercontent.google.com/u/0/uc?id=1kdVtgciKdU4OupzkPxOUA9qWEK2T21M2&export=download" 
-                    download="Basel_Mohamed_CV.pdf"
-                    className="w-full px-8 py-3.5 bg-white dark:bg-[#161b22] text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all font-bold flex items-center justify-center gap-2 shadow-sm"
-                  >
-                    <FaDownload size={18} /> CV
-                  </a>
-                </motion.div>
+          <SplitReveal as="h1" text={t.hero.name} trigger="load" delay={0.2} className="mt-4 max-w-5xl text-display-xl" />
 
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
-                  <Link
-                    to="/projects"
-                    className="w-full px-6 py-3.5 bg-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200/50 dark:hover:bg-gray-800/50 rounded-xl transition-all font-bold flex items-center justify-center"
-                  >
-                    {t.hero.buttons.projects}
-                  </Link>
-                </motion.div>
+          <motion.p variants={item} className="mt-6 max-w-[52ch] text-body-l text-ink-muted">
+            {t.hero.tagline}
+          </motion.p>
 
-                {/* Social Links */}
-                <div className="flex gap-4 w-full sm:w-auto justify-center mt-2 sm:mt-0 sm:ml-2 sm:rtl:mr-2 sm:rtl:ml-0 sm:pl-6 sm:rtl:pr-6 sm:border-l sm:rtl:border-r sm:border-gray-200 dark:sm:border-gray-800">
-                  <motion.a 
-                    whileHover={{ scale: 1.1, y: -2 }} 
-                    whileTap={{ scale: 0.9 }}
-                    href="https://github.com/Basel-Mohamed" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors p-3 bg-white dark:bg-[#161b22] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm"
-                  >
-                    <FaGithub size={24} />
-                  </motion.a>
-                  <motion.a 
-                    whileHover={{ scale: 1.1, y: -2 }} 
-                    whileTap={{ scale: 0.9 }}
-                    href="https://www.linkedin.com/in/baselmohamed937/" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-3 bg-white dark:bg-[#161b22] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm"
-                  >
-                    <FaLinkedin size={24} />
-                  </motion.a>
-                </div>
-              </motion.div>
-            </motion.div>
-
-            {/* Right Content (Profile Picture)
-                Previously: motion.div with animate={{ y: [-15, 15, -15] }} — a JS rAF loop.
-                Now: the inner wrapper uses `animate-hero-float` (pure CSS) instead.
-                The outer motion.div keeps only the one-shot entrance animation.
-            */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
-              className="flex-1 flex justify-center lg:justify-end w-full mt-10 lg:mt-0"
-            >
-              {/* CSS float replaces the continuous framer-motion y-animation */}
-              <div className="animate-hero-float relative w-64 h-64 md:w-80 md:h-80 group">
-                {/* Tech Ring Background */}
-                <div className="absolute -inset-4 border-2 border-dashed border-blue-500/30 dark:border-blue-400/30 rounded-full animate-[spin_20s_linear_infinite]" />
-                <div className="absolute -inset-8 border-2 border-dashed border-purple-500/20 dark:border-purple-400/20 rounded-full animate-[spin_25s_linear_infinite_reverse]" />
-                
-                {/* Animated Glow Behind Image */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 animate-gradient bg-300% blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
-                
-                {/* Actual Image */}
-                <img
-                  src={t.hero.image || "/profile_pic.png"} 
-                  alt="Basel Mohamed"
-                  className="relative w-full h-full object-cover rounded-full border-4 border-white dark:border-[#0D1117] shadow-2xl transition-transform duration-500 group-hover:scale-[1.03]"
-                />
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Skills Preview */}
-      <section className="py-24 bg-white dark:bg-[#161b22]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, type: "spring" }}
-              viewport={{ once: true, margin: "-50px" }}
-              className="p-8 rounded-2xl bg-gray-50 dark:bg-[#0D1117] border border-gray-100 dark:border-gray-800 hover:border-blue-500/50 dark:hover:border-blue-500/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 group"
-            >
-              <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                <FaBrain size={28} />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{t.home.skills.genAi.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{t.home.skills.genAi.desc}</p>
-            </motion.div>
-
-             <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, type: "spring" }}
-              viewport={{ once: true, margin: "-50px" }}
-              className="p-8 rounded-2xl bg-gray-50 dark:bg-[#0D1117] border border-gray-100 dark:border-gray-800 hover:border-purple-500/50 dark:hover:border-purple-500/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 group"
-            >
-              <div className="w-14 h-14 rounded-xl bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                <FaTerminal size={28} />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">{t.home.skills.ml.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{t.home.skills.ml.desc}</p>
-            </motion.div>
-
-             <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, type: "spring" }}
-              viewport={{ once: true, margin: "-50px" }}
-              className="p-8 rounded-2xl bg-gray-50 dark:bg-[#0D1117] border border-gray-100 dark:border-gray-800 hover:border-green-500/50 dark:hover:border-green-500/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-green-500/5 transition-all duration-300 group"
-            >
-              <div className="w-14 h-14 rounded-xl bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-green-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                <FaServer size={28} />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">{t.home.skills.deploy.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{t.home.skills.deploy.desc}</p>
-            </motion.div>
-
-             <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, type: "spring" }}
-              viewport={{ once: true, margin: "-50px" }}
-              className="p-8 rounded-2xl bg-gray-50 dark:bg-[#0D1117] border border-gray-100 dark:border-gray-800 hover:border-orange-500/50 dark:hover:border-orange-500/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-orange-500/5 transition-all duration-300 group"
-            >
-              <div className="w-14 h-14 rounded-xl bg-orange-100 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-orange-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                <FaCode size={28} />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{t.home.skills.dev.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{t.home.skills.dev.desc}</p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Preview */}
-      <section className="py-24 bg-gray-50 dark:bg-[#0D1117]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-12">
-            <div>
-              <h2 className="text-4xl font-bold mb-4">{t.projects.title}</h2>
-              <div className="h-1.5 w-24 bg-blue-600 rounded-full"></div>
-            </div>
-            <Link to="/projects" className="hidden sm:flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold group">
-              View All <FaArrowRight size={16} className={`transition-transform group-hover:translate-x-1 ${dir === 'rtl' ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {t.projects.items.slice(0, 2).map((project: Project, index: number) => (
-              <ProjectCard 
-                key={project.id} 
-                project={project} 
-                index={index} 
-                isLastOdd={false} 
-              />
-            ))}
-          </div>
-
-           <div className="mt-10 text-center sm:hidden">
-            <Link to="/projects" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold group">
-              View All <FaArrowRight size={16} className={`transition-transform group-hover:translate-x-1 ${dir === 'rtl' ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-24 bg-white dark:bg-[#161b22] relative overflow-hidden">
-         {/* Animated Top Border */}
-         <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 animate-gradient bg-300%" />
-         
-         <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto px-4 text-center relative z-10"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">{t.home.cta.title}</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto">
-              {t.home.cta.subtitle}
-            </p>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
-              <Link 
-                to="/contact"
-                className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-blue-600 dark:hover:bg-blue-500 hover:text-white transition-all shadow-xl hover:shadow-blue-500/25 duration-300"
-              >
-                {t.home.cta.button}
+          <motion.div variants={item} className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+            <Magnet>
+              <Link to="/projects" className={buttonClass('primary', 'lg')}>
+                {t.hero.buttons.projects}
               </Link>
-            </motion.div>
-         </motion.div>
+            </Magnet>
+            <Link to="/contact" className={linkClass()}>
+              {t.hero.buttons.contact}
+              <Chevron />
+            </Link>
+          </motion.div>
+
+          <motion.div variants={item} className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-ink-muted">
+            <span className="inline-flex items-center gap-2.5">
+              <span className="relative flex size-2" aria-hidden="true">
+                <span className="animate-status-pulse absolute inset-0 rounded-full bg-positive" />
+                <span className="relative size-2 rounded-full bg-positive" />
+              </span>
+              {ui.openToWork}
+            </span>
+            {[
+              { href: SITE.github, label: 'GitHub', Icon: FaGithub },
+              { href: SITE.linkedin, label: 'LinkedIn', Icon: FaLinkedin },
+            ].map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-ink"
+              >
+                <Icon size={16} aria-hidden="true" />
+                {label}
+              </a>
+            ))}
+            <a
+              href={SITE.cv}
+              download="Basel_Mohamed_CV.pdf"
+              className="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-ink"
+            >
+              <LuDownload size={16} aria-hidden="true" />
+              {ui.downloadCv}
+            </a>
+          </motion.div>
+        </motion.div>
       </section>
+
+      {/* ───────────── Proof bento (alt) ───────────── */}
+      {proof.lead && (
+        <section className="bg-surface-2 section-y" aria-labelledby="proof">
+          <div className="shell">
+            <SectionHeading eyebrow={ui.sections.proof} id="proof" title={ui.sections.proofTitle} lede={ui.sections.selectedWorkLede} />
+            <ProofBento
+              lead={proof.lead}
+              rest={proof.rest}
+              years={years}
+              yearsEyebrow={ui.sections.experience}
+              yearsLabel={ui.stats.years}
+            />
+          </div>
+        </section>
+      )}
+
+      {/* ───────────── Featured project (stage) ───────────── */}
+      {staged && <ProjectStage project={staged} />}
+
+      {/* ───────────── More work (page) ───────────── */}
+      {ringProjects.length > 0 && (
+        <section className="section-y" aria-labelledby="selected-work">
+          <div className="shell">
+            <SectionHeading eyebrow={ui.sections.selectedWork} id="selected-work" title={t.projects.title} lede={ui.sections.ringHint} />
+          </div>
+          <Reveal className="shell">
+            <ProjectRing projects={ringProjects} />
+          </Reveal>
+        </section>
+      )}
+
+      {/* ───────────── Capabilities bento (alt) ───────────── */}
+      <section className="bg-surface-2 section-y" aria-labelledby="what-i-do">
+        <div className="shell">
+          <SectionHeading eyebrow={ui.sections.whatIDo} id="what-i-do" title={ui.sections.whatIDoTitle} lede={ui.sections.whatIDoLede} />
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {capabilities.map(({ Icon, title, desc }, i) => (
+              <Reveal as="li" key={title} delay={i * 0.08} className="group relative overflow-hidden rounded-3xl bg-surface p-8 lg:p-10">
+                <SpotlightLayer />
+                <div className="relative">
+                  <Icon size={24} aria-hidden="true" className="text-ink-muted" />
+                  <h3 className="mt-8 text-2xl font-semibold tracking-tight sm:text-[1.75rem]">{title}</h3>
+                  <ul className="mt-5 flex flex-wrap gap-2" dir="ltr">
+                    {desc.split(',').map(s => (
+                      <li key={s}>
+                        <Chip>{s.trim()}</Chip>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ───────────── Experience (page) ───────────── */}
+      <section className="shell section-y" aria-labelledby="experience-snapshot">
+        <SectionHeading
+          eyebrow={ui.sections.experience}
+          id="experience-snapshot"
+          title={t.experience.title}
+          action={
+            <Link to="/experience" className={linkClass()}>
+              {ui.fullExperience}
+              <Chevron />
+            </Link>
+          }
+        />
+        <ol className="mx-auto max-w-4xl border-t border-line">
+          {roles.map((role, i) => (
+            <Reveal as="li" key={role.id} delay={i * 0.05} className="border-b border-line">
+              <Link to="/experience" className="group grid gap-1 py-6 sm:py-7 lg:grid-cols-12 lg:items-baseline lg:gap-6">
+                <span className="font-mono text-sm text-ink-muted lg:col-span-3">{role.period}</span>
+                <span className="text-xl font-semibold tracking-tight transition-colors group-hover:text-accent-text sm:text-2xl lg:col-span-6">
+                  {role.title}
+                </span>
+                <span className="text-ink-muted lg:col-span-3 lg:text-end">{role.company}</span>
+              </Link>
+            </Reveal>
+          ))}
+        </ol>
+      </section>
+
+      {/* ───────────── Credentials (alt) ───────────── */}
+      <section className="bg-surface-2 section-y" aria-labelledby="credentials">
+        <div className="shell grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-4">
+            <Eyebrow>{ui.sections.credentials}</Eyebrow>
+            <SplitReveal as="h2" id="credentials" text={ui.sections.credentialsTitle} className="mt-4 text-display-m" />
+            <p className="mt-5 text-ink-muted">{ui.sections.credentialsLede(certs.length, issuers.length)}</p>
+            <ul className="mt-8 flex flex-wrap gap-2">
+              {issuers.map(name => (
+                <li key={name}>
+                  <Chip>{name}</Chip>
+                </li>
+              ))}
+            </ul>
+            <Link to="/certifications" className={linkClass('mt-8')}>
+              {ui.sections.viewAllCerts}
+              <Chevron />
+            </Link>
+          </div>
+          <ul className="grid content-start gap-4 sm:grid-cols-3 lg:col-span-8">
+            {highlightCerts.map((c, i) => (
+              <Reveal as="li" key={c.title} delay={i * 0.08}>
+                <CertCard cert={c} onOpen={() => setOpenCert(i)} />
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <CtaBand flush fullScreen />
+
+      <CertificateModal certs={highlightCerts} index={openCert} onClose={() => setOpenCert(null)} onNavigate={setOpenCert} />
     </div>
   );
 }

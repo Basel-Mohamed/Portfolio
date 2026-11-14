@@ -1,137 +1,110 @@
-import { motion } from 'motion/react';
-import { useLanguage } from '../context/LanguageContext';
-import { FaBrain, FaCode, FaCloud, FaTerminal, FaAward } from 'react-icons/fa6';
 import { Link } from 'react-router';
+import { LuBrain, LuSparkles, LuCode, LuCloud, LuAward, LuMapPin } from 'react-icons/lu';
+import { useLanguage } from '../context/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
+import { CtaBand } from '../components/ui/CtaBand';
+import { useUI } from '../lib/ui-strings';
+import { SITE } from '../lib/site';
+import { PageHeader, Reveal, SectionHeading, buttonClass, ArrowForward } from '../components/ui/primitives';
 
 export function About() {
   const { t } = useLanguage();
+  const ui = useUI();
 
   useSEO({
     title: 'About - Basel Mohamed | AI Engineer',
-    description: 'Learn about Basel Mohamed, an Associate AI Engineer based in Cairo, Egypt, specializing in NLP, Generative AI, RAG systems, and Full Stack Development.',
+    description:
+      'Learn about Basel Mohamed, an AI Engineer and Gen AI Specialist based in Cairo, Egypt, building RAG systems, multi-agent orchestration, and LLM serving.',
     url: '/about',
   });
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
-  };
+  const toolkit = [
+    { Icon: LuBrain, title: t.about.skills.ai_ml, items: ['RAG & Agentic AI', 'Multi-Agent Systems', 'Fine-tuning', 'Prompt Engineering & RLHF'] },
+    { Icon: LuSparkles, title: t.about.skills.techniques, items: ['vLLM', 'SGLang', 'llama.cpp', 'Ollama'] },
+    { Icon: LuCode, title: t.about.skills.frameworks, items: ['LangChain / LangGraph', 'PyTorch', 'Hugging Face Transformers', 'Qdrant'] },
+    { Icon: LuCloud, title: t.about.skills.cloud, items: ['Python / FastAPI', 'Docker', 'Oracle EBS / OCI', 'Logging & Observability'] },
+  ];
 
   return (
-    <div className="py-20 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <>
+      <PageHeader eyebrow={t.nav.about} title={t.about.title}>
+        <p className="mt-6 inline-flex items-center gap-2 text-ink-muted">
+          <LuMapPin size={16} aria-hidden="true" className="text-accent-text" />
+          {ui.about.basedIn} {t.about.location}
+        </p>
+      </PageHeader>
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-3xl mx-auto text-center mb-16"
-        >
-          {/* STANDARDIZED TITLE */}
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            {t.about.title}
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
+      <section className="shell grid grid-cols-1 gap-12 py-20 md:py-28 lg:grid-cols-12 lg:gap-16">
+        <Reveal className="lg:col-span-4">
+          <div className="relative mx-auto max-w-xs lg:mx-0">
+            <img
+              src={t.hero.image || '/profile_pic.jpg'}
+              alt={t.hero.name}
+              width={1024}
+              height={1024}
+              loading="lazy"
+              className="relative aspect-square w-full rounded-3xl border border-line object-cover"
+            />
+          </div>
+        </Reveal>
+        <Reveal className="lg:col-span-8" delay={0.08}>
+          <p className="font-display text-xl leading-[1.5] tracking-tight sm:text-3xl sm:leading-[1.4]">
             {t.about.summary}
           </p>
-          <div className="mt-8 flex items-center justify-center gap-6 text-gray-500">
-
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Link to="/experience" className={buttonClass('primary')}>
+              {t.nav.experience}
+              <ArrowForward />
+            </Link>
+            <a href={SITE.cv} download="Basel_Mohamed_CV.pdf" className={buttonClass('secondary')}>
+              {ui.downloadCv}
+            </a>
           </div>
-        </motion.div>
+        </Reveal>
+      </section>
 
-        {/* Skills Grid */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
-          <motion.div variants={item} className="p-6 bg-white dark:bg-[#161b22] rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4 text-blue-600 dark:text-blue-400">
-              <FaBrain size={24} />
-            </div>
-            <h3 className="text-lg font-bold mb-3">{t.about.skills.ai_ml}</h3>
-            <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-              <li>Machine Learning</li>
-              <li>Deep Learning</li>
-              <li>Neural Networks</li>
-              <li>Predictive Analytics</li>
-            </ul>
-          </motion.div>
-
-          <motion.div variants={item} className="p-6 bg-white dark:bg-[#161b22] rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-            <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 text-purple-600 dark:text-purple-400">
-              <FaTerminal size={24} />
-            </div>
-            <h3 className="text-lg font-bold mb-3">{t.about.skills.techniques}</h3>
-            <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-              <li>RAG Systems</li>
-              <li>RLHF</li>
-              <li>OCR</li>
-              <li>Prompt Engineering</li>
-            </ul>
-          </motion.div>
-
-          <motion.div variants={item} className="p-6 bg-white dark:bg-[#161b22] rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-            <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4 text-green-600 dark:text-green-400">
-              <FaCode size={24} />
-            </div>
-            <h3 className="text-lg font-bold mb-3">{t.about.skills.frameworks}</h3>
-            <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-              <li>PyTorch</li>
-              <li>LangChain</li>
-              <li>FastAPI</li>
-              <li>Qdrant / ChromaDB</li>
-            </ul>
-          </motion.div>
-
-          <motion.div variants={item} className="p-6 bg-white dark:bg-[#161b22] rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-            <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center mb-4 text-orange-600 dark:text-orange-400">
-              <FaCloud size={24} />
-            </div>
-            <h3 className="text-lg font-bold mb-3">{t.about.skills.cloud}</h3>
-            <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-              <li>Oracle OCI</li>
-              <li>Docker</li>
-              <li>Git / GitHub</li>
-              <li>Linux / Bash</li>
-            </ul>
-          </motion.div>
-        </motion.div>
-
-        {/* Dynamic Certifications from context */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-16 text-center bg-gray-50 dark:bg-[#0D1117] p-10 rounded-3xl border border-gray-200 dark:border-gray-800"
-        >
-          <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center mx-auto mb-6">
-            <FaAward size={32} />
+      <section className="border-t border-line bg-surface-2/60 py-20 md:py-28">
+        <div className="shell">
+          <SectionHeading index="01" eyebrow={ui.about.toolkit} title={ui.about.toolkitTitle} />
+          <div className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+            {toolkit.map(({ Icon, title, items }, i) => (
+              <Reveal key={title} delay={i * 0.06} className="bg-bg p-8">
+                <span className="flex size-11 items-center justify-center rounded-xl bg-ink text-bg">
+                  <Icon size={20} aria-hidden="true" />
+                </span>
+                <h3 className="mt-6 text-lg font-semibold">{title}</h3>
+                <ul className="mt-4 space-y-2.5">
+                  {items.map(it => (
+                    <li key={it} className="flex items-center gap-2.5 text-ink-muted">
+                      <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-accent" />
+                      <bdi>{it}</bdi>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            ))}
           </div>
-          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{t.about.learning.title}</h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-xl mx-auto">
-            {t.about.learning.desc}
-          </p>
-          <Link
-            to="/certifications"
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30"
-          >
+        </div>
+      </section>
+
+      <section className="shell pt-20 md:pt-28">
+        <Reveal className="flex flex-col items-start gap-8 rounded-3xl border border-line bg-surface p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col items-start gap-6 sm:flex-row">
+            <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-surface-2 text-ink">
+              <LuAward size={26} aria-hidden="true" />
+            </span>
+            <div>
+              <h2 className="font-display text-3xl font-semibold tracking-tight">{t.about.learning.title}</h2>
+              <p className="mt-2 max-w-xl text-ink-muted">{t.about.learning.desc}</p>
+            </div>
+          </div>
+          <Link to="/certifications" className={buttonClass('secondary', 'md', 'shrink-0')}>
             {t.about.learning.cta}
+            <ArrowForward />
           </Link>
-        </motion.div>
-      </div>
-    </div>
+        </Reveal>
+      </section>
+      <CtaBand />
+    </>
   );
 }

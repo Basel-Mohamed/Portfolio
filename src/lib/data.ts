@@ -11,6 +11,9 @@ import project7 from '../assets/projects/project-7.png';
 import oilSalesImage from '../assets/projects/oil-sales.jpg';
 import churnImage from '../assets/projects/churn-prediction.jpg';
 import roomImage from '../assets/projects/Room.png';
+import meayarImage from '../assets/projects/meayar.jpg';
+import orchestratorImage from '../assets/projects/conversational-orchestrator.jpg';
+import hrAgentImage from '../assets/projects/hr-self-service-agent.jpg';
 
 // Certificate Images
 import certAppliedDeepLearning from '../assets/certificates/applied-deep-learning.jpg';
@@ -31,7 +34,10 @@ import certFrontendDiplomaRoute from '../assets/certificates/frontend-diploma-ro
 import certDatabaseFundamentals from '../assets/certificates/database-fundamentals.jpg';
 import certHtmlCss from '../assets/certificates/html-css.jpg';
 import certUxDesign from '../assets/certificates/ux-design.jpg';
+import certDepiMlEngineer from '../assets/certificates/depi-ml-engineer.jpg';
+import certDepiBusinessEnglish from '../assets/certificates/depi-business-english.jpg';
 import { PortfolioContent } from '../types/portfolio';
+import { CHATBOT_PROMPT } from './chatbotPrompt';
 
 export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
   en: {
@@ -45,10 +51,10 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
       contact: "Contact",
     },
     hero: {
-      name: "Basel Mohamed Ahmed",
-      title: "Full Stack AI Engineer",
+      name: "Basel Mohamed",
+      title: "AI Engineer · Gen AI Specialist",
       tagline: "Building intelligent AI systems that transform data into actionable insights.",
-      image: "/profile_pic.png",
+      image: "/profile_pic.jpg",
       buttons: {
         contact: "Get in Touch",
         projects: "View Projects",
@@ -56,10 +62,10 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
     },
     home: {
       skills: {
-        genAi: { title: "Generative AI", desc: "LLMs, RAG Systems, Prompt Engineering, RLHF" },
-        ml: { title: "Machine Learning", desc: "PyTorch, Scikit-learn, Computer Vision, OCR" },
-        deploy: { title: "Deployment", desc: "Docker, FastAPI, Oracle OCI, Cloud Architecture" },
-        dev: { title: "Development", desc: "Python, React, TypeScript, Tailwind CSS" }
+        genAi: { title: "Generative AI & LLMs", desc: "RAG, Agentic AI, Multi-Agent Systems, Prompt Engineering, Fine-tuning, RLHF" },
+        ml: { title: "LLM Serving & Inference", desc: "vLLM, SGLang, llama.cpp, Ollama, GPU Serving" },
+        deploy: { title: "Backend & Deployment", desc: "Python, FastAPI, Docker, Oracle EBS, Observability" },
+        dev: { title: "Frameworks & Data", desc: "LangChain, LangGraph, PyTorch, Hugging Face, Qdrant, React" }
       },
       cta: {
         title: "Ready to transform your data into intelligence?",
@@ -69,22 +75,35 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
     },
     about: {
       title: "About Me",
-      summary: "I am an Associate AI Engineer based in Maadi, Cairo, specializing in Natural Language Processing (NLP), Generative AI, and Machine Learning. With a strong foundation in building RAG systems, RLHF pipelines, and OCR solutions, I transform complex data into intelligent applications. My passion lies in pushing the boundaries of what AI can achieve, from optimizing large language models to deploying scalable inference engines.",
+      summary: "I am an AI Engineer with 3+ years of experience in AI, based in Maadi, Cairo, and a graduate of the ITI and DEPI (Machine Learning Engineer) programs. I build and deploy production-grade Generative AI systems end to end: RAG pipelines with Qdrant hybrid search and reranking, LangGraph multi-agent orchestration, and ERP-integrated transactional agents. I serve LLMs with vLLM, SGLang, llama.cpp, and Ollama across GPU and CPU deployments, and fine-tune models with PyTorch and Hugging Face, including Arabic OCR models that went from 78% to 92% accuracy.",
       location: "Maadi, Cairo, Egypt",
       skills: {
         ai_ml: "AI & Machine Learning",
-        techniques: "AI Specializations",
+        techniques: "LLM Serving & Inference",
         frameworks: "Libraries & Frameworks",
         frontend: "Frontend Development",
-        cloud: "Cloud & Infrastructure",
+        cloud: "Backend & Deployment",
       },
       learning: {
         title: "Continuous Learning",
-        desc: "I have earned over 18 professional certifications from institutions like Oracle, Coursera, and MaharaTech.",
+        desc: "I have earned 20 professional certifications from institutions like Oracle, DEPI, and Coursera.",
         cta: "View All Certifications"
       },
       certifications_subtitle: "A comprehensive overview of my continuous learning journey across AI, Full Stack Development, and Cloud Technologies.",
       certifications: [
+        {
+          title: "Microsoft Machine Learning Engineer - DEPI",
+          date: "Jul 2026",
+          image: certDepiMlEngineer,
+          featured: true,
+          category: "AI & Data Science"
+        },
+        {
+          title: "Business English Track - DEPI",
+          date: "Jul 2026",
+          image: certDepiBusinessEnglish,
+          category: "Others"
+        },
         {
           title: "Applied Deep Learning - MaharaTech (ITIMooca)",
           date: "Jan 2026",
@@ -101,12 +120,14 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
           title: "AI Diploma Intermediate Level - NeuroTech",
           date: "Jan 2026",
           image: certAiDiplomaNeurotech,
+          featured: true,
           category: "AI & Data Science"
         },
         {
           title: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
           date: "Oct 2025",
           image: certOracleAiFoundations,
+          featured: true,
           category: "AI & Data Science"
         },
         {
@@ -201,31 +222,31 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
       professional: [
         {
           id: 1,
-          title: "Associate AI Engineer",
+          title: "AI Engineer",
           company: "IT-RANKS Technology",
-          period: "May 2025 - Present",
-          description: "Developed and fine-tuned NLP/GenAI models. Built end-to-end AI pipelines using PyTorch and Hugging Face, and deployed production-ready RAG workflows using LangChain, Qdrant, and FastAPI.",
+          period: "Apr 2025 - Present",
+          description: "Builds Generative AI, local LLM, and production AI solutions for KSA and Gulf-region clients. Designed and deployed RAG services with LangChain, Qdrant retrieval, reranking, and FastAPI, plus a configurable inference layer across local models, Cohere, and Groq, with production logging and observability.",
         },
         {
-          id: 4,
-          title: "Software Engineer",
-          company: "IT-RANKS Technology",
-          period: "Apr 2025 - May 2025",
-          description: "Developed responsive web interfaces using React.js and Next.js. Leveraged Tailwind CSS and MUI for scalable UI design, and collaborated with backend teams to integrate APIs.",
+          id: 9,
+          title: "AI Engineer (Part-time)",
+          company: "Ad Value",
+          period: "Mar 2026 - Present",
+          description: "Benchmarks state-of-the-art AI models for creative teams, including ElevenLabs, Hugging Face models, GPT Image, and Nano Banana Pro. Runs prompt-engineering sessions and AI workshops, trains teams on Claude Skills, custom GPTs, and Gemini Gems, and builds automated lead-generation workflows.",
         },
         {
           id: 6,
-          title: "AI Trainer (Coding Expertise)",
-          company: "Outlier",
+          title: "AI Trainer",
+          company: "Outlier (Scale AI)",
           period: "Jul 2024 - Mar 2025",
-          description: "Trained and evaluated multiple LLMs (Gemini, LLaMA, Claude) using RLHF. Assessed model outputs for correctness, safety, and code generation quality while applying prompt engineering techniques.",
+          description: "Evaluated and ranked outputs from Gemini, GPT-3.5, LLaMA, and Claude using RLHF, safety, and quality criteria. Improved code and text generation through structured feedback, prompt optimization, and rigorous quality review.",
         },
         {
           id: 8,
-          title: "AI Trainer",
+          title: "Data Annotator",
           company: "Remotasks",
           period: "Jan 2021 - Mar 2023",
-          description: "Annotated large-scale datasets and evaluated chatbot responses to ensure accuracy, consistency, and high labeling quality.",
+          description: "Annotated and reviewed large-scale ML and computer-vision datasets for accuracy, consistency, and labeling quality. Improved chatbot responses through evaluation, rewriting, and structured data validation.",
         }
       ],
       internships: [
@@ -233,8 +254,8 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
           id: 2,
           title: "Machine Learning Engineer Trainee",
           company: "Digital Egypt Pioneers Initiative (DEPI)",
-          period: "Nov 2025 - Present",
-          description: "Participating in an intensive machine learning program, focusing on Python, data processing, and soft skills development.",
+          period: "Nov 2025 - Jul 2026",
+          description: "Completed the Microsoft Machine Learning Engineer track, an intensive program covering Python, data processing, machine learning, and soft skills.",
         },
         {
           id: 3,
@@ -264,69 +285,66 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
       items: [
         {
           id: "rag-agent",
+          featured: true,
           type: "ai",
           nda: true,
           github: "",
           live: "",
-          title: "Enterprise RAG Agent",
-          category: "RAG & FastAPI",
-          description: "Built an end-to-end RAG system with document ingestion, embeddings, hybrid retrieval (Qdrant), and neural reranking. Exposed the workflow via FastAPI with a configurable LLM factory (Cohere / Groq / Local) and production observability.",
-          tech: ["LangChain", "Qdrant", "FastAPI", "Cohere", "Groq", "Python"],
+          title: "Enterprise RAG & LLM Inference Platform",
+          category: "RAG & LLM Serving",
+          description: "Built an end-to-end RAG pipeline covering ingestion, embeddings, Qdrant retrieval, reranking, and answer generation, exposed through FastAPI with configurable local, Cohere, and Groq inference and production logging. Engineered a dual-path inference layer using llama.cpp for CPU deployments and vLLM for GPU serving, and benchmarked LLMs, embedding models, and rerankers on quality, latency, and throughput.",
+          tech: ["LangChain", "Qdrant", "FastAPI", "vLLM", "llama.cpp", "Cohere", "Groq", "Python"],
           image: ragProject,
           metrics: [
-            { label: "Retrieval Latency", value: "< 380ms" },
+            { label: "Time to First Token", value: "< 380ms" },
             { label: "Context Recall", value: "96.4%", change: "+18%" },
             { label: "Indexed Chunks", value: "100k+" }
-          ],
-          architecture: {
-            overview: "Hybrid retrieval pipeline combining dense semantic vector search with cross-encoder re-ranking to deliver low-latency, hallucination-resistant enterprise context.",
-            diagramTitle: "RAG Pipeline Architecture",
-            pipeline: [
-              {
-                step: 1,
-                title: "Document Parsing & Chunking",
-                description: "Ingests heterogeneous multi-page PDFs and text docs using semantic-aware recursive character chunking with dynamic overlap.",
-                technologies: ["LangChain", "Unstructured", "PyPDF"],
-                keyHighlight: "Semantic Chunking"
-              },
-              {
-                step: 2,
-                title: "Dense Vector Embedding",
-                description: "Generates high-dimensional vector embeddings optimized for semantic similarity and multi-lingual retrieval.",
-                technologies: ["Cohere Embed v3", "HuggingFace"],
-                keyHighlight: "1024-dim Embeddings"
-              },
-              {
-                step: 3,
-                title: "Hybrid Vector Search",
-                description: "Performs low-latency approximate nearest neighbor (HNSW) search with payload metadata filtering.",
-                technologies: ["Qdrant Vector DB", "HNSW Index"],
-                keyHighlight: "Sub-50ms Search"
-              },
-              {
-                step: 4,
-                title: "Cross-Encoder Re-Ranking",
-                description: "Re-scores top-k retrieved candidates using neural cross-encoders to eliminate irrelevant noise and reduce context window usage.",
-                technologies: ["Cohere Rerank v3", "Cross-Encoder"],
-                keyHighlight: "+32% Precision"
-              },
-              {
-                step: 5,
-                title: "Contextual Synthesis & Guardrails",
-                description: "Constructs grounded prompt with safety guardrails and streams tokens asynchronously via FastAPI.",
-                technologies: ["FastAPI", "Cohere Command-R", "Groq LLaMA 3"],
-                keyHighlight: "Real-Time Streaming"
-              }
-            ]
-          }
+          ]
+        },
+        {
+          id: "meayar",
+          type: "ai",
+          image: meayarImage,
+          nda: true,
+          github: "",
+          live: "",
+          title: "MEAYAR - Employee Assessment System",
+          category: "Agentic AI",
+          description: "An agentic platform for technical employee assessment built with LangChain and LangGraph. Six specialized agents handle skill profiling, question generation, evaluation, weakness analysis, and course recommendations, automating competency-gap analysis and generating personalized learning paths from internal company knowledge and course data.",
+          tech: ["LangChain", "LangGraph", "Multi-Agent Systems", "Python"]
+        },
+        {
+          id: "conversational-orchestrator",
+          type: "ai",
+          image: orchestratorImage,
+          nda: true,
+          github: "",
+          live: "",
+          title: "Enterprise Conversational Orchestrator",
+          category: "Agentic AI",
+          description: "An orchestrator agent that coordinates specialized sub-agents (a RAG knowledge agent, a transactional ERP agent, and a general Q&A agent) behind a single chat interface. Intent-based routing and query rewriting resolve follow-up questions and send each request to the right agent, with conversation context persisted across turns.",
+          tech: ["LangGraph", "Multi-Agent Orchestration", "Query Routing", "Conversation Memory", "Python"]
+        },
+        {
+          id: "hr-self-service-agent",
+          type: "ai",
+          image: hrAgentImage,
+          nda: true,
+          github: "",
+          live: "",
+          title: "HR Self-Service Agent",
+          category: "Agentic AI & ERP",
+          description: "A conversational agent integrated with the enterprise ERP (Oracle EBS) that submits employee requests such as leave and overtime through chat. It combines deterministic, validated submission flows with a natural-language experience, collecting and confirming required fields before posting to the ERP. The integration is configuration-driven, so new request types are added without changing the agent logic.",
+          tech: ["Oracle EBS", "ERP Integration", "Agentic AI", "Python"]
         },
         {
           id: "doc-understanding",
+          featured: true,
           type: "ai",
           nda: true,
           github: "",
           live: "",
-          title: "Document AI - Arabic OCR System",
+          title: "Document AI - Arabic OCR & Extraction System",
           category: "OCR & Vision",
           description: "Fine-tuned Vision Transformer OCR models on combined real and synthetic datasets, increasing Arabic character accuracy from 78% to 92% and achieving 96% in English with automated deskewing and normalization pipelines.",
           tech: ["Python", "FastAPI", "Vision Transformers", "OpenCV", "PyTorch"],
@@ -334,49 +352,8 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
           metrics: [
             { label: "Arabic Accuracy", value: "92.0%", change: "+14%" },
             { label: "English Accuracy", value: "96.0%" },
-            { label: "Throughput", value: "420ms / page" }
-          ],
-          architecture: {
-            overview: "End-to-end multi-lingual OCR pipeline featuring automated image deskewing, binarization, Transformer-based sequence recognition, and Arabic linguistic post-processing.",
-            diagramTitle: "Arabic OCR Vision Pipeline",
-            pipeline: [
-              {
-                step: 1,
-                title: "Preprocessing & Deskewing",
-                description: "Applies adaptive thresholding, morphological noise removal, and orientation correction to ensure clean input.",
-                technologies: ["OpenCV", "NumPy", "Pillow"],
-                keyHighlight: "Automated Deskew"
-              },
-              {
-                step: 2,
-                title: "Text Line Localization",
-                description: "Detects text bounding boxes and line segments using contour analysis and deep feature maps.",
-                technologies: ["PyTorch", "CRAFT Detector"],
-                keyHighlight: "Line Segmentation"
-              },
-              {
-                step: 3,
-                title: "Deep Sequence Recognition",
-                description: "Extracts character sequences using a fine-tuned Vision Transformer encoder-decoder trained on Arabic typography.",
-                technologies: ["Transformers", "PyTorch", "CUDA"],
-                keyHighlight: "92% Arabic Accuracy"
-              },
-              {
-                step: 4,
-                title: "Arabic Linguistic Normalization",
-                description: "Normalizes diacritics, ligatures, and character joining rules to ensure downstream NLP compatibility.",
-                technologies: ["Python RegEx", "Arabic NLP Toolkit"],
-                keyHighlight: "Linguistic Post-process"
-              },
-              {
-                step: 5,
-                title: "Inference API & Batch Serving",
-                description: "Asynchronous microservice containerized with Docker for batch document extraction.",
-                technologies: ["FastAPI", "Docker", "Uvicorn"],
-                keyHighlight: "REST Service"
-              }
-            ]
-          }
+            { label: "Time to First Token", value: "420ms" }
+          ]
         },
         {
           id: "ai-5",
@@ -447,13 +424,13 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
         },
         {
           id: "fs-6",
+          featured: true,
           type: "fullstack",
           title: "ROOM APP Marketplace",
           category: "Full Stack Development",
           image: roomImage,
           description: "The premier digital marketplace in the UAE connecting over 200k+ users with verified service providers for design, construction, and furnishing. Built a full-stack platform featuring vendor profiles, tiered subscription plans, and a secure application workflow for business verification.",
           tech: ["React", "Tailwind CSS", "Framer Motion", "React Icons", "CSS", "Node.js"],
-          github: "#",
           live: "https://roomapp.ae"
         },
         {
@@ -545,7 +522,7 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
         "Show me your certifications",
         "Do you work with Arabic NLP?"
       ],
-      prompt: `# ROLE & IDENTITY\nYou are the official Professional AI Assistant for **Basel Mohamed Ahmed**, an Associate AI Engineer and Full Stack Developer based in Maadi, Cairo, Egypt.\n\n# OBJECTIVE\nYour goal is to assist recruiters, potential clients, and website visitors by answering questions about Basel's skills, services, portfolio, and professional experience. You act as a professional bridge to encourage hiring him or collaborating with him.\n\n# TONE & COMMUNICATION STYLE\n- **Professional & Enthusiastic:** Maintain a polite, helpful, and confident tone.\n- **Concise:** Keep responses easily readable. Use bullet points for listing skills, projects, or experience.\n- **Bilingual:** You are fully bilingual. **CRITICAL:** You MUST respond in the exact language the user speaks (English or Arabic). If the user asks a question in Arabic, reply entirely in Arabic.\n\n# STRICT GUARDRAILS\n1. **No Personal Life Inquiries:** You must NEVER answer questions about Basel's private life, family, relationships, religion, politics, or exact street address. If asked, politely reply: "I am designed to discuss Basel's professional work and portfolio only."\n2. **Hallucination Prevention:** If a user asks a question and the answer is not contained in the [KNOWLEDGE BASE] below, state clearly that you do not have that information and suggest they contact Basel directly. Do not invent or guess information.\n3. **Contact Information:** You are authorized to share Basel's contact details when asked or when suggesting a follow-up.\n\n# KNOWLEDGE BASE\n\n## Contact Information\n- **Personal Email:** baselmohamed937@gmail.com\n- **Phone:** +201007337686\n- **LinkedIn:** https://www.linkedin.com/in/baselmohamed937/\n\n## Current Role & Summary\n- **Title:** Associate AI Engineer at IT-RANKS Technology (May 2025 - Present)\n- **Summary:** Specializes in Natural Language Processing (NLP), Generative AI, and Machine Learning. Strong foundation in building RAG systems, RLHF pipelines, and OCR solutions to transform complex data into intelligent applications.\n\n## Services Offered\n1. **Machine Learning Models:** Custom ML model development, training, and deployment for predictive analytics.\n2. **RAG Systems:** Building intelligent search systems that ground LLM responses in private data using vector databases.\n3. **NLP Solutions:** Advanced text analysis, sentiment analysis, and chatbot development.\n4. **Computer Vision:** Image recognition, object detection systems, and OCR integration.\n\n## Technical Stack\n- **AI & ML:** Python, PyTorch, LangChain, Hugging Face, LLMs (Gemini, LLaMA, Claude, Cohere, Groq)\n- **Techniques:** RAG, RLHF, OCR, Ensemble Learning, Prompt Engineering\n- **Frontend & Full Stack:** React.js, Next.js, Tailwind CSS, JavaScript, HTML, CSS, Node.js, FastAPI\n- **Cloud & Tools:** Oracle Cloud Infrastructure (OCI), Docker, Qdrant, Label Studio\n\n## Professional Experience\n- **IT-RANKS Technology:** Associate AI Engineer (May 2025 - Present) & Software Engineer (Apr 2025 - May 2025). Built GenAI/NLP models, RAG workflows, and responsive web interfaces.\n- **DEPI:** Machine Learning Engineer Trainee (Nov 2025 - Present).\n- **NeuroTech:** AI Developer Trainee (Jun 2025 - Jan 2026).\n- **ITI:** UI/UX Developer Trainee (Feb 2025 - Apr 2025).\n- **Outlier:** AI Trainer - Coding Expertise (Jul 2024 - Mar 2025). Trained LLMs using RLHF.\n- **Route:** Frontend Web Developer Trainee (Sep 2024 - Feb 2025).\n- **Remotasks:** AI Trainer (Jan 2021 - Mar 2023).\n\n## Featured Projects (Highlights)\n- **Oil Sales Prediction System:** End-to-end AI solution (Random Forest) for edible oil sales with an LLM chat interface via FastAPI.\n- **Customer Churn Prediction:** Ensemble Voting Classifier combined with an LLM-powered conversational agent (Groq API).\n- **Enterprise RAG Agent:** End-to-end system with document ingestion, Qdrant retrieval, and a configurable LLM factory via FastAPI.\n- **Document AI (Arabic OCR):** Fine-tuned OCR models increasing Arabic accuracy to 92% and English to 96%.\n- **ROOM APP Marketplace:** A full-stack platform connecting 200k+ users with service providers in the UAE using React, Tailwind, and Node.js.\n- **FreshCart:** A responsive e-commerce platform with secure auth and dynamic cart management using React Query.`
+      prompt: CHATBOT_PROMPT
     }
   },
   ar: {
@@ -559,10 +536,10 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
       contact: "تواصل",
     },
     hero: {
-      name: "باسل محمد أحمد",
-      title: "مهندس ذكاء اصطناعي متكامل",
+      name: "باسل محمد",
+      title: "مهندس ذكاء اصطناعي · متخصص في الذكاء الاصطناعي التوليدي",
       tagline: "بناء أنظمة ذكاء اصطناعي ذكية تحول البيانات إلى رؤى قابلة للتنفيذ.",
-      image: "/profile_pic.png",
+      image: "/profile_pic.jpg",
       buttons: {
         contact: "تواصل معي",
         projects: "عرض المشاريع",
@@ -570,10 +547,10 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
     },
     home: {
       skills: {
-        genAi: { title: "الذكاء الاصطناعي التوليدي", desc: "LLMs, RAG Systems, Prompt Engineering, RLHF" },
-        ml: { title: "تعلم الآلة", desc: "PyTorch, Scikit-learn, Computer Vision, OCR" },
-        deploy: { title: "النشر والاستضافة", desc: "Docker, FastAPI, Oracle OCI, Cloud Architecture" },
-        dev: { title: "التطوير", desc: "Python, React, TypeScript, Tailwind CSS" }
+        genAi: { title: "الذكاء الاصطناعي التوليدي والنماذج اللغوية", desc: "RAG, Agentic AI, Multi-Agent Systems, Prompt Engineering, Fine-tuning, RLHF" },
+        ml: { title: "تشغيل النماذج والاستدلال", desc: "vLLM, SGLang, llama.cpp, Ollama, GPU Serving" },
+        deploy: { title: "الواجهات الخلفية والنشر", desc: "Python, FastAPI, Docker, Oracle EBS, Observability" },
+        dev: { title: "أطر العمل والبيانات", desc: "LangChain, LangGraph, PyTorch, Hugging Face, Qdrant, React" }
       },
       cta: {
         title: "هل أنت مستعد لتحويل بياناتك إلى ذكاء حقيقي؟",
@@ -583,22 +560,35 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
     },
     about: {
       title: "نبذة عني",
-      summary: "أنا مهندس ذكاء اصطناعي مقيم في المعادي، القاهرة، متخصص في معالجة اللغات الطبيعية (NLP)، والذكاء الاصطناعي التوليدي، وتعلم الآلة. لدي أساس قوي في بناء أنظمة RAG، وخطوط أنابيب RLHF، وحلول OCR. أقوم بتحويل البيانات المعقدة إلى تطبيقات ذكية.",
+      summary: "أنا مهندس ذكاء اصطناعي بخبرة تزيد على 3 سنوات في المجال، مقيم في المعادي، القاهرة، وخريج برنامجي ITI و DEPI (مهندس تعلم الآلة). أبني وأنشر أنظمة ذكاء اصطناعي توليدي جاهزة للإنتاج من البداية للنهاية: أنظمة RAG بالبحث الهجين وإعادة الترتيب عبر Qdrant، وتنسيق الوكلاء المتعددين باستخدام LangGraph، ووكلاء معاملات مرتبطين بأنظمة ERP. أشغّل النماذج اللغوية عبر vLLM و SGLang و llama.cpp و Ollama على GPU و CPU، وأدرّب النماذج باستخدام PyTorch و Hugging Face، ومنها نماذج OCR عربية ارتفعت دقتها من 78% إلى 92%.",
       location: "المعادي، القاهرة، مصر",
       skills: {
         ai_ml: "الذكاء الاصطناعي وتعلم الآلة",
-        techniques: "تخصصات الذكاء الاصطناعي",
+        techniques: "تشغيل النماذج والاستدلال",
         frameworks: "أطر العمل والمكتبات",
         frontend: "تطوير واجهات المستخدم",
-        cloud: "السحابة والبنية التحتية",
+        cloud: "الواجهات الخلفية والنشر",
       },
       learning: {
         title: "التعلم المستمر",
-        desc: "حصلت على أكثر من 18 شهادة مهنية من مؤسسات مثل Oracle و Coursera و MaharaTech.",
+        desc: "حصلت على 20 شهادة مهنية من مؤسسات مثل Oracle و DEPI و Coursera.",
         cta: "عرض كل الشهادات"
       },
       certifications_subtitle: "نظرة شاملة على رحلة التعلم المستمر عبر الذكاء الاصطناعي وتطوير الويب والتقنيات السحابية.",
       certifications: [
+        {
+          title: "مهندس تعلم الآلة من مايكروسوفت - DEPI",
+          date: "يوليو 2026",
+          image: certDepiMlEngineer,
+          featured: true,
+          category: "الذكاء الاصطناعي وعلوم البيانات"
+        },
+        {
+          title: "مسار اللغة الإنجليزية للأعمال - DEPI",
+          date: "يوليو 2026",
+          image: certDepiBusinessEnglish,
+          category: "أخرى"
+        },
         {
           title: "التعلم العميق التطبيقي - مهارة تك (ITIMooca)",
           date: "يناير 2026",
@@ -615,12 +605,14 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
           title: "دبلومة الذكاء الاصطناعي المستوى المتوسط - NeuroTech",
           date: "يناير 2026",
           image: certAiDiplomaNeurotech,
+          featured: true,
           category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
           title: "مساعد معتمد في أساسيات الذكاء الاصطناعي من البنية التحتية السحابية لأوراكل 2025",
           date: "أكتوبر 2025",
           image: certOracleAiFoundations,
+          featured: true,
           category: "الذكاء الاصطناعي وعلوم البيانات"
         },
         {
@@ -715,31 +707,31 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
       professional: [
         {
           id: 1,
-          title: "مهندس ذكاء اصطناعي مشارك",
+          title: "مهندس ذكاء اصطناعي",
           company: "IT-RANKS Technology",
-          period: "مايو 2025 - الحاضر",
-          description: "تطوير وتحسين نماذج معالجة اللغات الطبيعية (NLP) والذكاء الاصطناعي التوليدي. بناء خطوط أنابيب الذكاء الاصطناعي باستخدام PyTorch و Hugging Face، ونشر أنظمة RAG باستخدام LangChain و Qdrant و FastAPI.",
+          period: "أبريل 2025 - الحاضر",
+          description: "بناء حلول الذكاء الاصطناعي التوليدي والنماذج اللغوية المحلية وأنظمة الإنتاج لعملاء في السعودية والخليج. تصميم ونشر خدمات RAG باستخدام LangChain والاسترجاع عبر Qdrant وإعادة الترتيب و FastAPI، مع طبقة استدلال قابلة للتكوين بين النماذج المحلية و Cohere و Groq، وتسجيل ومراقبة على مستوى الإنتاج.",
         },
         {
-          id: 4,
-          title: "مهندس برمجيات",
-          company: "IT-RANKS Technology",
-          period: "أبريل 2025 - مايو 2025",
-          description: "تطوير واجهات ويب متجاوبة باستخدام React.js و Next.js مع Tailwind CSS و MUI. التعاون مع فرق الواجهة الخلفية لدمج واجهات برمجة التطبيقات (APIs).",
+          id: 9,
+          title: "مهندس ذكاء اصطناعي (دوام جزئي)",
+          company: "Ad Value",
+          period: "مارس 2026 - الحاضر",
+          description: "تقييم أحدث نماذج الذكاء الاصطناعي لفرق الإبداع، ومنها ElevenLabs ونماذج Hugging Face و GPT Image و Nano Banana Pro. تقديم جلسات هندسة الأوامر وورش عمل الذكاء الاصطناعي، وتدريب الفرق على Claude Skills و custom GPTs و Gemini Gems، وبناء مسارات مؤتمتة لتوليد العملاء المحتملين.",
         },
         {
           id: 6,
-          title: "مدرب ذكاء اصطناعي (خبرة برمجية)",
-          company: "Outlier",
+          title: "مدرب ذكاء اصطناعي",
+          company: "Outlier (Scale AI)",
           period: "يوليو 2024 - مارس 2025",
-          description: "تدريب وتقييم نماذج لغوية كبيرة (مثل Gemini, LLaMA, Claude) باستخدام تقنيات RLHF. تقييم دقة مخرجات النماذج، والسلامة، وجودة توليد الأكواد.",
+          description: "تقييم وترتيب مخرجات Gemini و GPT-3.5 و LLaMA و Claude وفق معايير RLHF والسلامة والجودة. تحسين توليد الأكواد والنصوص عبر ملاحظات منظمة وتحسين الأوامر ومراجعة دقيقة للجودة.",
         },
         {
           id: 8,
-          title: "مدرب ذكاء اصطناعي",
+          title: "مُعلِّق بيانات",
           company: "Remotasks",
           period: "يناير 2021 - مارس 2023",
-          description: "التعليق على مجموعات البيانات واسعة النطاق وتقييم استجابات روبوتات المحادثة لضمان الدقة والاتساق وجودة التصنيف.",
+          description: "تعليق ومراجعة مجموعات بيانات واسعة النطاق لتعلم الآلة والرؤية الحاسوبية لضمان الدقة والاتساق وجودة التصنيف. تحسين استجابات روبوتات المحادثة عبر التقييم وإعادة الصياغة والتحقق المنظم من البيانات.",
         }
       ],
       internships: [
@@ -747,8 +739,8 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
           id: 2,
           title: "متدرب هندسة تعلم الآلة",
           company: "مبادرة أشبال مصر الرقمية (DEPI)",
-          period: "نوفمبر 2025 - الحاضر",
-          description: "المشاركة في برنامج مكثف لتعلم الآلة مع التركيز على لغة Python، ومعالجة البيانات، وتطوير المهارات الشخصية والعملية.",
+          period: "نوفمبر 2025 - يوليو 2026",
+          description: "إتمام مسار مهندس تعلم الآلة من مايكروسوفت، وهو برنامج مكثف يغطي Python ومعالجة البيانات وتعلم الآلة والمهارات الشخصية.",
         },
         {
           id: 3,
@@ -778,69 +770,66 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
       items: [
         {
           id: "rag-agent",
+          featured: true,
           type: "ai",
           nda: true,
           github: "",
           live: "",
-          title: "نظام RAG للمؤسسات",
-          category: "RAG و FastAPI",
-          description: "بناء نظام RAG متكامل لاستيعاب المستندات وتضمينها، والاسترجاع الهجين (Qdrant)، وإعادة الترتيب العصبي. تم توفير مسار العمل عبر واجهة FastAPI مع مصنع نماذج قابل للتكوين (Cohere / Groq / محلي) مع مراقبة وتسجيل كامل للبيانات.",
-          tech: ["LangChain", "Qdrant", "FastAPI", "Cohere", "Groq", "Python"],
+          title: "منصة RAG واستدلال النماذج اللغوية للمؤسسات",
+          category: "RAG وتشغيل النماذج",
+          description: "بناء مسار RAG متكامل يشمل استيعاب المستندات والتضمين والاسترجاع عبر Qdrant وإعادة الترتيب وتوليد الإجابات، متاح عبر FastAPI مع استدلال قابل للتكوين (محلي / Cohere / Groq) وتسجيل على مستوى الإنتاج. تصميم طبقة استدلال ثنائية المسار باستخدام llama.cpp على CPU و vLLM على GPU، مع قياس أداء النماذج اللغوية ونماذج التضمين وإعادة الترتيب من حيث الجودة وزمن الاستجابة والإنتاجية.",
+          tech: ["LangChain", "Qdrant", "FastAPI", "vLLM", "llama.cpp", "Cohere", "Groq", "Python"],
           image: ragProject,
           metrics: [
-            { label: "زمن استجابة الاسترجاع", value: "< 380ms" },
+            { label: "زمن أول رمز (TTFT)", value: "< 380ms" },
             { label: "دقة السياق", value: "96.4%", change: "+18%" },
             { label: "المقاطع المفهرسة", value: "100k+" }
-          ],
-          architecture: {
-            overview: "خط أنابيب استرجاع هجين يجمع بين البحث الدلالي بالمتجهات وإعادة الترتيب العصبي لتوفير سياق مؤسسي منخفض الكمون ومقاوم للهلوسة.",
-            diagramTitle: "معمارية خط أنابيب RAG",
-            pipeline: [
-              {
-                step: 1,
-                title: "استيعاب المستندات والتقطيع الدلالي",
-                description: "استيعاب مستندات PDF والنصوص المعقدة مع تقطيع دلالي متقدم لضمان ترابط المعنى.",
-                technologies: ["LangChain", "Unstructured", "PyPDF"],
-                keyHighlight: "تقطيع دلالي"
-              },
-              {
-                step: 2,
-                title: "توليد المتجهات عالية الأبعاد",
-                description: "إنشاء تضمينات متجهات محسنة للمطابقة الدلالية متعددة اللغات.",
-                technologies: ["Cohere Embed v3", "HuggingFace"],
-                keyHighlight: "تضمين 1024 بعد"
-              },
-              {
-                step: 3,
-                title: "البحث الهجين في قاعدة بيانات المتجهات",
-                description: "تنفيذ بحث تقريبي سريع (HNSW) مع تصفية البيانات الوصفية المتقدمة.",
-                technologies: ["Qdrant Vector DB", "HNSW Index"],
-                keyHighlight: "بحث أقل من 50ms"
-              },
-              {
-                step: 4,
-                title: "إعادة الترتيب باستخدام Cross-Encoder",
-                description: "إعادة تقييم أفضل النتائج لفلترة الضوضاء وتقليل استهلاك نافذة السياق.",
-                technologies: ["Cohere Rerank v3", "Cross-Encoder"],
-                keyHighlight: "+32% دقة إضافية"
-              },
-              {
-                step: 5,
-                title: "التوليد المقيد بالضوابط والبث الحي",
-                description: "بناء أوامر مدعمة بسياق حقيقي مع ضوابط أمان وبث الرموز بشكل غير متزامن.",
-                technologies: ["FastAPI", "Cohere Command-R", "Groq LLaMA 3"],
-                keyHighlight: "بث فوري للرموز"
-              }
-            ]
-          }
+          ]
+        },
+        {
+          id: "meayar",
+          type: "ai",
+          image: meayarImage,
+          nda: true,
+          github: "",
+          live: "",
+          title: "معيار - نظام تقييم الموظفين",
+          category: "الوكلاء الأذكياء",
+          description: "منصة وكلاء أذكياء للتقييم التقني للموظفين مبنية باستخدام LangChain و LangGraph. ستة وكلاء متخصصين يتولون تحليل المهارات وتوليد الأسئلة والتقييم وتحليل نقاط الضعف وترشيح الدورات، مع أتمتة تحليل فجوات الكفاءة وتوليد مسارات تعلم مخصصة من معرفة الشركة الداخلية وبيانات الدورات.",
+          tech: ["LangChain", "LangGraph", "Multi-Agent Systems", "Python"]
+        },
+        {
+          id: "conversational-orchestrator",
+          type: "ai",
+          image: orchestratorImage,
+          nda: true,
+          github: "",
+          live: "",
+          title: "منسّق المحادثات للمؤسسات",
+          category: "الوكلاء الأذكياء",
+          description: "وكيل منسّق يدير وكلاء فرعيين متخصصين (وكيل معرفة RAG، ووكيل معاملات ERP، ووكيل أسئلة عامة) خلف واجهة محادثة واحدة. التوجيه حسب نية المستخدم وإعادة صياغة الاستعلام يحلّان الأسئلة التابعة ويرسلان كل طلب إلى الوكيل المناسب، مع حفظ سياق المحادثة عبر الأدوار.",
+          tech: ["LangGraph", "Multi-Agent Orchestration", "Query Routing", "Conversation Memory", "Python"]
+        },
+        {
+          id: "hr-self-service-agent",
+          type: "ai",
+          image: hrAgentImage,
+          nda: true,
+          github: "",
+          live: "",
+          title: "وكيل الخدمة الذاتية للموارد البشرية",
+          category: "الوكلاء الأذكياء و ERP",
+          description: "وكيل محادثة مرتبط بنظام ERP للمؤسسة (Oracle EBS) يقدّم طلبات الموظفين مثل الإجازات والعمل الإضافي عبر المحادثة. يجمع بين مسارات تقديم محددة ومُتحقَّق منها وتجربة لغة طبيعية سهلة، فيجمع الحقول المطلوبة ويؤكدها قبل إرسالها إلى ERP. التكامل قائم على الإعدادات، فتُضاف أنواع طلبات جديدة دون تغيير منطق الوكيل.",
+          tech: ["Oracle EBS", "ERP Integration", "Agentic AI", "Python"]
         },
         {
           id: "doc-understanding",
+          featured: true,
           type: "ai",
           nda: true,
           github: "",
           live: "",
-          title: "الذكاء الاصطناعي للمستندات - نظام OCR باللغة العربية",
+          title: "الذكاء الاصطناعي للمستندات - نظام OCR واستخراج البيانات باللغة العربية",
           category: "OCR والرؤية الحاسوبية",
           description: "تحسين نماذج Vision Transformer للتعرف الضوئي على الحروف باستخدام بيانات حقيقية واصطناعية، مما رفع دقة اللغة العربية من 78% إلى 92% وتحقيق 96% في الإنجليزية مع تصحيح تلقائي للإمالة والضوضاء.",
           tech: ["Python", "FastAPI", "Vision Transformers", "OpenCV", "PyTorch"],
@@ -848,49 +837,8 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
           metrics: [
             { label: "دقة اللغة العربية", value: "92.0%", change: "+14%" },
             { label: "دقة اللغة الإنجليزية", value: "96.0%" },
-            { label: "سرعة المعالجة", value: "420ms / صفحة" }
-          ],
-          architecture: {
-            overview: "مسار متكامل لمعالجة المستندات العربية يشمل إزالة التشويش، والتجزئة السطرية، والتعرف القائم على Transformers والمعالجة اللغوية اللاحقة.",
-            diagramTitle: "مسار معمارية الـ OCR للغة العربية",
-            pipeline: [
-              {
-                step: 1,
-                title: "المعالجة المسبقة وتصحيح الإمالة",
-                description: "تطبيق تقنيات المعالجة الصورية لتنقية المستندات وتعديل زوايا الإمالة تلقائياً.",
-                technologies: ["OpenCV", "NumPy", "Pillow"],
-                keyHighlight: "تصحيح الإمالة تلقائياً"
-              },
-              {
-                step: 2,
-                title: "تحديد مواقع الأسطر والفقرات",
-                description: "استخراج مربعات الإحاطة وتجزئة الأسطر بدقة بالغة.",
-                technologies: ["PyTorch", "CRAFT Detector"],
-                keyHighlight: "تجزئة الأسطر"
-              },
-              {
-                step: 3,
-                title: "التعرف التسلسلي العميق",
-                description: "استخراج الحروف والنصوص عبر نموذج Vision Transformer مدرب على الخطوط العربية.",
-                technologies: ["Transformers", "PyTorch", "CUDA"],
-                keyHighlight: "دقة 92% للعربية"
-              },
-              {
-                step: 4,
-                title: "المعالجة اللغوية وضبط المحارف",
-                description: "تصحيح وتوحيد التشكيل والروابط الحرفية لضمان التوافق التام.",
-                technologies: ["Python RegEx", "Arabic NLP Toolkit"],
-                keyHighlight: "معالجة لغوية ذكية"
-              },
-              {
-                step: 5,
-                title: "واجهة الاستدلال والنشر السحابي",
-                description: "خدمة برمجية غير متزامنة معبأة داخل حاويات Docker للمعالجة الفردية والجماعية.",
-                technologies: ["FastAPI", "Docker", "Uvicorn"],
-                keyHighlight: "واجهة REST سريعة"
-              }
-            ]
-          }
+            { label: "زمن أول رمز (TTFT)", value: "420ms" }
+          ]
         },
         {
           id: "ai-5",
@@ -961,13 +909,13 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
         },
         {
           id: "fs-6",
+          featured: true,
           type: "fullstack",
           title: "تطبيق روم (ROOM APP)",
           category: "تطوير متكامل (Full Stack)",
           image: roomImage,
           description: "السوق الرقمي الأول في الإمارات الذي يربط أكثر من 200 ألف مستخدم بمزودي الخدمات المعتمدين في مجالات التصميم والبناء والمفروشات. تم بناء منصة متكاملة تتميز بملفات تعريف للبائعين، وخطط اشتراك متدرجة، ونظام آمن لتقديم طلبات توثيق الشركات.",
           tech: ["React", "Tailwind CSS", "Framer Motion", "React Icons", "CSS", "Node.js"],
-          github: "#",
           live: "https://roomapp.ae"
         },
         {
@@ -1059,7 +1007,7 @@ export const DATA: { en: PortfolioContent; ar: PortfolioContent } = {
         "أرني شهاداتك",
         "هل تعمل مع معالجة اللغة العربية؟"
       ],
-      prompt: `# ROLE & IDENTITY\nYou are the official Professional AI Assistant for **Basel Mohamed Ahmed**, an Associate AI Engineer and Full Stack Developer based in Maadi, Cairo, Egypt.\n\n# OBJECTIVE\nYour goal is to assist recruiters, potential clients, and website visitors by answering questions about Basel's skills, services, portfolio, and professional experience. You act as a professional bridge to encourage hiring him or collaborating with him.\n\n# TONE & COMMUNICATION STYLE\n- **Professional & Enthusiastic:** Maintain a polite, helpful, and confident tone.\n- **Concise:** Keep responses easily readable. Use bullet points for listing skills, projects, or experience.\n- **Bilingual:** You are fully bilingual. **CRITICAL:** You MUST respond in the exact language the user speaks (English or Arabic). If the user asks a question in Arabic, reply entirely in Arabic.\n\n# STRICT GUARDRAILS\n1. **No Personal Life Inquiries:** You must NEVER answer questions about Basel's private life, family, relationships, religion, politics, or exact street address. If asked, politely reply: "I am designed to discuss Basel's professional work and portfolio only."\n2. **Hallucination Prevention:** If a user asks a question and the answer is not contained in the [KNOWLEDGE BASE] below, state clearly that you do not have that information and suggest they contact Basel directly. Do not invent or guess information.\n3. **Contact Information:** You are authorized to share Basel's contact details when asked or when suggesting a follow-up.\n\n# KNOWLEDGE BASE\n\n## Contact Information\n- **Personal Email:** baselmohamed937@gmail.com\n- **Phone:** +201007337686\n- **LinkedIn:** https://www.linkedin.com/in/baselmohamed937/\n\n## Current Role & Summary\n- **Title:** Associate AI Engineer at IT-RANKS Technology (May 2025 - Present)\n- **Summary:** Specializes in Natural Language Processing (NLP), Generative AI, and Machine Learning. Strong foundation in building RAG systems, RLHF pipelines, and OCR solutions to transform complex data into intelligent applications.\n\n## Services Offered\n1. **Machine Learning Models:** Custom ML model development, training, and deployment for predictive analytics.\n2. **RAG Systems:** Building intelligent search systems that ground LLM responses in private data using vector databases.\n3. **NLP Solutions:** Advanced text analysis, sentiment analysis, and chatbot development.\n4. **Computer Vision:** Image recognition, object detection systems, and OCR integration.\n\n## Technical Stack\n- **AI & ML:** Python, PyTorch, LangChain, Hugging Face, LLMs (Gemini, LLaMA, Claude, Cohere, Groq)\n- **Techniques:** RAG, RLHF, OCR, Ensemble Learning, Prompt Engineering\n- **Frontend & Full Stack:** React.js, Next.js, Tailwind CSS, JavaScript, HTML, CSS, Node.js, FastAPI\n- **Cloud & Tools:** Oracle Cloud Infrastructure (OCI), Docker, Qdrant, Label Studio\n\n## Professional Experience\n- **IT-RANKS Technology:** Associate AI Engineer (May 2025 - Present) & Software Engineer (Apr 2025 - May 2025). Built GenAI/NLP models, RAG workflows, and responsive web interfaces.\n- **DEPI:** Machine Learning Engineer Trainee (Nov 2025 - Present).\n- **NeuroTech:** AI Developer Trainee (Jun 2025 - Jan 2026).\n- **ITI:** UI/UX Developer Trainee (Feb 2025 - Apr 2025).\n- **Outlier:** AI Trainer - Coding Expertise (Jul 2024 - Mar 2025). Trained LLMs using RLHF.\n- **Route:** Frontend Web Developer Trainee (Sep 2024 - Feb 2025).\n- **Remotasks:** AI Trainer (Jan 2021 - Mar 2023).\n\n## Featured Projects (Highlights)\n- **Oil Sales Prediction System:** End-to-end AI solution (Random Forest) for edible oil sales with an LLM chat interface via FastAPI.\n- **Customer Churn Prediction:** Ensemble Voting Classifier combined with an LLM-powered conversational agent (Groq API).\n- **Enterprise RAG Agent:** End-to-end system with document ingestion, Qdrant retrieval, and a configurable LLM factory via FastAPI.\n- **Document AI (Arabic OCR):** Fine-tuned OCR models increasing Arabic accuracy to 92% and English to 96%.\n- **ROOM APP Marketplace:** A full-stack platform connecting 200k+ users with service providers in the UAE using React, Tailwind, and Node.js.\n- **FreshCart:** A responsive e-commerce platform with secure auth and dynamic cart management using React Query.`
+      prompt: CHATBOT_PROMPT
     }
   }
 };
