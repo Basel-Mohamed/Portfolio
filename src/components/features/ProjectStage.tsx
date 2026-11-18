@@ -11,10 +11,9 @@ import { gsap, useGSAP } from '../../lib/motion';
  * A full-width stage band for one featured project: headline, one paragraph,
  * and its numbers set large. Always black, in both themes.
  *
- * Signature motion (large screens): the band pins for a short scroll while
+ * Signature motion (every screen size): the band pins for a short scroll while
  * the metrics arrive one at a time, each counting up as it lands. The motion
- * is tied to the scrollbar. On phones and short windows nothing pins: each
- * metric fades up and counts once. With reduced motion nothing moves.
+ * is tied to the scrollbar. With reduced motion nothing moves.
  */
 export function ProjectStage({ project }: { project: Project }) {
   const ui = useUI();
@@ -46,10 +45,21 @@ export function ProjectStage({ project }: { project: Project }) {
       const mm = gsap.matchMedia();
       const motionOk = '(prefers-reduced-motion: no-preference)';
 
-      // Large screens: pin and reveal the metrics in sequence.
-      mm.add(`(min-width: 1024px) and (min-height: 720px) and ${motionOk}`, () => {
+      // Every screen size: pin and reveal the metrics in sequence. When the band is taller
+      // than the window (phones, short windows) it pins once its bottom reaches the bottom
+      // of the window, so the whole metric row is on screen while it plays.
+      mm.add(motionOk, () => {
+        const tall = () => pin.offsetHeight > window.innerHeight;
+        const perItem = () => (window.innerWidth < 1024 ? 260 : 340);
         const tl = gsap.timeline({
-          scrollTrigger: { trigger: wrap, start: 'top top', end: `+=${items.length * 340}`, pin, scrub: 0.5 },
+          scrollTrigger: {
+            trigger: wrap,
+            start: () => (tall() ? 'bottom bottom' : 'top top'),
+            end: () => `+=${items.length * perItem()}`,
+            pin,
+            scrub: 0.5,
+            invalidateOnRefresh: true,
+          },
         });
         parts.forEach((p, i) => {
           const state = { v: 0 };
@@ -63,26 +73,6 @@ export function ProjectStage({ project }: { project: Project }) {
         return restore;
       });
 
-      // Phones and short windows: fade up and count once, no pinning.
-      mm.add(`${motionOk} and (max-width: 1023px), ${motionOk} and (max-height: 719px)`, () => {
-        parts.forEach((p, i) => {
-          const trigger = { trigger: p.el, start: 'top 92%', once: true };
-          gsap.from(p.el, { opacity: 0, y: 24, duration: 0.8, delay: i * 0.08, ease: 'expo.out', scrollTrigger: trigger });
-          if (p.match) {
-            const state = { v: 0 };
-            show(p, 0);
-            gsap.to(state, {
-              v: Number(p.match[2]),
-              duration: 1.8,
-              ease: 'power3.out',
-              scrollTrigger: trigger,
-              onUpdate: () => show(p, state.v),
-            });
-          }
-        });
-        return restore;
-      });
-
       return () => mm.revert();
     },
     { scope: wrapRef, dependencies: [project.id, metricsKey] },
@@ -90,7 +80,7 @@ export function ProjectStage({ project }: { project: Project }) {
 
   return (
     <section ref={wrapRef} className="dark bg-bg text-ink" aria-labelledby={`stage-${project.id}`}>
-      <div ref={pinRef} className="flex flex-col justify-center py-16 md:py-24 lg:min-h-dvh">
+      <div ref={pinRef} className="flex min-h-dvh flex-col justify-center py-16 md:py-24">
         <div className="shell">
           <div className="flex flex-wrap items-center gap-3">
             <p className="eyebrow text-ink-muted">{project.category}</p>

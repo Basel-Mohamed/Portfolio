@@ -20,6 +20,8 @@ interface ProofBentoProps {
 
 /** How much larger the lead tile starts before it settles into the grid. */
 const LEAD_SCALE = 1.32;
+/** On phones and tablets the lead tile is already full width, so it starts only a little larger. */
+const NARROW_LEAD_SCALE = 1.08;
 
 const tile = 'flex min-h-44 flex-col justify-between rounded-3xl p-6 xl:p-8';
 const smallNumber =
@@ -28,10 +30,10 @@ const smallNumber =
 /**
  * Results bento: one lead metric and four supporting tiles.
  *
- * Signature motion (large screens): as the grid scrolls into view the lead
+ * Signature motion (every screen size): as the grid scrolls into view the lead
  * tile starts oversized and settles into its place while the other tiles
- * slide in beside it. The motion is tied to the scrollbar, so the visitor
- * controls it. On phones the tiles simply fade up; with reduced motion
+ * slide in beside it (or up from below it on narrow screens). The motion is
+ * tied to the scrollbar, so the visitor controls it. With reduced motion
  * nothing moves. Without scripts every tile is visible.
  */
 export function ProofBento({ lead, rest, years, yearsEyebrow, yearsLabel }: ProofBentoProps) {
@@ -48,29 +50,31 @@ export function ProofBento({ lead, rest, years, yearsEyebrow, yearsLabel }: Proo
       const rtl = dir === 'rtl';
       const mm = gsap.matchMedia();
 
-      mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
-        gsap
-          .timeline({
-            defaults: { ease: 'none' },
-            scrollTrigger: { trigger: grid, start: 'top 90%', end: 'top 28%', scrub: 0.6 },
-          })
-          .from(leadEl, { scale: LEAD_SCALE, transformOrigin: rtl ? '100% 50%' : '0% 50%', duration: 1 }, 0)
-          // The side tiles start pushed out by exactly the lead tile's extra width and travel
-          // back with it, so the lead never covers them while it settles.
-          .from(others, { x: () => leadEl.offsetWidth * (LEAD_SCALE - 1) * (rtl ? -1 : 1), duration: 1 }, 0)
-          .from(others, { opacity: 0, duration: 0.5, stagger: 0.08 }, 0.2);
-      });
-
-      mm.add('(max-width: 1023px) and (prefers-reduced-motion: no-preference)', () => {
-        gsap.from([leadEl, ...others], {
-          opacity: 0,
-          y: 24,
-          duration: 0.8,
-          ease: 'expo.out',
-          stagger: 0.08,
-          scrollTrigger: { trigger: grid, start: 'top 88%', once: true },
-        });
-      });
+      // Same motion on every screen size. Wide grids: the side tiles start pushed out by
+      // exactly the lead tile's extra width and travel back with it, so the lead never
+      // covers them. Narrow grids stack the tiles under the lead, so they come up from below.
+      mm.add(
+        { wide: '(min-width: 1024px)', motion: '(prefers-reduced-motion: no-preference)' },
+        ctx => {
+          const { wide, motion } = ctx.conditions as { wide: boolean; motion: boolean };
+          if (!motion) return;
+          const scale = wide ? LEAD_SCALE : NARROW_LEAD_SCALE;
+          gsap
+            .timeline({
+              defaults: { ease: 'none' },
+              scrollTrigger: { trigger: grid, start: wide ? 'top 90%' : 'top 95%', end: wide ? 'top 28%' : 'top 35%', scrub: 0.6 },
+            })
+            .from(leadEl, { scale, transformOrigin: wide ? (rtl ? '100% 50%' : '0% 50%') : '50% 0%', duration: 1 }, 0)
+            .from(
+              others,
+              wide
+                ? { x: () => leadEl.offsetWidth * (scale - 1) * (rtl ? -1 : 1), duration: 1 }
+                : { y: () => leadEl.offsetHeight * (scale - 1), duration: 1 },
+              0,
+            )
+            .from(others, { opacity: 0, duration: 0.5, stagger: 0.08 }, 0.2);
+        },
+      );
 
       return () => mm.revert();
     },

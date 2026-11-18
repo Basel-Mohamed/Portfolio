@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
-import { useLocation, useSearchParams } from 'react-router';
+import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';
 import { ProjectCard } from '../components/features/ProjectCard';
 import { Project } from '../types/portfolio';
 import { useSEO } from '../hooks/useSEO';
 import { useUI } from '../lib/ui-strings';
-import { PageHeader, FilterBar, Eyebrow } from '../components/ui/primitives';
+import { PageHeader, Eyebrow } from '../components/ui/primitives';
+import Folder from '../components/reactbits/Folder';
+import { useTheme } from '../context/ThemeContext';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 import { CtaBand } from '../components/ui/CtaBand';
 import { settleAt } from '../lib/smoothScroll';
 
@@ -34,6 +37,9 @@ export function Projects() {
   const { t } = useLanguage();
   const ui = useUI();
   const [params, setParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { theme } = useTheme();
+  const phone = useMediaQuery('(max-width: 639px)');
   const { hash } = useLocation();
 
   // Arriving from the home page ring (/projects#project-<id>): open the page already
@@ -71,17 +77,33 @@ export function Projects() {
   return (
     <>
       <PageHeader eyebrow={t.nav.projects} title={t.projects.title} lede={t.projects.subtitle || ui.project.lede}>
-        <div className="mt-10">
-          <FilterBar<Filter>
-            label={t.projects.title}
-            value={active}
-            onChange={setActive}
-            options={[
-              { value: 'all', label: ui.project.tabs.all, count: items.length },
-              { value: 'ai', label: ui.project.tabs.ai, count: byType('ai').length },
-              { value: 'fullstack', label: ui.project.tabs.fullstack, count: byType('fullstack').length },
-            ]}
-          />
+        {/* React Bits "Folder": one per category. Opening one shows only that category, closing it shows everything.
+            Clicking a page inside an open folder jumps to that project's card. */}
+        <div role="group" aria-label={t.projects.title} className="mt-10 flex flex-wrap items-end justify-center gap-x-6 gap-y-8 pt-28 sm:gap-x-16 sm:pt-36">
+          {CATEGORIES.map(cat => {
+            const list = byType(cat);
+            return (
+              <div key={cat} className="flex flex-col items-center gap-4">
+                <Folder
+                  label={ui.project.tabs[cat]}
+                  color="#1668e3"
+                  theme={theme === 'dark' ? 'dark' : 'light'}
+                  size={phone ? 0.66 : 1}
+                  items={list.filter(p => p.image).slice(0, 5).map(p => ({ image: p.image, alt: p.title, title: p.title }))}
+                  open={active === cat}
+                  onOpenChange={open => setActive(open ? cat : active === cat ? 'all' : active)}
+                  closeOnOutsideClick={false}
+                  zoomOnClick={false}
+                  draggable={false}
+                  onItemClick={(_item, index) => {
+                    const project = list.filter(p => p.image)[index];
+                    if (project) navigate(`/projects?type=${cat}#project-${project.id}`);
+                  }}
+                />
+                <span className="font-mono text-sm text-ink-muted tabular-nums">{String(list.length).padStart(2, '0')}</span>
+              </div>
+            );
+          })}
         </div>
       </PageHeader>
 

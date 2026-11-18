@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { Project } from '../../types/portfolio';
 import { useUI } from '../../lib/ui-strings';
 import { useLanguage } from '../../context/LanguageContext';
 import { Chevron, linkClass } from '../ui/primitives';
-import { gsap } from '../../lib/motion';
+import { gsap, prefersReducedMotion } from '../../lib/motion';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { HOME_RETURN_KEY } from '../../lib/smoothScroll';
 
 /* Geometry and feel. Modelled on the React Bits "Circular Carousel" cylinder preset. */
@@ -13,7 +14,9 @@ import { HOME_RETURN_KEY } from '../../lib/smoothScroll';
 /** Card widths in px (laptop, wide screen). The ring radius is derived from the width so cards never overlap. */
 const CARD_W = 352;
 const CARD_W_WIDE = 448;
-const WIDE_QUERY = '(min-width: 1280px)';
+/** Below laptop size the card is this share of the available width (never narrower than CARD_W_MIN). */
+const CARD_SHARE = 0.62;
+const CARD_W_MIN = 200;
 const CARD_GAP = 36;
 /** Camera: distance in px, and angle in degrees (negative looks down onto the ring). */
 const PERSPECTIVE = 2500;
@@ -30,22 +33,9 @@ const GLIDE_MS = 620;
 const DRIFT_SPEED = 8;
 const DRIFT_RAMP_MS = 900;
 
-const RING_QUERY = '(min-width: 1024px) and (prefers-reduced-motion: no-preference)';
 
 /** Address of one project's card on the Projects page. */
 const projectHref = (project: Project) => `/projects#project-${project.id}`;
-
-function useMediaQuery(query: string) {
-  return useSyncExternalStore(
-    onChange => {
-      const mq = window.matchMedia(query);
-      mq.addEventListener('change', onChange);
-      return () => mq.removeEventListener('change', onChange);
-    },
-    () => window.matchMedia(query).matches,
-    () => false,
-  );
-}
 
 const mod = (n: number, m: number) => ((n % m) + m) % m;
 
@@ -62,16 +52,15 @@ function ProjectInfo({ project, className }: { project: Project; className?: str
 /**
  * Project showcase for the home page.
  *
- * Large screens: the project images sit on a 3D ring seen from slightly above,
+ * Every screen size gets the same ring, scaled to the space it has: the project images sit on a 3D ring seen from slightly above,
  * with the far side visible and faded. Grab it and it follows the cursor; throw
  * it and it glides to a stop on the nearest project. Arrow buttons, arrow keys
  * and a sideways trackpad swipe also turn it. Clicking a card that faces you
  * (the front one or either neighbour) opens that project on the Projects page;
  * pressing Back returns to the ring.
- * Left alone, it drifts slowly and stops while the pointer is over it.
- *
- * Phones, tablets and reduced motion: a flat row that swipes sideways, with
- * each project's details under its own image.
+ * Left alone, it drifts slowly and stops while the pointer is over it (or a
+ * finger touches it). On touch screens a sideways swipe turns it and vertical
+ * swipes still scroll the page. With reduced motion it does not drift.
  */
 export function ProjectRing({ projects }: { projects: Project[] }) {
   const ui = useUI();
@@ -79,9 +68,16 @@ export function ProjectRing({ projects }: { projects: Project[] }) {
   const { dir } = useLanguage();
   const items = projects.filter(p => p.image);
   const count = items.length;
-  const useRing = useMediaQuery(RING_QUERY) && count >= 5;
-  const cardW = useMediaQuery(WIDE_QUERY) ? CARD_W_WIDE : CARD_W;
+  // The same ring on every screen size, scaled to fit: phones and tablets get smaller cards.
+  const useRing = count >= 3;
+  const finePointer = useMediaQuery('(hover: hover) and (pointer: fine)');
+  const [width, setWidth] = useState(() => (typeof window === 'undefined' ? 1280 : window.innerWidth));
+  const cardW =
+    width >= 1280 ? CARD_W_WIDE : width >= 1024 ? CARD_W : Math.round(Math.min(CARD_W, Math.max(CARD_W_MIN, width * CARD_SHARE)));
   const cardH = cardW * 0.625;
+  const scale = cardW / CARD_W;
+  // Room above the ring for the far side, scaled with the cards.
+  const topRoom = Math.round(90 * scale);
 
   const rootRef = useRef<HTMLDivElement>(null);
   const hovered = useRef(false);
@@ -140,6 +136,15 @@ export function ProjectRing({ projects }: { projects: Project[] }) {
 
   const shift = (by: number) => rotateTo(Math.round(position()) + by);
 
+  // Size the cards from the width the showcase actually has.
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const observer = new ResizeObserver(([entry]) => setWidth(Math.round(entry.contentRect.width)));
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
   // Lay the ring out whenever its geometry changes (first paint, resize, language switch).
   useEffect(() => {
     if (!useRing) return;
@@ -156,7 +161,7 @@ export function ProjectRing({ projects }: { projects: Project[] }) {
   // the ring is settling, then eases back up to speed afterwards.
   useEffect(() => {
     const root = rootRef.current;
-    if (!useRing || !root) return;
+    if (!useRing || !root || prefersReducedMotion()) return;
     drift.current = { speed: 0, dir: -sign };
     let onScreen = false;
     const observer = new IntersectionObserver(([entry]) => (onScreen = entry.isIntersecting), { threshold: 0.35 });
@@ -223,33 +228,10 @@ export function ProjectRing({ projects }: { projects: Project[] }) {
 
   if (count === 0) return null;
 
-  /* ---------- Flat row: phones, tablets, reduced motion ---------- */
-  if (!useRing) {
-    return (
-      <div>
-        <ul className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 [scrollbar-width:none] sm:-mx-8 sm:px-8 [&::-webkit-scrollbar]:hidden">
-          {items.map(project => (
-            <li key={project.id} className="w-[84%] shrink-0 snap-center sm:w-[22rem]">
-              <Link to={projectHref(project)} onClick={rememberPlace} className="block aspect-[16/10] overflow-hidden rounded-3xl border border-line bg-surface-2">
-                <img loading="lazy" decoding="async" src={project.image} alt={project.title} className="size-full object-cover" />
-              </Link>
-              <ProjectInfo project={project} className="mt-5 text-center" />
-            </li>
-          ))}
-        </ul>
-        <div className="mt-6 flex justify-center">
-          <Link to="/projects" className={linkClass()}>
-            {ui.viewAllProjects}
-            <Chevron />
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   /* ---------- 3D ring ---------- */
   const lean = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!cameraRef.current) return;
+    // The camera follows a mouse only; on touch screens it would jump with every tap.
+    if (!cameraRef.current || !finePointer || e.pointerType !== 'mouse') return;
     const box = e.currentTarget.getBoundingClientRect();
     const px = (e.clientX - box.left) / box.width - 0.5;
     const py = (e.clientY - box.top) / box.height - 0.5;
@@ -392,10 +374,10 @@ export function ProjectRing({ projects }: { projects: Project[] }) {
         onPointerLeave={onPointerLeave}
         onClick={onClick}
         className="relative mx-auto cursor-grab touch-pan-y rounded-3xl select-none active:cursor-grabbing"
-        style={{ perspective: `${PERSPECTIVE}px`, height: cardH + 150 }}
+        style={{ perspective: `${Math.round(PERSPECTIVE * scale)}px`, height: cardH + topRoom + Math.round(60 * scale) }}
       >
         {/* camera: tilts down onto the ring and leans toward the pointer */}
-        <div ref={cameraRef} className="absolute inset-x-0 top-[90px] bottom-0 [transform-style:preserve-3d]">
+        <div ref={cameraRef} className="absolute inset-x-0 bottom-0 [transform-style:preserve-3d]" style={{ top: topRoom }}>
           <div ref={ringRef} className="absolute inset-0 [transform-style:preserve-3d]">
             {items.map((project, i) => (
               <button
@@ -408,7 +390,7 @@ export function ProjectRing({ projects }: { projects: Project[] }) {
                 aria-label={project.title}
                 aria-current={i === active ? 'true' : undefined}
                 data-index={i}
-                className="absolute top-1/2 left-1/2 aspect-[16/10] cursor-pointer overflow-hidden rounded-3xl border border-line bg-surface-2"
+                className="absolute top-1/2 left-1/2 aspect-[16/10] cursor-pointer overflow-hidden rounded-2xl border sm:rounded-3xl border-line bg-surface-2"
                 style={{
                   width: cardW,
                   marginLeft: -cardW / 2,
@@ -430,7 +412,7 @@ export function ProjectRing({ projects }: { projects: Project[] }) {
         </div>
       </div>
 
-      <div className="mx-auto mt-6 flex max-w-3xl items-center justify-between gap-6">
+      <div className="mx-auto mt-6 flex max-w-3xl items-center justify-between gap-3 sm:gap-6">
         <button type="button" onClick={() => shift(-1)} className={navBtn} aria-label={ui.project.prev}>
           <LuChevronLeft size={20} aria-hidden="true" className="rtl:-scale-x-100" />
         </button>
